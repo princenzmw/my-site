@@ -4,19 +4,29 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { motion } from "framer-motion";
-import { 
-  ArrowRight, 
-  ExternalLink, 
-  Github, 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  ArrowRight,
+  ExternalLink,
+  Github,
+  Mail,
+  Phone,
+  MapPin,
   Star,
   Calendar as CalendarIcon,
   Clock,
@@ -29,14 +39,22 @@ import {
   Database,
   Brain,
   Linkedin,
-  Twitter
+  Twitter,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-type ProjectCategory = "Data Analysis" | "Software Development" | "Machine Learning";
+type ProjectCategory =
+  | "Data Analysis"
+  | "Software Development"
+  | "Machine Learning";
 type BlogCategory = "Tutorials" | "Industry Trends" | "Case Studies";
 type ConsultationType = "Data Science" | "Software Engineering";
 type BookingForm = {
@@ -48,8 +66,12 @@ type BookingForm = {
 };
 
 export default function Portfolio() {
-  const [selectedProjectCategory, setSelectedProjectCategory] = useState<ProjectCategory | "all">("all");
-  const [selectedBlogCategory, setSelectedBlogCategory] = useState<BlogCategory | "all">("all");
+  const [selectedProjectCategory, setSelectedProjectCategory] = useState<
+    ProjectCategory | "all"
+  >("all");
+  const [selectedBlogCategory, setSelectedBlogCategory] = useState<
+    BlogCategory | "all"
+  >("all");
   const [blogSearch, setBlogSearch] = useState("");
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [selectedDate, setSelectedDate] = useState<Date>();
@@ -79,24 +101,28 @@ export default function Portfolio() {
   // Queries
   const featuredProjects = useQuery(api.projects.getFeaturedProjects);
   const allProjects = useQuery(api.projects.getPublishedProjects, {
-    category: selectedProjectCategory === "all" ? undefined : selectedProjectCategory
+    category:
+      selectedProjectCategory === "all" ? undefined : selectedProjectCategory,
   });
   const featuredBlogs = useQuery(api.blogs.getFeaturedBlogs);
   const blogsPage = useQuery(api.blogs.getPublishedBlogsPaginated, {
     paginationOpts: { numItems: 6, cursor: blogCursor },
     category: selectedBlogCategory === "all" ? undefined : selectedBlogCategory,
-    search: blogSearch || undefined
+    search: blogSearch || undefined,
   });
   const testimonials = useQuery(api.testimonials.getPublishedTestimonials);
   const skills = useQuery(api.skills.getVisibleSkills);
-  const availableSlots = useQuery(api.bookings.getAvailableSlots, 
-    selectedDate ? { date: format(selectedDate, "yyyy-MM-dd") } : "skip"
+  const availableSlots = useQuery(
+    api.bookings.getAvailableSlots,
+    selectedDate ? { date: format(selectedDate, "yyyy-MM-dd") } : "skip",
   );
 
   // Mutations
   const createBooking = useMutation(api.bookings.createBooking);
   const createContact = useMutation(api.contacts.createContact);
-  const seedPublicDemoIfEmpty = useMutation(api.sampleData.seedPublicDemoIfEmpty);
+  const seedPublicDemoIfEmpty = useMutation(
+    api.sampleData.seedPublicDemoIfEmpty,
+  );
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -167,7 +193,9 @@ export default function Portfolio() {
         honeypot: bookingHoneypot || undefined,
       });
 
-      toast.success("Booking request submitted! You'll receive a confirmation email shortly.");
+      toast.success(
+        "Booking request submitted! You'll receive a confirmation email shortly.",
+      );
       setBookingForm({
         clientName: "",
         clientEmail: "",
@@ -179,7 +207,9 @@ export default function Portfolio() {
       setSelectedTime(undefined);
       setBookingHoneypot("");
     } catch (error: any) {
-      toast.error(error?.message ?? "Failed to submit booking. Please try again.");
+      toast.error(
+        error?.message ?? "Failed to submit booking. Please try again.",
+      );
     }
   };
 
@@ -191,7 +221,10 @@ export default function Portfolio() {
       return;
     }
     try {
-      await createContact({ ...contactForm, honeypot: contactHoneypot || undefined });
+      await createContact({
+        ...contactForm,
+        honeypot: contactHoneypot || undefined,
+      });
       toast.success("Message sent successfully! I'll get back to you soon.");
       setContactForm({
         name: "",
@@ -201,7 +234,9 @@ export default function Portfolio() {
       });
       setContactHoneypot("");
     } catch (error: any) {
-      toast.error(error?.message ?? "Failed to send message. Please try again.");
+      toast.error(
+        error?.message ?? "Failed to send message. Please try again.",
+      );
     }
   };
 
@@ -225,28 +260,38 @@ export default function Portfolio() {
                 transition={{ duration: 0.8 }}
               >
                 {/* Added name */}
-                <p className="text-sm uppercase tracking-wider text-muted-foreground mb-2">Fudji Prince</p>
+                <p className="text-sm uppercase tracking-wider text-muted-foreground mb-2">
+                  Prince NZAMUWE
+                </p>
                 <h1 className="text-5xl lg:text-6xl font-bold tracking-tight mb-6">
                   Turning Data into{" "}
                   <span className="text-primary">Actionable Insights</span>
                 </h1>
                 <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                  Data Scientist & Software Engineer passionate about building intelligent 
-                  solutions that drive business impact through advanced analytics and 
-                  machine learning.
+                  Data Scientist & Software Engineer passionate about building
+                  intelligent solutions that drive business impact through
+                  advanced analytics and machine learning.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    size="lg" 
-                    onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                  <Button
+                    size="lg"
+                    onClick={() =>
+                      document
+                        .getElementById("projects")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
                     className="cursor-pointer"
                   >
                     View Portfolio <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="lg"
-                    onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
+                    onClick={() =>
+                      document
+                        .getElementById("booking")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
                     className="cursor-pointer"
                   >
                     Book Consultation
@@ -293,11 +338,13 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">About Me</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                About Me
+              </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                With over 5 years of experience in data science and software engineering, 
-                I specialize in building end-to-end solutions that transform complex data 
-                into strategic business value.
+                With over 5 years of experience in data science and software
+                engineering, I specialize in building end-to-end solutions that
+                transform complex data into strategic business value.
               </p>
             </motion.div>
 
@@ -311,21 +358,23 @@ export default function Portfolio() {
                 <h3 className="text-2xl font-semibold mb-6">My Journey</h3>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    I started my career as a software engineer, building scalable web applications 
-                    and APIs. My curiosity about the data flowing through these systems led me 
-                    to pursue data science, where I discovered my passion for extracting insights 
-                    from complex datasets.
+                    I started my career as a software engineer, building
+                    scalable web applications and APIs. My curiosity about the
+                    data flowing through these systems led me to pursue data
+                    science, where I discovered my passion for extracting
+                    insights from complex datasets.
                   </p>
                   <p>
-                    Today, I bridge the gap between data science and engineering, creating 
-                    production-ready ML systems that solve real business problems. I've worked 
-                    with startups and Fortune 500 companies, delivering solutions in finance, 
+                    Today, I bridge the gap between data science and
+                    engineering, creating production-ready ML systems that solve
+                    real business problems. I've worked with startups and
+                    Fortune 500 companies, delivering solutions in finance,
                     healthcare, and e-commerce.
                   </p>
                   <p>
-                    When I'm not coding or analyzing data, you'll find me contributing to 
-                    open-source projects, writing technical blogs, or mentoring aspiring 
-                    data scientists.
+                    When I'm not coding or analyzing data, you'll find me
+                    contributing to open-source projects, writing technical
+                    blogs, or mentoring aspiring data scientists.
                   </p>
                 </div>
               </motion.div>
@@ -336,31 +385,36 @@ export default function Portfolio() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-semibold mb-6">Skills & Expertise</h3>
-                {skills && Object.entries(skills).map(([category, categorySkills]) => (
-                  <div key={category} className="mb-6">
-                    <h4 className="font-medium mb-3 text-primary">{category}</h4>
-                    <div className="space-y-3">
-                      {categorySkills.map((skill) => (
-                        <div key={skill._id}>
-                          <div className="flex justify-between text-sm mb-1">
-                            <span>{skill.name}</span>
-                            <span>{skill.proficiency}%</span>
+                <h3 className="text-2xl font-semibold mb-6">
+                  Skills & Expertise
+                </h3>
+                {skills &&
+                  Object.entries(skills).map(([category, categorySkills]) => (
+                    <div key={category} className="mb-6">
+                      <h4 className="font-medium mb-3 text-primary">
+                        {category}
+                      </h4>
+                      <div className="space-y-3">
+                        {categorySkills.map((skill) => (
+                          <div key={skill._id}>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>{skill.name}</span>
+                              <span>{skill.proficiency}%</span>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-2">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                whileInView={{ width: `${skill.proficiency}%` }}
+                                transition={{ duration: 1, delay: 0.5 }}
+                                viewport={{ once: true }}
+                                className="bg-primary h-2 rounded-full"
+                              />
+                            </div>
                           </div>
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${skill.proficiency}%` }}
-                              transition={{ duration: 1, delay: 0.5 }}
-                              viewport={{ once: true }}
-                              className="bg-primary h-2 rounded-full"
-                            />
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </motion.div>
             </div>
           </div>
@@ -376,18 +430,30 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">Featured Projects</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                Featured Projects
+              </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                A showcase of my work in data science, machine learning, and software engineering
+                A showcase of my work in data science, machine learning, and
+                software engineering
               </p>
             </motion.div>
 
             {/* Project Filters */}
             <div className="flex flex-wrap gap-4 justify-center mb-12">
-              {(["all", "Data Analysis", "Software Development", "Machine Learning"] as const).map((category) => (
+              {(
+                [
+                  "all",
+                  "Data Analysis",
+                  "Software Development",
+                  "Machine Learning",
+                ] as const
+              ).map((category) => (
                 <Button
                   key={category}
-                  variant={selectedProjectCategory === category ? "default" : "outline"}
+                  variant={
+                    selectedProjectCategory === category ? "default" : "outline"
+                  }
                   onClick={() => setSelectedProjectCategory(category)}
                   className="cursor-pointer"
                 >
@@ -398,7 +464,11 @@ export default function Portfolio() {
 
             {/* Projects Grid with skeletons and modal trigger */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {((selectedProjectCategory === "all" ? featuredProjects : allProjects) ?? Array.from({ length: 6 }, () => null)).map((project, index) => (
+              {(
+                (selectedProjectCategory === "all"
+                  ? featuredProjects
+                  : allProjects) ?? Array.from({ length: 6 }, () => null)
+              ).map((project, index) => (
                 <motion.div
                   key={project ? project._id : `skeleton-${index}`}
                   initial={{ opacity: 0, y: 50 }}
@@ -413,7 +483,10 @@ export default function Portfolio() {
                     >
                       <div className="relative overflow-hidden rounded-t-lg">
                         <img
-                          src={project.imageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face&auto=format&q=70"}
+                          src={
+                            project.imageUrl ||
+                            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face&auto=format&q=70"
+                          }
                           alt={project.title}
                           loading="lazy"
                           decoding="async"
@@ -426,11 +499,19 @@ export default function Portfolio() {
                         </div>
                       </div>
                       <CardContent className="p-6">
-                        <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                        <p className="text-muted-foreground mb-4">{project.description}</p>
+                        <h3 className="text-xl font-semibold mb-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">
+                          {project.description}
+                        </p>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {project.tags.map((tag: string) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
+                            <Badge
+                              key={tag}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}
@@ -438,7 +519,11 @@ export default function Portfolio() {
                         <div className="flex gap-2">
                           {project.liveUrl && (
                             <Button size="sm" variant="outline" asChild>
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
                                 <ExternalLink className="h-4 w-4 mr-2" />
                                 Live Demo
                               </a>
@@ -446,7 +531,11 @@ export default function Portfolio() {
                           )}
                           {project.githubUrl && (
                             <Button size="sm" variant="outline" asChild>
-                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                              <a
+                                href={project.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
                                 <Github className="h-4 w-4 mr-2" />
                                 Code
                               </a>
@@ -487,7 +576,10 @@ export default function Portfolio() {
             {selectedProject && (
               <div className="space-y-4">
                 <img
-                  src={selectedProject.imageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop&auto=format&q=70"}
+                  src={
+                    selectedProject.imageUrl ||
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop&auto=format&q=70"
+                  }
                   alt={selectedProject.title}
                   loading="lazy"
                   decoding="async"
@@ -496,24 +588,35 @@ export default function Portfolio() {
                   className="w-full h-56 object-cover rounded-md"
                 />
                 <p className="text-muted-foreground">
-                  {selectedProject.longDescription || selectedProject.description}
+                  {selectedProject.longDescription ||
+                    selectedProject.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.tags?.map((t: string) => (
-                    <Badge key={t} variant="outline">{t}</Badge>
+                    <Badge key={t} variant="outline">
+                      {t}
+                    </Badge>
                   ))}
                 </div>
                 <div className="flex gap-2 pt-2">
                   {selectedProject.liveUrl && (
                     <Button asChild>
-                      <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={selectedProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <ExternalLink className="mr-2 h-4 w-4" /> Live
                       </a>
                     </Button>
                   )}
                   {selectedProject.githubUrl && (
                     <Button variant="outline" asChild>
-                      <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={selectedProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <Github className="mr-2 h-4 w-4" /> Code
                       </a>
                     </Button>
@@ -559,18 +662,25 @@ export default function Portfolio() {
                     <h3 className="text-2xl font-semibold mb-4">Experience</h3>
                     <div className="space-y-6">
                       <div className="border-l-2 border-primary pl-6">
-                        <h4 className="text-lg font-medium">Senior Data Scientist</h4>
-                        <p className="text-primary">TechCorp Inc. • 2022 - Present</p>
+                        <h4 className="text-lg font-medium">
+                          Senior Data Scientist
+                        </h4>
+                        <p className="text-primary">
+                          TechCorp Inc. • 2022 - Present
+                        </p>
                         <p className="text-muted-foreground mt-2">
-                          Lead data science initiatives, built ML models that increased revenue by 25%, 
-                          managed team of 4 data scientists.
+                          Lead data science initiatives, built ML models that
+                          increased revenue by 25%, managed team of 4 data
+                          scientists.
                         </p>
                       </div>
                       <div className="border-l-2 border-muted pl-6">
                         <h4 className="text-lg font-medium">Data Scientist</h4>
-                        <p className="text-muted-foreground">DataFlow Solutions • 2020 - 2022</p>
+                        <p className="text-muted-foreground">
+                          DataFlow Solutions • 2020 - 2022
+                        </p>
                         <p className="text-muted-foreground mt-2">
-                          Developed predictive models, automated data pipelines, 
+                          Developed predictive models, automated data pipelines,
                           reduced processing time by 60%.
                         </p>
                       </div>
@@ -580,10 +690,16 @@ export default function Portfolio() {
                   <div>
                     <h3 className="text-2xl font-semibold mb-4">Education</h3>
                     <div className="border-l-2 border-primary pl-6">
-                      <h4 className="text-lg font-medium">Bachelors of Science in Data Science and Analytics</h4>
-                      <p className="text-primary">United States International University-Africa (USIU-Africa) • 2024 - Present</p>
+                      <h4 className="text-lg font-medium">
+                        Bachelors of Science in Data Science and Analytics
+                      </h4>
+                      <p className="text-primary">
+                        United States International University-Africa
+                        (USIU-Africa) • 2024 - Present
+                      </p>
                       <p className="text-muted-foreground mt-2">
-                        Focus on applied data science, analytics, and machine learning.
+                        Focus on applied data science, analytics, and machine
+                        learning.
                       </p>
                     </div>
                   </div>
@@ -603,7 +719,9 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">Latest Blog Posts</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                Latest Blog Posts
+              </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Insights, tutorials, and thoughts on data science and technology
               </p>
@@ -612,10 +730,19 @@ export default function Portfolio() {
             {/* Blog Filters and Search */}
             <div className="flex flex-col md:flex-row gap-4 mb-12">
               <div className="flex flex-wrap gap-2">
-                {(["all", "Tutorials", "Industry Trends", "Case Studies"] as const).map((category) => (
+                {(
+                  [
+                    "all",
+                    "Tutorials",
+                    "Industry Trends",
+                    "Case Studies",
+                  ] as const
+                ).map((category) => (
                   <Button
                     key={category}
-                    variant={selectedBlogCategory === category ? "default" : "outline"}
+                    variant={
+                      selectedBlogCategory === category ? "default" : "outline"
+                    }
                     onClick={() => setSelectedBlogCategory(category)}
                     className="cursor-pointer"
                   >
@@ -636,82 +763,83 @@ export default function Portfolio() {
 
             {/* Blog Posts Grid with skeletons and pagination */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(blogsPage?.page ?? Array.from({ length: 6 }, () => null)).map((post: any, index: number) => (
-                <motion.div
-                  key={post ? post._id : `blog-skeleton-${index}`}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  {post ? (
-                    <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
-                      <div className="relative overflow-hidden rounded-t-lg">
-                        <img
-                          src={post.imageUrl || "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=400&fit=crop&auto=format&q=70"}
-                          alt={post.title}
-                          loading="lazy"
-                          decoding="async"
-                          width={800}
-                          height={384}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge variant="secondary">{post.category}</Badge>
+              {(blogsPage?.page ?? Array.from({ length: 6 }, () => null)).map(
+                (post: any, index: number) => (
+                  <motion.div
+                    key={post ? post._id : `blog-skeleton-${index}`}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    {post ? (
+                      <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
+                        <div className="relative overflow-hidden rounded-t-lg">
+                          <img
+                            src={
+                              post.imageUrl ||
+                              "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=400&fit=crop&auto=format&q=70"
+                            }
+                            alt={post.title}
+                            loading="lazy"
+                            decoding="async"
+                            width={800}
+                            height={384}
+                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <Badge variant="secondary">{post.category}</Badge>
+                          </div>
                         </div>
-                      </div>
-                      <CardContent className="p-6">
-                        <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-                        <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                          <span>{post.readTime} min read</span>
-                          <span>{post.views} views</span>
-                        </div>
-                        <div className="flex gap-2">
-                          {/* Share buttons */}
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            asChild
-                          >
-                            <a
-                              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.origin + "/#blog")}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="Share on Twitter"
-                            >
-                              Share on X
-                            </a>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            asChild
-                          >
-                            <a
-                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin + "/#blog")}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="Share on LinkedIn"
-                            >
-                              Share on LinkedIn
-                            </a>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ) : (
-                    <Card className="h-full">
-                      <div className="w-full h-48 bg-muted/50 animate-pulse rounded-t-lg" />
-                      <CardContent className="p-6 space-y-3">
-                        <div className="h-6 w-2/3 bg-muted/50 animate-pulse rounded" />
-                        <div className="h-4 w-full bg-muted/50 animate-pulse rounded" />
-                        <div className="h-4 w-1/2 bg-muted/50 animate-pulse rounded" />
-                      </CardContent>
-                    </Card>
-                  )}
-                </motion.div>
-              ))}
+                        <CardContent className="p-6">
+                          <h3 className="text-xl font-semibold mb-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-muted-foreground mb-4">
+                            {post.excerpt}
+                          </p>
+                          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                            <span>{post.readTime} min read</span>
+                            <span>{post.views} views</span>
+                          </div>
+                          <div className="flex gap-2">
+                            {/* Share buttons */}
+                            <Button variant="outline" size="sm" asChild>
+                              <a
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.origin + "/#blog")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Share on Twitter"
+                              >
+                                Share on X
+                              </a>
+                            </Button>
+                            <Button variant="outline" size="sm" asChild>
+                              <a
+                                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin + "/#blog")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Share on LinkedIn"
+                              >
+                                Share on LinkedIn
+                              </a>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <Card className="h-full">
+                        <div className="w-full h-48 bg-muted/50 animate-pulse rounded-t-lg" />
+                        <CardContent className="p-6 space-y-3">
+                          <div className="h-6 w-2/3 bg-muted/50 animate-pulse rounded" />
+                          <div className="h-4 w-full bg-muted/50 animate-pulse rounded" />
+                          <div className="h-4 w-1/2 bg-muted/50 animate-pulse rounded" />
+                        </CardContent>
+                      </Card>
+                    )}
+                  </motion.div>
+                ),
+              )}
             </div>
 
             {/* Pagination Controls */}
@@ -734,7 +862,10 @@ export default function Portfolio() {
                 variant="outline"
                 disabled={!blogsPage?.continueCursor || blogsPage?.isDone}
                 onClick={() => {
-                  setCursorStack((s) => [...s, blogsPage?.continueCursor ?? null]);
+                  setCursorStack((s) => [
+                    ...s,
+                    blogsPage?.continueCursor ?? null,
+                  ]);
                   setBlogCursor(blogsPage?.continueCursor ?? null);
                 }}
                 className="cursor-pointer"
@@ -755,7 +886,9 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">What Clients Say</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                What Clients Say
+              </h2>
               <p className="text-xl text-muted-foreground">
                 Testimonials from colleagues and clients I've worked with
               </p>
@@ -772,9 +905,14 @@ export default function Portfolio() {
               >
                 <Card className="p-8 text-center">
                   <div className="flex justify-center mb-4">
-                    {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                    ))}
+                    {[...Array(testimonials[currentTestimonial].rating)].map(
+                      (_, i) => (
+                        <Star
+                          key={i}
+                          className="h-5 w-5 fill-primary text-primary"
+                        />
+                      ),
+                    )}
                   </div>
                   <blockquote className="text-xl italic mb-6">
                     "{testimonials[currentTestimonial].content}"
@@ -788,9 +926,12 @@ export default function Portfolio() {
                       />
                     )}
                     <div>
-                      <p className="font-semibold">{testimonials[currentTestimonial].name}</p>
+                      <p className="font-semibold">
+                        {testimonials[currentTestimonial].name}
+                      </p>
                       <p className="text-muted-foreground">
-                        {testimonials[currentTestimonial].position} at {testimonials[currentTestimonial].company}
+                        {testimonials[currentTestimonial].position} at{" "}
+                        {testimonials[currentTestimonial].company}
                       </p>
                     </div>
                     {testimonials[currentTestimonial].companyLogo && (
@@ -809,9 +950,11 @@ export default function Portfolio() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => setCurrentTestimonial((prev) => 
-                        prev === 0 ? testimonials.length - 1 : prev - 1
-                      )}
+                      onClick={() =>
+                        setCurrentTestimonial((prev) =>
+                          prev === 0 ? testimonials.length - 1 : prev - 1,
+                        )
+                      }
                       className="cursor-pointer"
                     >
                       <ChevronLeft className="h-4 w-4" />
@@ -819,9 +962,11 @@ export default function Portfolio() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => setCurrentTestimonial((prev) => 
-                        (prev + 1) % testimonials.length
-                      )}
+                      onClick={() =>
+                        setCurrentTestimonial(
+                          (prev) => (prev + 1) % testimonials.length,
+                        )
+                      }
                       className="cursor-pointer"
                     >
                       <ChevronRight className="h-4 w-4" />
@@ -843,9 +988,12 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">Book a Consultation</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                Book a Consultation
+              </h2>
               <p className="text-xl text-muted-foreground">
-                Schedule a session to discuss your data science or software engineering needs
+                Schedule a session to discuss your data science or software
+                engineering needs
               </p>
             </motion.div>
 
@@ -857,17 +1005,23 @@ export default function Portfolio() {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-semibold mb-6">Consultation Types</h3>
+                <h3 className="text-2xl font-semibold mb-6">
+                  Consultation Types
+                </h3>
                 <div className="space-y-4">
                   <Card className="p-6">
                     <div className="flex items-start space-x-4">
                       <Database className="h-8 w-8 text-primary mt-1" />
                       <div>
-                        <h4 className="text-lg font-semibold">Data Science Consultation</h4>
+                        <h4 className="text-lg font-semibold">
+                          Data Science Consultation
+                        </h4>
                         <p className="text-muted-foreground mb-2">
                           ML strategy, model development, data analysis guidance
                         </p>
-                        <p className="text-2xl font-bold text-primary">$150/hour</p>
+                        <p className="text-2xl font-bold text-primary">
+                          $150/hour
+                        </p>
                       </div>
                     </div>
                   </Card>
@@ -875,11 +1029,16 @@ export default function Portfolio() {
                     <div className="flex items-start space-x-4">
                       <Code className="h-8 w-8 text-primary mt-1" />
                       <div>
-                        <h4 className="text-lg font-semibold">Software Engineering</h4>
+                        <h4 className="text-lg font-semibold">
+                          Software Engineering
+                        </h4>
                         <p className="text-muted-foreground mb-2">
-                          Architecture review, code optimization, technical mentoring
+                          Architecture review, code optimization, technical
+                          mentoring
                         </p>
-                        <p className="text-2xl font-bold text-primary">$120/hour</p>
+                        <p className="text-2xl font-bold text-primary">
+                          $120/hour
+                        </p>
                       </div>
                     </div>
                   </Card>
@@ -901,7 +1060,12 @@ export default function Portfolio() {
                         <Input
                           required
                           value={bookingForm.clientName}
-                          onChange={(e) => setBookingForm(prev => ({ ...prev, clientName: e.target.value }))}
+                          onChange={(e) =>
+                            setBookingForm((prev) => ({
+                              ...prev,
+                              clientName: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                       <div>
@@ -910,7 +1074,12 @@ export default function Portfolio() {
                           type="email"
                           required
                           value={bookingForm.clientEmail}
-                          onChange={(e) => setBookingForm(prev => ({ ...prev, clientEmail: e.target.value }))}
+                          onChange={(e) =>
+                            setBookingForm((prev) => ({
+                              ...prev,
+                              clientEmail: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                     </div>
@@ -919,33 +1088,56 @@ export default function Portfolio() {
                       <label className="text-sm font-medium">Phone</label>
                       <Input
                         value={bookingForm.clientPhone}
-                        onChange={(e) => setBookingForm(prev => ({ ...prev, clientPhone: e.target.value }))}
+                        onChange={(e) =>
+                          setBookingForm((prev) => ({
+                            ...prev,
+                            clientPhone: e.target.value,
+                          }))
+                        }
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">Consultation Type *</label>
+                      <label className="text-sm font-medium">
+                        Consultation Type *
+                      </label>
                       <Select
                         value={bookingForm.consultationType}
-                        onValueChange={(value) => setBookingForm(prev => ({ ...prev, consultationType: value as ConsultationType }))}
+                        onValueChange={(value) =>
+                          setBookingForm((prev) => ({
+                            ...prev,
+                            consultationType: value as ConsultationType,
+                          }))
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select consultation type" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Data Science">Data Science ($150/hr)</SelectItem>
-                          <SelectItem value="Software Engineering">Software Engineering ($120/hr)</SelectItem>
+                          <SelectItem value="Data Science">
+                            Data Science ($150/hr)
+                          </SelectItem>
+                          <SelectItem value="Software Engineering">
+                            Software Engineering ($120/hr)
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">Preferred Date *</label>
+                      <label className="text-sm font-medium">
+                        Preferred Date *
+                      </label>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="w-full justify-start cursor-pointer">
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start cursor-pointer"
+                          >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
+                            {selectedDate
+                              ? format(selectedDate, "PPP")
+                              : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
@@ -953,7 +1145,11 @@ export default function Portfolio() {
                             mode="single"
                             selected={selectedDate}
                             onSelect={setSelectedDate}
-                            disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6}
+                            disabled={(date) =>
+                              date < new Date() ||
+                              date.getDay() === 0 ||
+                              date.getDay() === 6
+                            }
                           />
                         </PopoverContent>
                       </Popover>
@@ -961,8 +1157,13 @@ export default function Portfolio() {
 
                     {selectedDate && availableSlots && (
                       <div>
-                        <label className="text-sm font-medium">Available Times *</label>
-                        <Select value={selectedTime} onValueChange={setSelectedTime}>
+                        <label className="text-sm font-medium">
+                          Available Times *
+                        </label>
+                        <Select
+                          value={selectedTime}
+                          onValueChange={setSelectedTime}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select time" />
                           </SelectTrigger>
@@ -982,7 +1183,12 @@ export default function Portfolio() {
                       <Textarea
                         placeholder="Tell me about your project or questions..."
                         value={bookingForm.message}
-                        onChange={(e) => setBookingForm(prev => ({ ...prev, message: e.target.value }))}
+                        onChange={(e) =>
+                          setBookingForm((prev) => ({
+                            ...prev,
+                            message: e.target.value,
+                          }))
+                        }
                       />
                     </div>
 
@@ -1018,9 +1224,12 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl font-bold tracking-tight mb-4">Get In Touch</h2>
+              <h2 className="text-4xl font-bold tracking-tight mb-4">
+                Get In Touch
+              </h2>
               <p className="text-xl text-muted-foreground">
-                Have a question or want to work together? I'd love to hear from you.
+                Have a question or want to work together? I'd love to hear from
+                you.
               </p>
             </motion.div>
 
@@ -1052,17 +1261,32 @@ export default function Portfolio() {
                   <h4 className="font-semibold mb-4">Follow Me</h4>
                   <div className="flex space-x-4">
                     <Button variant="outline" size="icon" asChild>
-                      <a href="https://www.linkedin.com/in/princenzmw/" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile">
+                      <a
+                        href="https://www.linkedin.com/in/princenzmw/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Open LinkedIn profile"
+                      >
                         <Linkedin className="h-4 w-4" />
                       </a>
                     </Button>
                     <Button variant="outline" size="icon" asChild>
-                      <a href="https://github.com/princenzmw" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
+                      <a
+                        href="https://github.com/princenzmw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Open GitHub profile"
+                      >
                         <Github className="h-4 w-4" />
                       </a>
                     </Button>
                     <Button variant="outline" size="icon" asChild>
-                      <a href="https://twitter.com/princenzmw" target="_blank" rel="noopener noreferrer" aria-label="Open Twitter profile">
+                      <a
+                        href="https://twitter.com/princenzmw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Open Twitter profile"
+                      >
                         <Twitter className="h-4 w-4" />
                       </a>
                     </Button>
@@ -1085,7 +1309,12 @@ export default function Portfolio() {
                         <Input
                           required
                           value={contactForm.name}
-                          onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                          onChange={(e) =>
+                            setContactForm((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                       <div>
@@ -1094,7 +1323,12 @@ export default function Portfolio() {
                           type="email"
                           required
                           value={contactForm.email}
-                          onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                          onChange={(e) =>
+                            setContactForm((prev) => ({
+                              ...prev,
+                              email: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                     </div>
@@ -1103,7 +1337,12 @@ export default function Portfolio() {
                       <label className="text-sm font-medium">Subject</label>
                       <Input
                         value={contactForm.subject}
-                        onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
+                        onChange={(e) =>
+                          setContactForm((prev) => ({
+                            ...prev,
+                            subject: e.target.value,
+                          }))
+                        }
                       />
                     </div>
 
@@ -1113,7 +1352,12 @@ export default function Portfolio() {
                         required
                         rows={5}
                         value={contactForm.message}
-                        onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                        onChange={(e) =>
+                          setContactForm((prev) => ({
+                            ...prev,
+                            message: e.target.value,
+                          }))
+                        }
                       />
                     </div>
 
@@ -1145,11 +1389,16 @@ export default function Portfolio() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <img src="https://harmless-tapir-303.convex.cloud/api/storage/04e51f83-3dc9-4fbb-bd9b-319f29d91888" alt="Prince Logo" className="h-8 w-8 rounded-full" />
+                <img
+                  src="https://harmless-tapir-303.convex.cloud/api/storage/04e51f83-3dc9-4fbb-bd9b-319f29d91888"
+                  alt="Prince Logo"
+                  className="h-8 w-8 rounded-full"
+                />
                 <span className="font-bold text-xl">Prince Data</span>
               </div>
               <p className="text-muted-foreground">
-                Turning data into actionable insights through advanced analytics and machine learning.
+                Turning data into actionable insights through advanced analytics
+                and machine learning.
               </p>
             </div>
 
@@ -1159,7 +1408,11 @@ export default function Portfolio() {
                 {["About", "Projects", "Blog", "Contact"].map((item) => (
                   <button
                     key={item}
-                    onClick={() => document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: "smooth" })}
+                    onClick={() =>
+                      document
+                        .getElementById(item.toLowerCase())
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
                     className="block text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                   >
                     {item}
@@ -1181,10 +1434,16 @@ export default function Portfolio() {
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#"
+                  className="block text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Privacy Policy
                 </a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#"
+                  className="block text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Terms of Service
                 </a>
               </div>
@@ -1192,7 +1451,10 @@ export default function Portfolio() {
           </div>
 
           <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Prince Data. All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} Prince Data. All rights
+              reserved.
+            </p>
           </div>
         </div>
       </footer>
