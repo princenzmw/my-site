@@ -1245,7 +1245,7 @@ export default function Portfolio() {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4">
                     <Mail className="h-5 w-5 text-primary" />
-                    <span>npfudji@gmail.com</span>
+                    <span>prince@nzamuwe.com</span>
                   </div>
                   <div className="flex items-center space-x-4">
                     <Phone className="h-5 w-5 text-primary" />
