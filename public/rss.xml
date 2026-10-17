@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Prince Data — Blog</title>
+    <link>/</link>
+    <description>Insights on data science, machine learning, and software engineering.</description>
+    <language>en-us</language>
+    <ttl>60</ttl>
+
+    <item>
+      <title>Welcome to Prince Data</title>
+      <link>/#blog</link>
+      <guid isPermaLink="false">welcome-1</guid>
+      <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
+      <description>Your hub for end-to-end data and software solutions. Explore projects, read insights, and book a consultation.</description>
+    </item>
+  </channel>
+</rss>
