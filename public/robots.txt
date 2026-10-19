@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://your-domain.example/sitemap.xml
+# AI answer engines (optional but recommended for a job-seeking portfolio)
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Builder login must not be indexed (closes audit issue M3)
+Disallow: /auth
+
+Sitemap: https://nzamuwe.com/sitemap.xml
