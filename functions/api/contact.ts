@@ -35,7 +35,8 @@ const LIMITS = { perWindow: 5, windowMs: 10 * 60 * 1000, maxBodyChars: 5000 };
 const MESSAGES = {
   name: "Please add your name (2+ characters) so I know who's reaching out.",
   email: "That email doesn't look valid. I need it to reply to you.",
-  message: "Add a little detail (20+ characters): what role, project, or question is this about?",
+  message:
+    "Add a little detail (20+ characters): what role, project, or question is this about?",
 };
 
 /** Per-isolate rate limiter. Good-enough deterrent for a contact form; abuse
@@ -45,10 +46,17 @@ export function resetRateLimit(): void {
   hits.clear();
 }
 
-function json(body: unknown, status: number, extraHeaders: Record<string, string> = {}): Response {
+function json(
+  body: unknown,
+  status: number,
+  extraHeaders: Record<string, string> = {},
+): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json; charset=utf-8", ...extraHeaders },
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...extraHeaders,
+    },
   });
 }
 
@@ -56,16 +64,24 @@ export function jsonError(message: string): Response {
   return json({ ok: false, error: message }, 400);
 }
 
-export async function handleContact(request: Request, env: Env = {}, ip = "local"): Promise<Response> {
+export async function handleContact(
+  request: Request,
+  env: Env = {},
+  ip = "local",
+): Promise<Response> {
   /* ---- method & body ---- */
   let payload: Record<string, unknown>;
   try {
     payload = (await request.json()) as Record<string, unknown>;
   } catch {
-    return json({ ok: false, error: "Send JSON with name, email, and message fields." }, 400);
+    return json(
+      { ok: false, error: "Send JSON with name, email, and message fields." },
+      400,
+    );
   }
 
-  const str = (k: string): string => (typeof payload[k] === "string" ? (payload[k] as string) : "").trim();
+  const str = (k: string): string =>
+    (typeof payload[k] === "string" ? (payload[k] as string) : "").trim();
   const name = str("name");
   const email = str("email");
   const message = str("message");
@@ -81,10 +97,15 @@ export async function handleContact(request: Request, env: Env = {}, ip = "local
   /* ---- validation: helpful, specific, per-field ---- */
   const errors: FieldErrors = {};
   if (name.length < 2 || name.length > 100) errors.name = MESSAGES.name;
-  if (!EMAIL_RE.test(email) || email.length > 200) errors.email = MESSAGES.email;
-  if (message.length < 20 || message.length > LIMITS.maxBodyChars) errors.message = MESSAGES.message;
+  if (!EMAIL_RE.test(email) || email.length > 200)
+    errors.email = MESSAGES.email;
+  if (message.length < 20 || message.length > LIMITS.maxBodyChars)
+    errors.message = MESSAGES.message;
   if (Object.values(errors).some(Boolean)) {
-    return json({ ok: false, error: "Please fix the highlighted fields.", errors }, 400);
+    return json(
+      { ok: false, error: "Please fix the highlighted fields.", errors },
+      400,
+    );
   }
 
   /* ---- rate limit ---- */
@@ -94,7 +115,8 @@ export async function handleContact(request: Request, env: Env = {}, ip = "local
     return json(
       {
         ok: false,
-        error: "Too many messages from your network right now. Try again in a bit, or email prince@nzamuwe.com directly.",
+        error:
+          "Too many messages from your network right now. Try again in a bit, or email prince@nzamuwe.com directly.",
       },
       429,
     );
@@ -114,7 +136,7 @@ export async function handleContact(request: Request, env: Env = {}, ip = "local
     );
   }
 
-  const from = env.CONTACT_FROM ?? "Portfolio contact form <onboarding@resend.dev>";
+  const from = env.CONTACT_FROM ?? "prince@nzamuwe.com";
   const to = env.CONTACT_TO ?? "prince@nzamuwe.com";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -133,7 +155,11 @@ export async function handleContact(request: Request, env: Env = {}, ip = "local
 
   if (!res.ok) {
     return json(
-      { ok: false, error: "The email provider returned an error. Please email prince@nzamuwe.com directly." },
+      {
+        ok: false,
+        error:
+          "The email provider returned an error. Please email prince@nzamuwe.com directly.",
+      },
       502,
     );
   }
@@ -150,5 +176,7 @@ export async function onRequestPost({ request, env }: Ctx): Promise<Response> {
 }
 
 export async function onRequestGet(): Promise<Response> {
-  return json({ ok: false, error: "Method not allowed. Use POST." }, 405, { Allow: "POST" });
+  return json({ ok: false, error: "Method not allowed. Use POST." }, 405, {
+    Allow: "POST",
+  });
 }
