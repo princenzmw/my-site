@@ -27,7 +27,7 @@ export default function AboutPage() {
             </h1>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">{ABOUT.title}</p>
 
-            <div className="mt-10 space-y-5 text-base leading-relaxed">
+            <div className="mt-10 max-w-prose space-y-5 text-base leading-relaxed">
               {ABOUT.paragraphs.map((p) => (
                 <p key={p.slice(0, 32)}>{p}</p>
               ))}
