@@ -123,6 +123,7 @@ export default function Home() {
             kicker="Featured work"
             title="Projects with receipts"
             description="Public repositories you can clone, rerun, and critique, plus one built in the open right now. Every project has a case-study page."
+            size="large"
           />
           {/* Alternating 2/1-column rhythm, same as the reviewed design */}
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
