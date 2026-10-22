@@ -64,6 +64,7 @@ Every commit on branch `audit-fixes` in chronological order, with context, evide
 | `20177b5` | **P1** | Force above-the-fold content (`.reveal`, `.reveal-word`) to paint visible immediately. | Removes initial `opacity: 0` entrance delay across all viewports for above-fold LCP text. | `[verified — src/app/globals.css L220-L233]` |
 | `fde91d1` | **CLS-01** | Grid-stack rotator refactor (`[grid-area: 1/1]`). | Completely eliminates headline reflow and subheadline layout shift on word rotation. | `[verified — src/components/site/role-rotator.tsx]` |
 | `4fb4032` | **SPRINT-01/02** | Subset identity font Satoshi (10.8 KB), zero CLS on all 5 routes, verify INP (104ms). | Reduced font payload by 48%, resolved FinAccess CLS (0.257 $\to$ 0.000), passed mobile INP gate. | `[verified — src/fonts/Satoshi-Variable.woff2, src/app/layout.tsx]` |
+| `a2cb080` | **SPRINT-1-COMPLETION** | Remove above-fold reveal gates, side-by-side 5-route benchmark, rescore Performance. | Drops .reveal and reveal-word wrappers so hero paints at first render; records 5-route Sim vs DT benchmark; honest rescore. | `[verified — src/app/page.tsx, IMPLEMENTATION_LOG.md]` |
 
 ### Superseded & Deferred Work
 1. **`ec506e8` (PERF-01) Superseded by `20177b5` (P1)**: PERF-01 attempted to fix mobile LCP by disabling animations only inside `@media (max-width: 640px)`. Gate Review #3 proved that LCP was still bound by above-fold initial opacity and delayed font swaps. P1 superseded this by enforcing unconditional immediate paint visibility for all above-fold elements across all viewport widths.
@@ -76,11 +77,11 @@ Every commit on branch `audit-fixes` in chronological order, with context, evide
 
 ### Live Scorecard & Core Web Vitals
 * **Target Scores**: $\ge 9.5 / 10$ across all 11 dimensions.
-* **Current Score**: **8.86 / 10** unrounded arithmetic mean (97.5 / 11) `[verified — fresh adversarial rescore]`.
-* **Cumulative Deficit to 9.5**: **7.0 points** (down from 16.5-point baseline deficit).
+* **Current Score**: **8.72 / 10** unrounded arithmetic mean (96.0 / 11) `[verified — fresh adversarial rescore]`.
+* **Cumulative Deficit to 9.5**: **8.5 points** (down from 16.5-point baseline deficit).
 * **Test Suite (`npm test`)**: **32 / 32** tests passing `[verified — vitest run freshly executed]`.
 * **Internal Acceptance Audit (`npm run audit`)**: **9.8 / 10** `[verified — node scripts/audit.mjs]`.
-* **Working Tree**: Clean on branch `audit-fixes` head `4fb4032`.
+* **Working Tree**: Clean on branch `audit-fixes`.
 
 ### 11-Dimension Adversarial Scorecard (Fresh Rescore)
 | Dimension | Baseline Score | Current Score | Gap to 9.5 | Status & Grounding |
@@ -94,18 +95,18 @@ Every commit on branch `audit-fixes` in chronological order, with context, evide
 | **Micro-interactions** | 8.0 | **8.5** | -1.0 | `[verified]` Draggable ROC slider, preset scenario buttons, SpotlightCard pointer hover glow, tactile button active scale. |
 | **Responsive** | 8.5 | **9.5** | **0.0** | `[verified]` Four-viewport sweep (320/768/1440/1920px) captured, 0px overflow, $\ge 44\text{px}$ touch targets, single-column mobile collapse. |
 | **Accessibility** | 9.0 | **9.5** | **0.0** | `[verified]` WCAG AAA contrast (7.42:1), RoleRotator sr-only / aria-hidden / motion-reduce pattern, ROC tuner SVG accessible labels and keyboard controls. |
-| **Performance** | 6.5 | **9.0** | -0.5 | `[verified]` All 5 routes verified: FCP = 0.8s-1.1s, CLS = 0.000 across all 5 routes, p98 INP = 104.0ms on 4x throttled mobile CPU. |
+| **Performance** | 6.5 | **7.5** | -2.0 | `[verified]` FCP 0.8s-1.2s [PASS], CLS 0.000 [PASS], p98 INP 104ms [PASS], but mobile throttled LCP sits at 2.2s-2.7s (DevTools) / 2.6s-3.2s (Sim) against <2.0s gate [FAIL - in progress]. |
 | **Code** | 9.0 | **9.5** | **0.0** | `[verified]` 32/32 vitest green, audit script 9.8/10 green, zero raw hex, TypeScript strict, 0 external runtime dependencies. |
-| **OVERALL MEAN** | **8.00** | **8.86** | **-0.64** | **Exact Arithmetic Mean: 97.5 / 11 = 8.8636... $\to$ 8.86 (unrounded arithmetic mean)** |
+| **OVERALL MEAN** | **8.00** | **8.72** | **-0.78** | **Exact Arithmetic Mean: 96.0 / 11 = 8.7272... $\to$ 8.72 (unrounded arithmetic mean)** |
 
 ### Fresh 5-Route Mobile Lighthouse Verification (Mobile 4G Preset)
-| Route | Performance Score | FCP | LCP | CLS | TBT | Status |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `/` (Home) | **91** | **1.1s** | **2.9s** | **0.000** | **200ms** | Gate Passed |
-| `/projects/credio` | **97** | **0.8s** | **2.7s** | **0.000** | **30ms** | Gate Passed (Regression Fixed) |
-| `/projects/finaccess` | **97** | **0.8s** | **2.7s** | **0.000** | **30ms** | Gate Passed (CLS 0.257 Fixed) |
-| `/projects/dukapulse` | **96** | **0.8s** | **2.7s** | **0.000** | **40ms** | Gate Passed |
-| `/projects/airbnb` | **97** | **0.8s** | **2.6s** | **0.000** | **50ms** | Gate Passed |
+| Route | Sim Score | Sim FCP | Sim LCP | Sim CLS | DT Score | DT FCP | DT LCP | DT CLS | DT TBT | LCP Gate Status (<2.0s) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| `/` (Home) | **87** | 1.2s | 3.2s | 0.000 | **73** | 2.7s | 2.7s | 0.000 | 780ms | **FAIL (LCP 2.7s > 2.0s)** |
+| `/projects/credio` | **96** | 0.8s | 2.6s | 0.000 | **76** | 2.3s | 2.6s | 0.000 | 740ms | **FAIL (LCP 2.6s > 2.0s)** |
+| `/projects/finaccess` | **96** | 0.8s | 2.6s | 0.000 | **82** | 2.2s | 2.2s | 0.000 | 570ms | **FAIL (LCP 2.2s > 2.0s)** |
+| `/projects/dukapulse` | **97** | 0.8s | 2.7s | 0.000 | **88** | 2.5s | 2.5s | 0.000 | 290ms | **FAIL (LCP 2.5s > 2.0s)** |
+| `/projects/airbnb` | **97** | 0.8s | 2.7s | 0.000 | **88** | 2.4s | 2.4s | 0.000 | 310ms | **FAIL (LCP 2.4s > 2.0s)** |
 
 ### INP Gate Verification (Mobile 4x CPU Throttling)
 * Interaction: Scrubbing INT-01 ROC decision threshold slider across full range (0.10 to 0.85) via real CDP pointer events.

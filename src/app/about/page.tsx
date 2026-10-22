@@ -20,7 +20,7 @@ export default function AboutPage() {
         <div aria-hidden className="bg-grid absolute inset-0" />
         <div aria-hidden className="bg-glow absolute inset-0" />
         <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
-          <div className="reveal">
+          <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">{ABOUT.kicker}</p>
             <h1 id="about-heading" className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
               About Prince Nzamuwe

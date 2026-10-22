@@ -36,7 +36,7 @@ export default function Home() {
         <div aria-hidden className="bg-glow absolute inset-0" />
         <HeroRocBg />
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="reveal">
+          <div>
             <p className="inline-flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
               <span className="pulse-dot relative inline-flex h-2 w-2 rounded-full bg-emerald-500 text-emerald-500" aria-hidden />
               {HERO.kicker}
@@ -45,25 +45,9 @@ export default function Home() {
               id="hero-heading"
               className="mt-5 text-[clamp(2rem,4.5vw+0.5rem,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.025em]"
             >
-              {HERO.headline.plain.split(" ").map((word, i) => (
-                <span
-                  key={`plain-${i}`}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                  className="reveal-word mr-[0.28em]"
-                >
-                  {word}
-                </span>
-              ))}
+              {HERO.headline.plain}{" "}
               <RoleRotator words={HERO.headline.rotate} />{" "}
-              {HERO.headline.plainAfter.split(" ").map((word, i) => (
-                <span
-                  key={`after-${i}`}
-                  style={{ animationDelay: `${(5 + i) * 60}ms` }}
-                  className="reveal-word mr-[0.28em]"
-                >
-                  {word}
-                </span>
-              ))}
+              {HERO.headline.plainAfter}
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {HERO.subheadline}
