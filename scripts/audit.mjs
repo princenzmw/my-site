@@ -46,7 +46,7 @@ const cmd = (name, args, maxOut = 4000) => {
   // npm must be invoked as npm.cmd on Windows when no shell is involved.
   const bin = name === "npm" && process.platform === "win32" ? "npm.cmd" : name;
   // # nosemgrep: javascript.lang.security.detect-child-process.detect-child-process
-  const r = spawnSync(bin, args, { cwd: ROOT, encoding: "utf8", timeout: 300_000 });
+  const r = spawnSync(bin, args, { cwd: ROOT, encoding: "utf8", timeout: 300_000, shell: process.platform === "win32" });
   return { code: r.status ?? -1, out: `${r.stdout ?? ""}${r.stderr ?? ""}`.slice(-maxOut) };
 };
 
