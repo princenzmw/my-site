@@ -139,8 +139,9 @@
   html {
     scroll-behavior: smooth;
   }
-  /* anchored sections clear the sticky header */
-  section[id] {
+  /* anchored sections and target elements clear the sticky header */
+  section[id],
+  [id] {
     scroll-margin-top: 4.5rem;
   }
   body {

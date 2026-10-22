@@ -127,17 +127,17 @@ export default async function ProjectPage({ params }: Params) {
       {/* ============================== WRITE-UP ============================== */}
       <section className="py-14 sm:py-16">
         <div className="mx-auto max-w-3xl space-y-10 px-4 sm:px-6">
-          <div>
+          <div id="problem">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Problem</h2>
             <p className="mt-2 text-base leading-relaxed">{project.problem}</p>
           </div>
 
-          <div>
+          <div id="approach">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Approach</h2>
             <p className="mt-2 text-base leading-relaxed">{project.approach}</p>
           </div>
 
-          <div>
+          <div id="results">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
               {inDev ? "Built so far" : "Results"}
             </h2>
@@ -157,7 +157,7 @@ export default async function ProjectPage({ params }: Params) {
             </p>
           )}
 
-          <div>
+          <div id="stack">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Stack</h2>
             <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={`Technologies used in ${project.name}`}>
               {project.stack.map((s) => (
