@@ -29,6 +29,7 @@
 | STORY-01 | DONE | src/components/site/case-study-scrolly.tsx, src/app/projects/[id]/page.tsx | Priority #3: Case-Study Scrollytelling on /projects/credio. Implemented sticky two-column layout (340px sticky HUD + 1fr narrative) with active chapter tracking via IntersectionObserver, live Chapter Stepper (01 Problem, 02 Approach, 03 Results, 04 Stack & CI), dynamic Credio 4-stage Pipeline Architecture schematic (Ingestion -> Benchmark -> Calibration -> Production), independent verification badge, deep-link anchors (#problem, #approach, #results, #stack), and zero external dependencies. Clean single-column stack on viewports < 1024px. |
 | STORY-02 | DONE | src/components/site/case-study-scrolly.tsx | Priority #4: Universal Scrollytelling Architecture. Extended dynamic 4-stage pipeline architecture HUD, real-world constraints, benchmark comparisons, and engineering decision callouts across all four project case studies (/projects/credio, /projects/finaccess, /projects/dukapulse, /projects/airbnb). Maintained zero-buzzword, zero-em-dash tone. Vitest 32/32 green, audit score 9.8/10. |
 | P1 | DONE | src/app/globals.css | Above-fold paint visibility on mobile. Forced above-the-fold content (.reveal, .reveal-word, .rotate-char) to paint visible immediately without initial opacity: 0 entrance delays across all viewports. Entrance motion is strictly restricted to below-fold scroll-driven elements (.reveal-view). Real trace shows instant paint at FCP (443ms unthrottled, 1.95s Lantern FCP). 3-run mobile Lighthouse variance recorded. |
+| CLS-01 | DONE | src/components/site/role-rotator.tsx | Grid-stack rotator refactor. Stacked all phrases in a single CSS grid cell ([grid-area:1/1]), toggling opacity/visibility per active phrase. Container width matches longest phrase, guaranteeing zero reflow on word rotation with smooth 300ms cross-fade. Verified via CDP trace at 390px and 360px: CLS dropped from 0.203 to 0.00000 across 5.6s+ (>2 rotation cycles), subheadline Y-position delta = 0.0px. Prefers-reduced-motion cancels interval and disables transitions. |
 
 ## Self-Verification Summary
 
@@ -46,6 +47,44 @@
 | `/projects/credio` | Mobile (Emulated Moto G4) | **96** | **2.6s** *(-100ms from 2.7s)* | **0.00** | **70ms** |
 
 *Note on Mobile LCP: Raw trace shows actual initial LCP paint timestamp is 582.7ms. Lighthouse Lantern simulation applies 4G mobile throttling (150ms RTT, 1.6Mbps) over 3 webfonts (Geist, Geist Mono, Satoshi) totaling 77KB.*
+
+### 2.1 Production-Equivalent Deployed Preview & Real-Throttling Benchmark
+
+Deployed URL: `https://nzamuwe-portfolio.shadowed-petalite-e6c.workers.dev` (Cloudflare Edge, HTTP/3, native Brotli `Content-Encoding: br`).
+
+| Route | Environment | Compression | Throttling Method | FCP | LCP | CLS | TBT |
+|---|---|---|---|:---:|:---:|:---:|:---:|
+| `/` (Home) | Localhost (`scratch/server.mjs`) | None (172 KB HTML) | DevTools (Real 1.638M) | 3.79s | 3.79s | 0.203 | 160ms |
+| `/` (Home) | Localhost (`npx serve`) | Brotli (19.2 KB HTML) | DevTools (Real 1.638M) | 2.74s | 2.74s | 0.203 | 200ms |
+| `/` (Home) | Deployed CDN Edge (Cloudflare) | Brotli (19.2 KB HTML) | DevTools (Real 1.638M) | 3.59s | 3.59s | 0.203 | 228ms |
+| `/` (Home) | Deployed CDN Edge (Cloudflare) | Brotli (19.2 KB HTML) | Lantern (Simulated 4G) | 1.23s | 3.35s | 0.251 | 54ms |
+| `/projects/credio` | Deployed CDN Edge (Cloudflare) | Brotli (12.4 KB HTML) | DevTools (Real 1.638M) | 3.02s | 3.02s | 0.012 | 142ms |
+| `/projects/credio` | Deployed CDN Edge (Cloudflare) | Brotli (12.4 KB HTML) | Lantern (Simulated 4G) | 1.14s | 3.12s | 0.012 | 44ms |
+
+#### CLS Root Cause Diagnosis (Mobile Trace Analysis)
+- **Culprit Element**: `<RoleRotator>` in `src/components/site/role-rotator.tsx` rendered inside `<h1>`.
+- **Shifted Node**: Hero subheadline `<p class="mt-6 text-base sm:text-lg text-[var(--muted)] max-w-2xl leading-relaxed">` (DOM Node ID 38).
+- **Mechanism**: The rotating words ("Full-Stack Developer", "Data Scientist", "Applied ML Engineer", etc.) vary in character length and lack inline width reservation. At interval $t = 2.6\text{s}$, the string change causes the `<h1>` to wrap/unwrap lines, bumping the subheadline paragraph down and up by **34px** ($Y: 357\text{px} \to 323\text{px}$).
+- **Trace Evidence**:
+  - Shift 1 & 2 ($t \approx 1.86\text{s}$): Initial font render adjustments (score negligible, $< 0.0001$).
+  - Shift 3 ($t = 88158591899\ \mu\text{s}$, $t \approx 2.78\text{s}$): Word transition triggering line wrap $\to$ score **0.2029**.
+  - Shift 4 ($t = 88161211284\ \mu\text{s}$, $t \approx 5.40\text{s}$): Second word transition $\to$ score **0.2029**.
+- **Control Verification**: On `/projects/credio` (which does not use `RoleRotator`), CLS is **0.012** (17× below threshold), confirming zero structural shift from Satoshi font swap or scrollytelling HUD elements.
+
+### 2.2 Post-Fix Verification: CLS-01 Grid-Stack Rotator
+
+Fixed deployed URL: `https://nzamuwe-portfolio-cls1.shadowed-petalite-e6c.workers.dev`
+
+| Viewport / Route | Environment | Throttling | Duration | Layout Shifts | Cumulative CLS | Subheadline Y-Delta | h1 Height Delta |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 390px (iPhone) `/` | Localhost (Brotli) | DevTools (Real 1.638M, 4x CPU) | 5.6s (>2 cycles) | **0** | **0.00000** | **0.0px** (391.7px static) | **0.0px** |
+| 360px (Android) `/` | Localhost (Brotli) | DevTools (Real 1.638M, 4x CPU) | 5.6s (>2 cycles) | **0** | **0.00000** | **0.0px** (391.7px static) | **0.0px** |
+| 390px (iPhone) `/` | Cloudflare Edge CDN | DevTools (Real 1.638M, 4x CPU) | 5.0s (>2 cycles) | **0** | **0.00000** | **0.0px** (391.7px static) | **0.0px** |
+| 360px (Android) `/` | Cloudflare Edge CDN | DevTools (Real 1.638M, 4x CPU) | 5.0s (>2 cycles) | **0** | **0.00000** | **0.0px** (391.7px static) | **0.0px** |
+| Mobile Emulated `/` | Cloudflare Edge CDN | DevTools (Real 1.638M, 4x CPU) | Full Audit | **0** | **0.000** | **0.0px** | **0.0px** |
+| Mobile Emulated `/` | Cloudflare Edge CDN | Lantern (Simulated 4G) | Full Audit | **0** | **0.000** | **0.0px** | **0.0px** |
+
+*Result: Total layout shift on `/` is completely eliminated (0.203 $\to$ 0.000). The headline and subheadline remain rock-solid across all rotation cycles.*
 
 ### 3. Reduced Motion Emulation
 - Emulated `prefers-reduced-motion: reduce` in browser engine.
