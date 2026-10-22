@@ -41,7 +41,7 @@ export default function Home() {
             </p>
             <h1
               id="hero-heading"
-              className="mt-5 text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-5xl sm:leading-[1.08] lg:text-[3.4rem]"
+              className="mt-5 text-[clamp(2rem,4.5vw+0.5rem,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.025em]"
             >
               {HERO.headline.plain}{" "}
               <RoleRotator words={HERO.headline.rotate} />{" "}
