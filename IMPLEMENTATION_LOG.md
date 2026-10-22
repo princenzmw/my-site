@@ -20,3 +20,4 @@
 | F-07 | DONE | src/app/globals.css, src/app/projects/[id]/page.tsx | None. Added section[id], [id] scroll-margin-top: 4.5rem rule and added id attributes (#problem, #approach, #results, #stack) to project case study write-up sections. |
 | F-08 | DONE | src/app/globals.css | Verified dark flash behavior: :root:not(.light) within @media (prefers-color-scheme: dark) ensures no dark flash for OS-dark + site-light users because next-themes applies .light synchronously via blocking head script prior to initial paint. |
 | F-09 | DONE | src/components/ui/button.tsx | None. Verified explicit property transition list on Button CVA base avoiding layout thrashing from transition-all (implemented in Q-07/Q-08). |
+| F-10 | DONE | src/app/globals.css | None. Verified visible scroll reveal-view with 48px translateY and entry 55% range with prefers-reduced-motion protection (implemented in Q-02). |
