@@ -10,6 +10,7 @@ const satoshi = localFont({
   variable: "--font-heading",
   weight: "300 900",
   display: "swap",
+  preload: true,
 });
 
 const geistSans = Geist({

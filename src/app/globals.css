@@ -251,6 +251,20 @@
     animation: word-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /* ---------- mobile LCP optimization (Priority #1) ----------
+     On mobile viewports (< 640px), disable initial 0 opacity and animation delays
+     on hero entrance, headline words, and character rotators so LCP elements paint immediately.
+     Desktop and larger viewports retain the full staggered choreographies. */
+  @media (max-width: 640px) {
+    .reveal,
+    .reveal-word,
+    .rotate-char {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
   /* ---------- scroll-driven section reveals ----------
      Progressive enhancement: elements are VISIBLE by default; the entrance
      animation only applies where the browser supports view() timelines.
@@ -418,6 +432,7 @@
     .pulse-dot::after {
       animation: none;
     }
+    .reveal,
     .reveal-word,
     .rotate-char {
       opacity: 1;
