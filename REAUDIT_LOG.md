@@ -98,13 +98,13 @@ In `IMPLEMENTATION_LOG.md`, mobile LCP was reported as `3.4s` but marked `PASS` 
 | Color | 7 | 8 | +1 |
 | Motion | 3 | 7 | +4 |
 | Signature Moment | 2 | 8.5 | +6.5 |
-| Storytelling | 4 | 8.5 | +4.5 |
+| Storytelling | 4 | 9.0 | +5.0 |
 | Micro-interactions | 5 | 8 | +3 |
 | Responsive | 7 | 8.5 | +1.5 |
 | Accessibility | 8 | 9 | +1 |
 | Performance | 8 | 8.0 | 0 |
 | Code | 8 | 9 | +1 |
-| **OVERALL** | **5.6** | **8.7** | **+3.1** |
+| **OVERALL** | **5.6** | **8.18** | **+2.58** |
 
 ---
 
@@ -116,3 +116,5 @@ In `IMPLEMENTATION_LOG.md`, mobile LCP was reported as `3.4s` but marked `PASS` 
    - Implemented in `INT-01`. Draggable threshold slider + scenario presets + direct SVG click-to-position + live 2x2 Confusion Matrix + estimated portfolio PnL on Credio's 150K borrower population.
 3. **Priority #3: Case-Study Scrollytelling on `/projects/credio` (Effort: L, 3-4 hrs) — [DONE]**
    - Implemented in `STORY-01`. Two-column sticky scrollytelling HUD with dynamic 4-stage pipeline architecture visualization, chapter progress tracking, verified deliverables card, and mobile fallback stack. Storytelling elevated from 4 → 8.5.
+4. **Priority #4: Universal Scrollytelling Architecture Across All Projects (Effort: M, 1 hr) — [DONE]**
+   - Implemented in `STORY-02`. Extended dynamic 4-stage technical pipeline architecture HUD, real-world constraints, benchmark comparisons, and engineering decision callouts across all four project case studies (`credio`, `finaccess`, `dukapulse`, `airbnb`). Storytelling elevated from 8.5 → 9.0. Overall arithmetic mean: 8.18.
