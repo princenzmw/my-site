@@ -17,6 +17,7 @@ import { RoleRotator } from "@/components/site/role-rotator";
 import { CountUp } from "@/components/site/count-up";
 import { CopyEmail } from "@/components/site/copy-email";
 import { RocPanel } from "@/components/site/roc-panel";
+import { HeroRocBg } from "@/components/site/hero-roc-bg";
 import { HERO, PROJECTS, SITE, STATS } from "@/lib/portfolio";
 
 const CHANNELS = [
@@ -33,6 +34,7 @@ export default function Home() {
       <section className="relative overflow-hidden border-b" aria-labelledby="hero-heading">
         <div aria-hidden className="bg-grid absolute inset-0" />
         <div aria-hidden className="bg-glow absolute inset-0" />
+        <HeroRocBg />
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-24">
           <div className="reveal">
             <p className="inline-flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">

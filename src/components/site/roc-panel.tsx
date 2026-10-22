@@ -7,7 +7,7 @@ import { CountUp } from "@/components/site/count-up";
  */
 export function RocPanel() {
   return (
-    <div className="reveal w-full max-w-md [animation-delay:150ms]">
+    <div className="reveal w-full max-w-md [animation-delay:400ms]">
       <div className="overflow-hidden rounded-2xl border bg-card shadow-xl shadow-primary/5">
         {/* window chrome */}
         <div className="flex items-center gap-1.5 border-b bg-muted/50 px-4 py-2.5">
