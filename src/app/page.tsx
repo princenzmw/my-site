@@ -89,15 +89,16 @@ export default function Home() {
       </section>
 
       {/* =========================== STAT BAND ============================ */}
-      <section aria-label="Key results from the repositories" className="reveal-view border-b bg-muted/40">
+      <section aria-label="Key results from the repositories" className="border-b bg-muted/40">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4">
-          {STATS.map((s) => (
+          {STATS.map((s, i) => (
             <a
               key={s.label}
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-lg p-2 text-center transition-colors hover:bg-background"
+              style={{ animationDelay: `${i * 80}ms` }}
+              className="group reveal-view rounded-lg p-2 text-center transition-colors hover:bg-background"
             >
               <p className="font-mono text-2xl font-bold text-primary sm:text-3xl">
                 <CountUp value={s.value} decimals={s.decimals} suffix={s.suffix} />
@@ -125,7 +126,7 @@ export default function Home() {
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {PROJECTS.map((project, i) => (
               <div key={project.id} className={i % 2 === 0 ? "lg:col-span-2" : ""}>
-                <ProjectCard project={project} />
+                <ProjectCard project={project} style={{ animationDelay: `${i * 80}ms` }} />
               </div>
             ))}
           </div>

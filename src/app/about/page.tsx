@@ -63,11 +63,12 @@ export default function AboutPage() {
             title="Evidence over percentages"
             description="No “Python 95%” bars. Every group links to the project that proves it: if I list it, you can watch me use it."
           />
-          <div className="reveal-view mt-12 grid gap-6 md:grid-cols-3">
-            {SKILLS.map((group) => (
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {SKILLS.map((group, i) => (
               <div
                 key={group.area}
-                className="lift flex flex-col rounded-xl border bg-card p-6 shadow-sm hover:shadow-md hover:shadow-primary/5"
+                style={{ animationDelay: `${i * 80}ms` }}
+                className="reveal-view lift flex flex-col rounded-xl border bg-card p-6 shadow-sm hover:shadow-md hover:shadow-primary/5"
               >
                 <h3 className="font-semibold tracking-tight">{group.area}</h3>
                 <ul className="mt-4 flex flex-wrap gap-1.5">
