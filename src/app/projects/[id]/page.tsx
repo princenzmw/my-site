@@ -3,8 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
-  ArrowRight,
-  Check,
   ExternalLink,
   Github,
   Hammer,
@@ -12,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/site/page-shell";
+import { CaseStudyScrolly } from "@/components/site/case-study-scrolly";
 import { PROJECTS, SITE } from "@/lib/portfolio";
 
 /** Static export: the four case studies are generated at build time, nothing else. */
@@ -124,76 +123,9 @@ export default async function ProjectPage({ params }: Params) {
         </div>
       </section>
 
-      {/* ============================== WRITE-UP ============================== */}
-      <section className="py-14 sm:py-16">
-        <div className="mx-auto max-w-3xl space-y-10 px-4 sm:px-6">
-          <div id="problem">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Problem</h2>
-            <p className="mt-2 text-base leading-relaxed">{project.problem}</p>
-          </div>
-
-          <div id="approach">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Approach</h2>
-            <p className="mt-2 text-base leading-relaxed">{project.approach}</p>
-          </div>
-
-          <div id="results">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              {inDev ? "Built so far" : "Results"}
-            </h2>
-            <ul className="mt-3 space-y-2.5">
-              {project.results.map((r) => (
-                <li key={r.slice(0, 32)} className="flex items-start gap-2.5 text-base leading-relaxed">
-                  <Check className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                  <span>{r}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {project.demoNote && (
-            <p className="rounded-md border border-dashed border-border bg-muted/50 px-3.5 py-2.5 text-sm text-muted-foreground">
-              {project.demoNote}
-            </p>
-          )}
-
-          <div id="stack">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Stack</h2>
-            <ul className="mt-3 flex flex-wrap gap-1.5" aria-label={`Technologies used in ${project.name}`}>
-              {project.stack.map((s) => (
-                <li key={s}>
-                  <Badge variant="secondary" className="font-normal">
-                    {s}
-                  </Badge>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-3 rounded-xl border bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              Working on something similar, or want this build verified? Ask me anything.
-            </p>
-            <Button asChild className="shine min-h-11 shrink-0">
-              <Link href="/contact" data-pla={`detail-contact-${project.id}`}>
-                Get in touch
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="flex items-center justify-between border-t pt-6 text-sm">
-            <span className="text-muted-foreground">Next case study</span>
-            <Link
-              href={`/projects/${next.id}`}
-              data-pla={`detail-next-${project.id}`}
-              className="inline-flex items-center gap-1.5 font-semibold text-primary underline-offset-4 hover:underline"
-            >
-              {next.name}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </div>
-        </div>
+      {/* ============================== WRITE-UP SCROLLYTELLING ============================== */}
+      <section className="py-14 sm:py-20 border-b">
+        <CaseStudyScrolly project={project} inDev={inDev} nextProject={next} />
       </section>
     </PageShell>
   );

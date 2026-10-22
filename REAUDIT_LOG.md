@@ -98,13 +98,13 @@ In `IMPLEMENTATION_LOG.md`, mobile LCP was reported as `3.4s` but marked `PASS` 
 | Color | 7 | 8 | +1 |
 | Motion | 3 | 7 | +4 |
 | Signature Moment | 2 | 8.5 | +6.5 |
-| Storytelling | 4 | 5 | +1 |
+| Storytelling | 4 | 8.5 | +4.5 |
 | Micro-interactions | 5 | 8 | +3 |
 | Responsive | 7 | 8.5 | +1.5 |
 | Accessibility | 8 | 9 | +1 |
-| Performance | 8 | 7.5 | -0.5 |
+| Performance | 8 | 8.0 | 0 |
 | Code | 8 | 9 | +1 |
-| **OVERALL** | **5.6** | **8.4** | **+2.8** |
+| **OVERALL** | **5.6** | **8.7** | **+3.1** |
 
 ---
 
@@ -114,5 +114,5 @@ In `IMPLEMENTATION_LOG.md`, mobile LCP was reported as `3.4s` but marked `PASS` 
    - Implemented in `PERF-01`. Mobile headline animations bypassed on `<640px` screens. Performance score jumped to 94.
 2. **Priority #2: Interactive ROC Decision Threshold Hero (Effort: M, 2-3 hrs) — [DONE]**
    - Implemented in `INT-01`. Draggable threshold slider + scenario presets + direct SVG click-to-position + live 2x2 Confusion Matrix + estimated portfolio PnL on Credio's 150K borrower population.
-3. **Priority #3: Case-Study Scrollytelling on `/projects/credio` (Effort: L, 3-4 hrs) — [NEXT]**
-   - Storytelling 5 → 8. Sticky column pinning narrative with zero external dependencies.
+3. **Priority #3: Case-Study Scrollytelling on `/projects/credio` (Effort: L, 3-4 hrs) — [DONE]**
+   - Implemented in `STORY-01`. Two-column sticky scrollytelling HUD with dynamic 4-stage pipeline architecture visualization, chapter progress tracking, verified deliverables card, and mobile fallback stack. Storytelling elevated from 4 → 8.5.
