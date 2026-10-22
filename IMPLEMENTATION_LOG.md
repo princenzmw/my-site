@@ -8,3 +8,4 @@
 | Q-04 | DONE | src/components/site/hero-roc-bg.tsx, src/app/page.tsx, src/components/site/roc-panel.tsx | None. Delivered Concept 1: created HeroRocBg with full-hero SVG backdrop, reused existing roc-line and roc-fill CSS animations, adjusted RocPanel delay to 400ms. Prefers-reduced-motion respected. |
 | Q-05 | DONE | src/lib/portfolio.ts | None. Increased project accent gradient opacities from 10/5 to 20/10/15 for clear visual differentiation between projects. |
 | Q-06 | DONE | src/app/about/page.tsx | None. Constrained About narrative text to 65ch via max-w-prose for optimal line reading length. |
+| Q-07 | DONE | src/components/ui/button.tsx | None. Replaced transition-all with explicit property list transition-[color,background-color,border-color,box-shadow,transform,opacity] duration-150. |
