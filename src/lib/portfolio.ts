@@ -81,6 +81,7 @@ export type Project = {
   demo?: string;
   demoNote?: string;
   accent: string;
+  accentSolid: string;
   featured?: boolean;
 };
 
@@ -108,6 +109,7 @@ export const PROJECTS: Project[] = [
     code: "https://github.com/princenzmw/credit-risk-scorecard",
     demo: "https://credio.streamlit.app/",
     accent: "from-blue-600/20 via-primary/10 to-cyan-400/15",
+    accentSolid: "border-l-blue-600",
   },
   {
     id: "finaccess",
@@ -128,6 +130,7 @@ export const PROJECTS: Project[] = [
     metrics: ["28.1M weighted", "290 MB → 8 MB", "5 pages", "84.8% matched"],
     code: "https://github.com/princenzmw/finaccess-kenya-dashboard",
     accent: "from-emerald-600/20 via-primary/10 to-teal-400/15",
+    accentSolid: "border-l-emerald-600",
   },
   {
     id: "dukapulse",
@@ -150,6 +153,7 @@ export const PROJECTS: Project[] = [
     codeLabel: "Follow the build",
     demoNote: "In active development. The repository and a live app land here with v1.0.",
     accent: "from-amber-500/20 via-primary/10 to-orange-400/15",
+    accentSolid: "border-l-amber-500",
   },
   {
     id: "airbnb",
@@ -166,6 +170,7 @@ export const PROJECTS: Project[] = [
     metrics: ["4 iterations", "REST API", "ORM", "Tested"],
     code: "https://github.com/princenzmw/AirBnB_clone_v4",
     accent: "from-violet-600/20 via-primary/10 to-fuchsia-400/15",
+    accentSolid: "border-l-violet-600",
   },
 ];
 

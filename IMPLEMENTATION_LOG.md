@@ -16,3 +16,4 @@
 | F-03 | DONE | src/components/site/section-heading.tsx, src/app/page.tsx | None. Added size prop ('small', 'default', 'large') to SectionHeading to introduce typographic hierarchy; applied size="large" to featured projects heading. |
 | F-04 | DONE | src/app/about/page.tsx | None. Verified max-w-prose (65ch) constraint on About page narrative text (implemented in Q-06). |
 | F-05 | DONE | src/app/page.tsx, src/app/about/page.tsx, src/app/contact/page.tsx, src/app/experience/page.tsx, src/app/projects/page.tsx | None. Standardized section padding to two deliberate tiers: py-20 sm:py-28 for major sections and py-10 sm:py-14 for bands. |
+| F-06 | DONE | src/lib/portfolio.ts, src/components/site/project-card.tsx | Override applied: implemented per-project accent colors via accentSolid tokens in portfolio.ts and applied border-l-4 ${project.accentSolid} to project card headers. |

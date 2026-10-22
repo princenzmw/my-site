@@ -27,7 +27,7 @@ export function ProjectCard({
         className="reveal-view flex h-full flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm"
       >
         {/* Header panel */}
-        <div className={`bg-gradient-to-br ${project.accent} border-b px-6 py-5`}>
+        <div className={`bg-gradient-to-br ${project.accent} border-b border-l-4 ${project.accentSolid} px-6 py-5`}>
           <div className="flex items-start justify-between gap-3">
             <p className="font-mono text-xs font-medium uppercase tracking-widest text-muted-foreground">
               {project.role}
