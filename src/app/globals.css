@@ -229,6 +229,28 @@
     }
   }
 
+  /* ---------- hero headline word stagger (Concept 2) ---------- */
+  .reveal-word {
+    display: inline-block;
+    animation: word-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ---------- rotating headline characters ---------- */
+  .rotate-char {
+    display: inline-block;
+    animation: word-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   /* ---------- scroll-driven section reveals ----------
      Progressive enhancement: elements are VISIBLE by default; the entrance
      animation only applies where the browser supports view() timelines.
@@ -387,12 +409,19 @@
   /* ---------- reduced motion: still fully usable, just calm ---------- */
   @media (prefers-reduced-motion: reduce) {
     .reveal,
+    .reveal-word,
     .rotate-word,
+    .rotate-char,
     .roc-line,
     .roc-fill,
     .marquee-track,
     .pulse-dot::after {
       animation: none;
+    }
+    .reveal-word,
+    .rotate-char {
+      opacity: 1;
+      transform: none;
     }
     .roc-line {
       stroke-dashoffset: 0;

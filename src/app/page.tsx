@@ -45,9 +45,25 @@ export default function Home() {
               id="hero-heading"
               className="mt-5 text-[clamp(2rem,4.5vw+0.5rem,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.025em]"
             >
-              {HERO.headline.plain}{" "}
+              {HERO.headline.plain.split(" ").map((word, i) => (
+                <span
+                  key={`plain-${i}`}
+                  style={{ animationDelay: `${i * 60}ms` }}
+                  className="reveal-word mr-[0.28em]"
+                >
+                  {word}
+                </span>
+              ))}
               <RoleRotator words={HERO.headline.rotate} />{" "}
-              {HERO.headline.plainAfter}
+              {HERO.headline.plainAfter.split(" ").map((word, i) => (
+                <span
+                  key={`after-${i}`}
+                  style={{ animationDelay: `${(5 + i) * 60}ms` }}
+                  className="reveal-word mr-[0.28em]"
+                >
+                  {word}
+                </span>
+              ))}
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {HERO.subheadline}

@@ -26,9 +26,17 @@ export function RoleRotator({ words }: { words: readonly string[] }) {
       <span
         key={index}
         aria-hidden
-        className="rotate-word text-gradient col-start-1 row-start-1"
+        className="text-gradient col-start-1 row-start-1 inline-flex flex-wrap"
       >
-        {words[index]}
+        {words[index].split("").map((char, charIdx) => (
+          <span
+            key={charIdx}
+            style={{ animationDelay: `${charIdx * 25}ms` }}
+            className="rotate-char inline-block"
+          >
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
       </span>
       <span className="sr-only">{words[0]}</span>
     </span>
