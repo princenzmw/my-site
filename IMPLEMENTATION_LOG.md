@@ -14,3 +14,4 @@
 | F-01 | DONE | src/app/layout.tsx, src/app/globals.css | Path taken: local file src/fonts/Satoshi-Variable.woff2 loaded via next/font/local (weight 300 900, display swap). Applied --font-heading to h1–h3 in @layer base. Geist retained for body, Geist Mono for metric chips. |
 | F-02 | DONE | src/app/page.tsx | None. Verified clamp(2rem,4.5vw+0.5rem,3.5rem) on hero h1 eliminating 43% snap at sm breakpoint (implemented in Q-01). |
 | F-03 | DONE | src/components/site/section-heading.tsx, src/app/page.tsx | None. Added size prop ('small', 'default', 'large') to SectionHeading to introduce typographic hierarchy; applied size="large" to featured projects heading. |
+| F-04 | DONE | src/app/about/page.tsx | None. Verified max-w-prose (65ch) constraint on About page narrative text (implemented in Q-06). |
