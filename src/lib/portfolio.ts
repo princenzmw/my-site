@@ -107,7 +107,7 @@ export const PROJECTS: Project[] = [
     metrics: ["0.869 ROC-AUC", "0.407 PR-AUC", "150K borrowers", "19 tests"],
     code: "https://github.com/princenzmw/credit-risk-scorecard",
     demo: "https://credio.streamlit.app/",
-    accent: "from-blue-600/10 via-primary/5 to-cyan-400/10",
+    accent: "from-blue-600/20 via-primary/10 to-cyan-400/15",
   },
   {
     id: "finaccess",
@@ -127,7 +127,7 @@ export const PROJECTS: Project[] = [
     stack: ["Power BI (DAX)", "Python", "pandas"],
     metrics: ["28.1M weighted", "290 MB → 8 MB", "5 pages", "84.8% matched"],
     code: "https://github.com/princenzmw/finaccess-kenya-dashboard",
-    accent: "from-emerald-600/10 via-primary/5 to-teal-400/10",
+    accent: "from-emerald-600/20 via-primary/10 to-teal-400/15",
   },
   {
     id: "dukapulse",
@@ -149,7 +149,7 @@ export const PROJECTS: Project[] = [
     code: "https://github.com/princenzmw",
     codeLabel: "Follow the build",
     demoNote: "In active development. The repository and a live app land here with v1.0.",
-    accent: "from-amber-500/10 via-primary/5 to-orange-400/10",
+    accent: "from-amber-500/20 via-primary/10 to-orange-400/15",
   },
   {
     id: "airbnb",
@@ -165,7 +165,7 @@ export const PROJECTS: Project[] = [
     stack: ["Python", "SQLAlchemy", "Flask", "MySQL", "Docker"],
     metrics: ["4 iterations", "REST API", "ORM", "Tested"],
     code: "https://github.com/princenzmw/AirBnB_clone_v4",
-    accent: "from-violet-600/10 via-primary/5 to-fuchsia-400/10",
+    accent: "from-violet-600/20 via-primary/10 to-fuchsia-400/15",
   },
 ];
 
