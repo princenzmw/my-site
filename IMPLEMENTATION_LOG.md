@@ -21,3 +21,4 @@
 | F-08 | DONE | src/app/globals.css | Verified dark flash behavior: :root:not(.light) within @media (prefers-color-scheme: dark) ensures no dark flash for OS-dark + site-light users because next-themes applies .light synchronously via blocking head script prior to initial paint. |
 | F-09 | DONE | src/components/ui/button.tsx | None. Verified explicit property transition list on Button CVA base avoiding layout thrashing from transition-all (implemented in Q-07/Q-08). |
 | F-10 | DONE | src/app/globals.css | None. Verified visible scroll reveal-view with 48px translateY and entry 55% range with prefers-reduced-motion protection (implemented in Q-02). |
+| F-11 | DONE | src/app/page.tsx, src/components/site/project-card.tsx, src/app/about/page.tsx | None. Verified 80ms animationDelay stagger across stat band items, project cards, and skills grid (implemented in Q-03). |
