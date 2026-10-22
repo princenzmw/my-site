@@ -11,3 +11,4 @@
 | Q-07 | DONE | src/components/ui/button.tsx | None. Replaced transition-all with explicit property list transition-[color,background-color,border-color,box-shadow,transform,opacity] duration-150. |
 | Q-08 | DONE | src/components/ui/button.tsx | Added active:scale-[0.98] with motion-reduce:transform-none for button press micro-interaction with reduced-motion protection. |
 | Q-09 | DONE | src/app/globals.css | Added @view-transition { navigation: auto; } at top-level with prefers-reduced-motion disablement. Build passed. |
+| F-01 | DONE | src/app/layout.tsx, src/app/globals.css | Path taken: local file src/fonts/Satoshi-Variable.woff2 loaded via next/font/local (weight 300 900, display swap). Applied --font-heading to h1–h3 in @layer base. Geist retained for body, Geist Mono for metric chips. |
