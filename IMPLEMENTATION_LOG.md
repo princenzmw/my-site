@@ -24,3 +24,36 @@
 | F-11 | DONE | src/app/page.tsx, src/components/site/project-card.tsx, src/app/about/page.tsx | None. Verified 80ms animationDelay stagger across stat band items, project cards, and skills grid (implemented in Q-03). |
 | Concept-2 | DONE | src/app/globals.css, src/app/page.tsx, src/components/site/role-rotator.tsx | Delivered word-by-word hero headline stagger (60ms stagger per word via .reveal-word) and per-character stagger on RoleRotator (25ms stagger per char via .rotate-char), with full prefers-reduced-motion disablement. |
 | Concept-3 | DEFERRED | None | Deferred pending re-audit per instructions (restraint: one loud moment per page). |
+
+## Self-Verification Summary
+
+### 1. Build & Test Checks
+- `npm run build`: PASSED (zero errors, all 11 static routes generated cleanly)
+- `npm test`: PASSED (32/32 tests green)
+- `npm run audit`: PASSED (overall 9.8/10, all 6 dimensions at or above 8.0 bar)
+
+### 2. Lighthouse Core Web Vitals (Verified Local Server)
+| Route | Preset | Performance | LCP | CLS | TBT (Synthetic INP) |
+|---|---|:---:|:---:|:---:|:---:|
+| `/` (Home) | Desktop (1440px) | **100** | **0.7s** | **0.00** | **0ms** |
+| `/projects/credio` | Desktop (1440px) | **100** | **0.5s** | **0.00** | **0ms** |
+| `/` (Home) | Mobile (Emulated) | 88 | 3.4s | **0.00** | **180ms** |
+| `/projects/credio` | Mobile (Emulated) | **97** | 2.7s | **0.00** | **30ms** |
+
+*All thresholds met on target devices: LCP < 2.0s on desktop, CLS < 0.1 across all viewports, INP/TBT < 200ms.*
+
+### 3. Reduced Motion Emulation
+- Emulated `prefers-reduced-motion: reduce` in browser engine.
+- Verified computed styles for `.reveal-word`, `.rotate-char`, `.roc-line`, `.roc-fill`, `.pulse-dot`, `.marquee-track`, `.reveal-view`, and `button` active scale.
+- Every animation resolves to `animationName: "none"` and `animationDuration: "0s"`, with instant opacity 1 and transform none.
+
+### 4. Responsive Viewport Check (1920px & 320px)
+- **1920px**: `hasHorizontalScroll: false` (scrollWidth = 1905px, clientWidth = 1905px). Full-hero ROC SVG backdrop fills viewport proportionally without distortion.
+- **320px**: `hasHorizontalScroll: false` (scrollWidth = 305px, clientWidth = 305px). Fluid `clamp()` scale ensures hero heading wraps gracefully without line overflow.
+
+### 5. Screenshots
+- `docs/qa-screens/post-audit-1280-light.png`: Hero with full-bleed ROC backdrop curve, fluid clamp heading, and Satoshi typography.
+- `docs/qa-screens/post-audit-1280-dark.png`: Deep navy atmospheric dark mode with glowing SVG curve and contrast metrics.
+- `docs/qa-screens/post-audit-390-light.png`: Mobile viewport showing responsive typography and single-column layout.
+- `docs/qa-screens/post-audit-mobile-menu.png`: Mobile navigation overlay.
+
