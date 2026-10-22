@@ -25,6 +25,7 @@
 | Concept-2 | DONE | src/app/globals.css, src/app/page.tsx, src/components/site/role-rotator.tsx | Delivered word-by-word hero headline stagger (60ms stagger per word via .reveal-word) and per-character stagger on RoleRotator (25ms stagger per char via .rotate-char), with full prefers-reduced-motion disablement. |
 | Concept-3 | DEFERRED | None | Deferred pending re-audit per instructions (restraint: one loud moment per page). |
 | PERF-01 | DONE | src/app/globals.css, src/app/layout.tsx | Priority #1: Mobile LCP fix. Added @media (max-width: 640px) rule disabling initial 0 opacity and animation delays on .reveal, .reveal-word, and .rotate-char so hero LCP paints immediately on small screens. Preloaded Satoshi variable font in layout.tsx. Added .reveal to reduced-motion override. Home mobile Lighthouse jumped from 88 to 94; simulated mobile LCP dropped from 3.4s to 2.8s (real unthrottled trace LCP: 582.7ms). |
+| INT-01 | DONE | src/components/site/roc-panel.tsx | Priority #2: Interactive ROC Hero. Transformed passive ROC panel into an interactive decision threshold tuner. Added draggable threshold slider (0.10 to 0.85), 3 quick-select presets (Conservative, Balanced, Growth), direct SVG chart click mapping, dynamic dashed crosshairs, active pulse marker on curve, live 2x2 Confusion Matrix (TP, FP, TN, FN) for Credio's 150K borrower population, and live business metrics (Approval Rate, Default Rate, Expected Net Profit). Zero new npm dependencies, fully accessible with reduced-motion protection. |
 
 ## Self-Verification Summary
 
