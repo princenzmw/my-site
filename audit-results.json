@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T05:58:17.949Z",
+  "generatedAt": "2026-10-22T06:25:25.290Z",
   "target": "https://nzamuwe.com",
   "scoringContract": "8.0+ = meets written acceptance criteria WITH evidence; <8.0 = fix + re-run; unverified = evidence unavailable",
   "flags": {
@@ -471,7 +471,7 @@
       "name": "All internal links resolve (crawl of every prerendered page)",
       "status": "pass",
       "evidence": [
-        "10 pages crawled · 213 hrefs scanned",
+        "10 pages crawled · 222 hrefs scanned",
         "0 broken internal links",
         "out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"
       ],
