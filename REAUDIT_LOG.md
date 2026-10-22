@@ -118,3 +118,101 @@ In `IMPLEMENTATION_LOG.md`, mobile LCP was reported as `3.4s` but marked `PASS` 
    - Implemented in `STORY-01`. Two-column sticky scrollytelling HUD with dynamic 4-stage pipeline architecture visualization, chapter progress tracking, verified deliverables card, and mobile fallback stack. Storytelling elevated from 4 → 8.5.
 4. **Priority #4: Universal Scrollytelling Architecture Across All Projects (Effort: M, 1 hr) — [DONE]**
    - Implemented in `STORY-02`. Extended dynamic 4-stage technical pipeline architecture HUD, real-world constraints, benchmark comparisons, and engineering decision callouts across all four project case studies (`credio`, `finaccess`, `dukapulse`, `airbnb`). Storytelling elevated from 8.5 → 9.0. Overall arithmetic mean: 8.18.
+
+---
+
+## 7. Gate Review #3 Audit Results & Adversarial Rescore
+
+**Date**: 2026-10-22  
+**Standard**: Awwwards-featured standard (brutal adversarial evaluation; no rounding up)
+
+### 7.1. INT-01 (Interactive ROC Hero) Verification
+
+- **Mouse Operation**: Draggable threshold `<input type="range">`, 3 scenario preset buttons (Conservative, Balanced, Growth), direct SVG chart click-to-position mapping via `onClick={handleChartClick}` recalculating normalized $(x, y)$ coordinate along empirical cubic-bezier curve.
+- **Touch Operation**: Native HTML5 range input touch tracking, 44px+ touch targets on scenario buttons, direct tap on SVG curve triggers threshold recalculation.
+- **Keyboard-Only Operation**: Range slider is keyboard-accessible with `aria-label="Decision risk threshold"` and step `0.01` (`ArrowLeft`/`ArrowRight`/`ArrowUp`/`ArrowDown` dynamically increments/decrements threshold and updates live matrix). Scenario buttons are focusable via `Tab` and activate on `Enter`/`Space`.
+- **Reduced-Motion Behavior**: Evaluated in browser with `emulateMedia({ reducedMotion: 'reduce' })`.
+  - Active point ping circle: `display: none` (`motion-reduce:hidden`).
+  - Interactive status dot: `animation: none` (`motion-reduce:animate-none`).
+  - SVG curve animations: `animation: none` on `.roc-line` and `.roc-fill`.
+- **Mobile Render Cost**:
+  - Total DOM nodes in panel: 120 elements (27 SVG vector elements).
+  - Pure SVG vector rendering with closed-form cubic bezier evaluation; zero Canvas, zero WebGL, zero continuous `requestAnimationFrame` loops.
+  - On `< 640px`, `.reveal` animation is disabled, eliminating GPU compositor layer delays.
+
+### 7.2. Mobile Lighthouse on ALL Five Routes
+
+All measurements run against the production static export on an emulated mobile device (Moto G4, simulated slow 4G network: 1.638 Mbps, 150ms RTT, 4x CPU throttle):
+
+| Route | Score | LCP | CLS | TBT (INP proxy) | FCP |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **`/` (Home)** | **77** | **5.7s** | **0.002** | **40ms** | **2.0s** |
+| **`/projects/credio`** | **80** | **5.3s** | **0.000** | **50ms** | **1.4s** |
+| **`/projects/finaccess`** | **81** | **5.2s** | **0.000** | **40ms** | **1.4s** |
+| **`/projects/dukapulse`** | **80** | **5.4s** | **0.000** | **40ms** | **1.4s** |
+| **`/projects/airbnb`** | **80** | **5.4s** | **0.000** | **50ms** | **1.4s** |
+
+#### PERF-01 Claim Integrity Verdict: **DISPROVEN / UNMET (<2.0s)**
+- While Desktop LCP is **0.5s–0.6s** (Score 100) and CLS is **0.000** across all routes, under Lighthouse's simulated mobile 4G throttling, mobile LCP is **5.2s–5.7s** across all five routes.
+- **Root Cause**: The page loads 3 webfont files (`Satoshi-Variable.woff2` 44KB + `Geist` + `Geist Mono`) configured with `display: "swap"`. On throttled 4G (150ms RTT roundtrips), the mobile browser delays painting the final LCP font glyphs until the font file completes downloading and swapping, resulting in a simulated 5.2s+ render delay.
+- Claiming that the mobile LCP regression was fixed to meet the `< 2.0s` target was **INCORRECT**.
+
+### 7.3. Factual Audit Matrix (`case-study-scrolly.tsx` vs `portfolio.ts`)
+
+| Project | Scrolly Claim / Metric | Source in `portfolio.ts` | Verification Status |
+|---|---|---|:---:|
+| **Credio** | 150K rows | `approach`: "150,000 real borrower records", `metrics`: "150K borrowers" | **EXACT MATCH** |
+| **Credio** | 20% missing income & special codes | `approach`: "special codes and 20% missing income handled inside scikit-learn pipeline" | **EXACT MATCH** |
+| **Credio** | 0.823 baseline → 0.869 champion | `approach`: "0.823 ROC-AUC on validation", `results`: "ROC-AUC 0.869" | **EXACT MATCH** |
+| **Credio** | 1.1% to 39.0% risk bands | `results`: "observed default runs from 1.1% (safest band) to 39.0% (riskiest)" | **EXACT MATCH** |
+| **Credio** | SMOTE rejected to preserve calibration | `results`: "Tested class weights and SMOTE, then rejected both because they distorted predicted probabilities" | **EXACT MATCH** |
+| **Credio** | 19 unit tests pass + GitHub Actions CI | `results`: "19 unit tests, and GitHub Actions CI", `metrics`: "19 tests" | **EXACT MATCH** |
+| **FinAccess** | 290 MB workbook → 8 MB CSV | `problem`: "290 MB workbook", `approach`: "turned 290 MB into 8 MB CSV", `metrics`: "290 MB → 8 MB" | **EXACT MATCH** |
+| **FinAccess** | 19,750 adult records × 63 columns | `approach`: "19,750 adult records × 63 columns, weight variables included" | **EXACT MATCH** |
+| **FinAccess** | 84.8% formal access, 9.9% excluded | `results`: "reconcile with published topline: 84.8% formal access, 9.9% excluded" | **EXACT MATCH** |
+| **FinAccess** | 45-point county gap (48.5% to 94.0%) | `results`: "County formal access ranges from 48.5% to 94.0%, a 45-point gap" | **EXACT MATCH** |
+| **FinAccess** | Five-page Power BI model with DAX | `approach`: "five-page Power BI model with DAX measures", `metrics`: "5 pages" | **EXACT MATCH** |
+| **DukaPulse** | FastAPI + PostgreSQL backend | `approach`: "FastAPI and PostgreSQL on the backend", `stack`: ["FastAPI", "PostgreSQL"] | **EXACT MATCH** |
+| **DukaPulse** | JWT auth with owner/staff roles | `approach`: "JWT authentication with owner and staff roles" | **EXACT MATCH** |
+| **DukaPulse** | Concurrency-safe oversell prevention | `approach`: "Sales are transactionally blocked from overselling stock" | **EXACT MATCH** |
+| **DukaPulse** | 4-week demand forecast vs seasonal-naive | `approach`: "4-week demand forecast backtested against a seasonal-naive baseline" | **EXACT MATCH** |
+| **DukaPulse** | Playwright E2E + pytest CI suite | `results`: "Playwright end-to-end tests on top of a pytest backend suite" | **EXACT MATCH** |
+| **AirBnB** | Four public iterations | `tagline`: "across four public iterations", `results`: "Four iterations, each publicly committed" | **EXACT MATCH** |
+| **AirBnB** | CLI → SQLAlchemy ORM → Flask API → Docker | `problem`: "CLI console, ORM persistence layer, RESTful API, dynamic web frontend", `approach` | **EXACT MATCH** |
+| **AirBnB** | BaseModel polymorphism | Grounded in project's public repository entity inheritance structure | **VERIFIED** |
+
+### 7.4. Voice & Tone Check
+
+- **Em-Dashes**: Scanned entire codebase and prerendered HTML — **zero em-dashes (`—`) found** (passes audit rule `CT1`).
+- **Corporate Buzzwords**: Scanned against `scripts/audit.mjs` regex — **zero buzzwords found** (`seamless` was purged and replaced with `stepwise`).
+- **AI Tropes**: Scanned for generative tropes (`delve`, `testament`, `game-changer`, `tapestry`, `crucial`, `pivotal`) — **zero found**.
+- **Tone**: Understated, technical, and concrete. Claims are strictly backed by code and verifiable artifacts.
+
+### 7.5. Adversarial Rescored Scorecard
+
+| Dimension | Gate #2 | Gate #3 Adversarial | Delta | Adversarial Justification |
+|---|:---:|:---:|:---:|---|
+| **Typography** | 7.0 | **7.0** | 0 | Satoshi variable font pairing is distinctive, but 3 font families add 44KB+ weight delaying mobile paint. |
+| **Spacing / Layout** | 8.0 | **8.0** | 0 | Strict 8pt grid, two-tier rhythm, `max-w-prose` line length limit, sticky desktop HUD. |
+| **Color** | 8.0 | **8.0** | 0 | OKLCH palette intact, per-project `accentSolid` borders, zero raw hex, dark fallback without flash. |
+| **Motion** | 7.0 | **7.0** | 0 | CSS-first stagger and scroll reveals with reduced-motion protection; lacks kinetic canvas/WebGL physics. |
+| **Signature Moment** | 8.5 | **8.5** | 0 | Interactive ROC tuner with live confusion matrix and business PnL; accessible across mouse/touch/keys. |
+| **Storytelling** | 9.0 | **8.5** | -0.5 | Downgraded slightly: while technical pipelines exist for all 4 projects, interactive ROC simulation only exists on Credio. |
+| **Micro-interactions** | 8.0 | **8.0** | 0 | Tactile active button scaling, spotlight cursor tracking, draggable threshold slider. |
+| **Responsive** | 8.5 | **8.5** | 0 | Tested at 320px–1920px; zero horizontal overflow, touch targets $\ge 44\text{px}$, clean mobile collapse. |
+| **Accessibility** | 9.0 | **9.0** | 0 | Semantic landmarks, dynamic ARIA values, visible focus rings, full `prefers-reduced-motion` compliance. |
+| **Performance** | 8.0 | **6.5** | **-1.5** | **Penalized heavily**: Throttled mobile LCP is 5.2s–5.7s across all 5 routes. Fix in PERF-01 was insufficient on 4G. |
+| **Code** | 9.0 | **9.0** | 0 | Clean TypeScript, zero new npm dependencies, 32/32 tests green, 11 static pages generated. |
+| **OVERALL** | **8.18** | **8.00** | **-0.18** | **Exact Arithmetic Mean: 88.0 / 11 = 8.00 (truncated: 8.00)** |
+
+$$\text{Sum} = 7.0 + 8.0 + 8.0 + 7.0 + 8.5 + 8.5 + 8.0 + 8.5 + 9.0 + 6.5 + 9.0 = 88.0$$
+$$\text{Arithmetic Mean} = \frac{88.0}{11} = 8.000000... \implies \mathbf{8.00}$$
+
+### 7.6. Ranked Next Priorities
+
+1. **Priority #1: Genuine Mobile LCP Resolution (<2.0s on 4G) (Effort: S, 30 min)**
+   - Replace `display: "swap"` on Satoshi with `display: "optional"` or inline critical subset glyphs to eliminate the multi-second font swap delay under simulated 4G mobile throttling.
+2. **Priority #2: Interactive Simulation for FinAccess (Effort: M, 2 hrs)**
+   - Add an interactive county survey weight slider or inclusion explorer on `/projects/finaccess` to match Credio's interactive signature moment depth.
+3. **Priority #3: Kinetic Micro-Physics (Effort: M, 1.5 hrs)**
+   - Introduce subtle spring-physics or magnetic cursor pull on primary interactive controls to lift Motion from 7 → 8.5.
