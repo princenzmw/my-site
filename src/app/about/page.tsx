@@ -20,14 +20,14 @@ export default function AboutPage() {
         <div aria-hidden className="bg-grid absolute inset-0" />
         <div aria-hidden className="bg-glow absolute inset-0" />
         <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
-          <div className="reveal">
+          <div>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">{ABOUT.kicker}</p>
             <h1 id="about-heading" className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
               About Prince Nzamuwe
             </h1>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">{ABOUT.title}</p>
 
-            <div className="mt-10 space-y-5 text-base leading-relaxed">
+            <div className="mt-10 max-w-prose space-y-5 text-base leading-relaxed">
               {ABOUT.paragraphs.map((p) => (
                 <p key={p.slice(0, 32)}>{p}</p>
               ))}
@@ -56,18 +56,19 @@ export default function AboutPage() {
       </section>
 
       {/* ============================== SKILLS ============================ */}
-      <section id="skills" className="py-16 sm:py-24">
+      <section id="skills" className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Skills"
             title="Evidence over percentages"
             description="No “Python 95%” bars. Every group links to the project that proves it: if I list it, you can watch me use it."
           />
-          <div className="reveal-view mt-12 grid gap-6 md:grid-cols-3">
-            {SKILLS.map((group) => (
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {SKILLS.map((group, i) => (
               <div
                 key={group.area}
-                className="lift flex flex-col rounded-xl border bg-card p-6 shadow-sm hover:shadow-md hover:shadow-primary/5"
+                style={{ animationDelay: `${i * 80}ms` }}
+                className="reveal-view lift flex flex-col rounded-xl border bg-card p-6 shadow-sm hover:shadow-md hover:shadow-primary/5"
               >
                 <h3 className="font-semibold tracking-tight">{group.area}</h3>
                 <ul className="mt-4 flex flex-wrap gap-1.5">

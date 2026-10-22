@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-19T08:30:48.479Z",
+  "generatedAt": "2026-10-22T21:24:00.178Z",
   "target": "https://nzamuwe.com",
   "scoringContract": "8.0+ = meets written acceptance criteria WITH evidence; <8.0 = fix + re-run; unverified = evidence unavailable",
   "flags": {
-    "online": true,
+    "online": false,
     "buildSkipped": false
   },
   "scores": {
@@ -29,17 +29,17 @@
       "checks": 5
     },
     "technical": {
-      "score": 10,
-      "pass": 7,
+      "score": 9.5,
+      "pass": 6,
       "fail": 0,
-      "unverified": 0,
+      "unverified": 1,
       "checks": 7
     },
     "trust": {
-      "score": 10,
-      "pass": 5,
+      "score": 9.5,
+      "pass": 4,
       "fail": 0,
-      "unverified": 0,
+      "unverified": 1,
       "checks": 5
     },
     "seo": {
@@ -50,7 +50,7 @@
       "checks": 7
     }
   },
-  "overall": 9.9,
+  "overall": 9.8,
   "checks": [
     {
       "dim": "technical",
@@ -329,12 +329,11 @@
       "dim": "technical",
       "id": "T7",
       "name": "No known vulnerabilities in production dependencies",
-      "status": "pass",
+      "status": "unverified",
       "evidence": [
-        "npm audit (prod deps only): high=0 critical=0 moderate=0 low=0",
-        "dev-only advisories (lint/test toolchain) are documented in README-DEPLOY.md §Dependency notes"
+        "npm audit requires registry access — run with --online"
       ],
-      "blocker": null
+      "blocker": "Run with --online"
     },
     {
       "dim": "trust",
@@ -386,13 +385,12 @@
       "dim": "trust",
       "id": "R5",
       "name": "Claimed model performance is backed by a public, testable repository",
-      "status": "pass",
+      "status": "unverified",
       "evidence": [
         "Site states: 19 unit tests, GitHub Actions CI, leak-free pipeline on 150,000 records — all checkable in github.com/princenzmw/credit-risk-scorecard",
-        "Offline harness cannot guarantee third-party network state — run --online for the live check",
-        "repo HTML status: 200 · raw README carries all 4 headline metrics (0.869, 0.407, 0.584, 150,000) — API quota-independent check"
+        "Offline harness cannot guarantee third-party network state — run --online for the live check"
       ],
-      "blocker": null
+      "blocker": "Run with --online"
     },
     {
       "dim": "seo",
@@ -473,7 +471,7 @@
       "name": "All internal links resolve (crawl of every prerendered page)",
       "status": "pass",
       "evidence": [
-        "10 pages crawled · 213 hrefs scanned",
+        "10 pages crawled · 227 hrefs scanned",
         "0 broken internal links",
         "out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"
       ],

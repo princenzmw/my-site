@@ -17,6 +17,7 @@ import { RoleRotator } from "@/components/site/role-rotator";
 import { CountUp } from "@/components/site/count-up";
 import { CopyEmail } from "@/components/site/copy-email";
 import { RocPanel } from "@/components/site/roc-panel";
+import { HeroRocBg } from "@/components/site/hero-roc-bg";
 import { HERO, PROJECTS, SITE, STATS } from "@/lib/portfolio";
 
 const CHANNELS = [
@@ -33,15 +34,16 @@ export default function Home() {
       <section className="relative overflow-hidden border-b" aria-labelledby="hero-heading">
         <div aria-hidden className="bg-grid absolute inset-0" />
         <div aria-hidden className="bg-glow absolute inset-0" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-24">
-          <div className="reveal">
+        <HeroRocBg />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
             <p className="inline-flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
               <span className="pulse-dot relative inline-flex h-2 w-2 rounded-full bg-emerald-500 text-emerald-500" aria-hidden />
               {HERO.kicker}
             </p>
             <h1
               id="hero-heading"
-              className="mt-5 text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-5xl sm:leading-[1.08] lg:text-[3.4rem]"
+              className="mt-5 text-[clamp(2rem,4.5vw+0.5rem,3.5rem)] font-extrabold leading-[1.08] tracking-[-0.025em]"
             >
               {HERO.headline.plain}{" "}
               <RoleRotator words={HERO.headline.rotate} />{" "}
@@ -89,15 +91,16 @@ export default function Home() {
       </section>
 
       {/* =========================== STAT BAND ============================ */}
-      <section aria-label="Key results from the repositories" className="reveal-view border-b bg-muted/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4">
-          {STATS.map((s) => (
+      <section aria-label="Key results from the repositories" className="border-b bg-muted/40">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-4">
+          {STATS.map((s, i) => (
             <a
               key={s.label}
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-lg p-2 text-center transition-colors hover:bg-background"
+              style={{ animationDelay: `${i * 80}ms` }}
+              className="group reveal-view rounded-lg p-2 text-center transition-colors hover:bg-background"
             >
               <p className="font-mono text-2xl font-bold text-primary sm:text-3xl">
                 <CountUp value={s.value} decimals={s.decimals} suffix={s.suffix} />
@@ -114,18 +117,19 @@ export default function Home() {
       </section>
 
       {/* ============================ PROJECTS ============================ */}
-      <section id="projects" className="py-16 sm:py-24">
+      <section id="projects" className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Featured work"
             title="Projects with receipts"
             description="Public repositories you can clone, rerun, and critique, plus one built in the open right now. Every project has a case-study page."
+            size="large"
           />
           {/* Alternating 2/1-column rhythm, same as the reviewed design */}
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {PROJECTS.map((project, i) => (
               <div key={project.id} className={i % 2 === 0 ? "lg:col-span-2" : ""}>
-                <ProjectCard project={project} />
+                <ProjectCard project={project} style={{ animationDelay: `${i * 80}ms` }} />
               </div>
             ))}
           </div>
@@ -141,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* ============================= CONTACT ============================ */}
-      <section id="contact" className="border-t bg-muted/40 py-16 sm:py-24">
+      <section id="contact" className="border-t bg-muted/40 py-20 sm:py-28">
         <div className="reveal-view mx-auto max-w-3xl px-4 text-center sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">Contact</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Fastest ways to reach me</h2>

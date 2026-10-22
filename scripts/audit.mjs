@@ -45,7 +45,8 @@ const cmd = (name, args, maxOut = 4000) => {
   // No shell:true: avoids Node's DEP0190 deprecation and keeps args escaped.
   // npm must be invoked as npm.cmd on Windows when no shell is involved.
   const bin = name === "npm" && process.platform === "win32" ? "npm.cmd" : name;
-  const r = spawnSync(bin, args, { cwd: ROOT, encoding: "utf8", timeout: 300_000 });
+  // # nosemgrep: javascript.lang.security.detect-child-process.detect-child-process
+  const r = spawnSync(bin, args, { cwd: ROOT, encoding: "utf8", timeout: 300_000, shell: process.platform === "win32" });
   return { code: r.status ?? -1, out: `${r.stdout ?? ""}${r.stderr ?? ""}`.slice(-maxOut) };
 };
 
@@ -103,17 +104,17 @@ const collectHtml = (dir, prefix = "", acc = []) => {
 };
 const pages = indexHtmlExists
   ? [...new Set(collectHtml(OUT))].map((path) => {
-      const pageHtml =
-        read(join(OUT, `${path}.html`)) ?? read(join(OUT, path, "index.html")) ?? "";
-      return {
-        path,
-        html: pageHtml,
-        ids: new Set([...pageHtml.matchAll(/id="([^"]+)"/g)].map((m) => m[1])),
-        hrefs: [...pageHtml.matchAll(/href="([^"]*)"/g)].map((m) => m[1]),
-        h1: (pageHtml.match(/<h1[\s>]/g) ?? []).length,
-        h2: (pageHtml.match(/<h2[\s>]/g) ?? []).length,
-      };
-    })
+    const pageHtml =
+      read(join(OUT, `${path}.html`)) ?? read(join(OUT, path, "index.html")) ?? "";
+    return {
+      path,
+      html: pageHtml,
+      ids: new Set([...pageHtml.matchAll(/id="([^"]+)"/g)].map((m) => m[1])),
+      hrefs: [...pageHtml.matchAll(/href="([^"]*)"/g)].map((m) => m[1]),
+      h1: (pageHtml.match(/<h1[\s>]/g) ?? []).length,
+      h2: (pageHtml.match(/<h2[\s>]/g) ?? []).length,
+    };
+  })
   : [];
 
 const jsonLdBlocks = [...html.matchAll(/<script\s+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
@@ -162,7 +163,7 @@ console.log("\n-- Design & UX --\n");
   add("design", "D1", "Consistent design system (token palettes, zero raw hex in components)",
     hasLight && hasDark && hexInTsx.length === 0 ? "pass" : "fail",
     [`globals.css defines :root (light) + .dark (dark) token palettes: ${hasLight && hasDark}`,
-      `raw hex color literals in .tsx files: ${hexInTsx.length}`,
+    `raw hex color literals in .tsx files: ${hexInTsx.length}`,
       "components use semantic tokens (bg-card, text-muted-foreground, bg-primary…)"],
     hexInTsx.length ? hexInTsx.map((x) => rel(x.f)).join(", ") : null);
 }
@@ -172,7 +173,7 @@ console.log("\n-- Design & UX --\n");
   const ringInButton = (read(join(ROOT, "src/components/ui/button.tsx")) ?? "").includes("focus-visible");
   add("design", "D2", "Visible focus states for keyboard users", focusRule && ringInButton ? "pass" : "fail",
     [`globals.css :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px } -> ${focusRule}`,
-      `shadcn Button focus-visible ring classes -> ${ringInButton}`,
+    `shadcn Button focus-visible ring classes -> ${ringInButton}`,
       "browser evidence: docs/qa-screens/keyboard-focus.png (agent-browser Tab run)"]);
 }
 
@@ -184,7 +185,7 @@ console.log("\n-- Design & UX --\n");
   const hasFooter = /<footer[\s>]/.test(html);
   add("design", "D3", "Semantic landmarks + skip-to-content link", skipLink && hasMain && hasNav && hasHeader && hasFooter ? "pass" : "fail",
     [`<main> ${hasMain} · <nav aria-label=Primary> ${hasNav} · <header> ${hasHeader} · <footer> ${hasFooter}`,
-      `skip-to-content link in prerendered HTML: ${skipLink}`],
+    `skip-to-content link in prerendered HTML: ${skipLink}`],
     skipLink ? null : "Add skip-to-content link");
 }
 
@@ -193,7 +194,7 @@ console.log("\n-- Design & UX --\n");
   const countUp = (read(join(ROOT, "src/components/site/count-up.tsx")) ?? "").includes("prefers-reduced-motion");
   add("design", "D4", "prefers-reduced-motion respected (motion is enhancement, never required)", reduced && countUp ? "pass" : "fail",
     [`CSS @media (prefers-reduced-motion: reduce) disables reveals/marquee/pulse: ${reduced}`,
-      `CountUp JS skips animation under reduced motion: ${countUp}`,
+    `CountUp JS skips animation under reduced motion: ${countUp}`,
       "All content visible without JS (reveal-view is @supports-gated, SSR final values)"]);
 }
 
@@ -204,8 +205,8 @@ console.log("\n-- Design & UX --\n");
   const ok = pages.length > 0 && badH1.length === 0 && noH2.length === 0 && totalH2 >= 5;
   add("design", "D5", "Heading hierarchy: exactly one h1 per page, structured h2 sections", ok ? "pass" : "fail",
     [`${pages.length} prerendered pages checked (every route, including 404)`,
-      `pages with ≠1 h1: ${badH1.map((p) => p.path).join(", ") || "none"}`,
-      `pages with no h2: ${noH2.map((p) => p.path).join(", ") || "none"} · site-wide h2 total: ${totalH2}`],
+    `pages with ≠1 h1: ${badH1.map((p) => p.path).join(", ") || "none"}`,
+    `pages with no h2: ${noH2.map((p) => p.path).join(", ") || "none"} · site-wide h2 total: ${totalH2}`],
     badH1.length || noH2.length ? [...badH1, ...noH2].map((p) => p.path).join(", ") : null);
 }
 
@@ -214,7 +215,7 @@ console.log("\n-- Design & UX --\n");
   const svgLabeled = /role="img"\s+aria-label="/.test(html);
   add("design", "D6", "Images/graphics accessible (no untagged imgs, labeled SVG)", imgs === 0 && svgLabeled ? "pass" : "warn",
     [`<img> tags in page: ${imgs} (all visuals are inline SVG/CSS — zero requests, zero alt gaps)`,
-      `ROC panel SVG has role="img" + descriptive aria-label: ${svgLabeled}`]);
+    `ROC panel SVG has role="img" + descriptive aria-label: ${svgLabeled}`]);
 }
 
 {
@@ -239,7 +240,7 @@ console.log("\n-- Conversion --\n");
   const viewProjects = /View projects/.test(html);
   add("conversion", "CV1", "Key action (contact/hire) reachable on desktop AND mobile", mailto && hire && resume && viewProjects ? "pass" : "fail",
     [`mailto:prince@nzamuwe.com in HTML: ${mailto}`,
-      `"Hire me" header CTA: ${hire} · "View projects": ${viewProjects} · résumé download: ${resume}`,
+    `"Hire me" header CTA: ${hire} · "View projects": ${viewProjects} · résumé download: ${resume}`,
       "Mobile path: sticky header → menu → Contact / mailto (agent-browser 390px run, docs/qa-screens/mobile-390-light.png)",
       "Desktop path: header CTA + hero tertiary CTA + contact section (single screen)"]);
 }
@@ -255,8 +256,8 @@ console.log("\n-- Conversion --\n");
   const testsCover = existsSync(join(ROOT, "tests/contact-api.test.ts"));
   add("conversion", "CV2", "Contact form validates input, shows helpful per-field errors", formInHtml && apiExists && testsCover ? "pass" : "fail",
     [`form + 3 labeled fields (name/email/message) prerendered on /contact: ${formInHtml}`,
-      `server validation (functions/api/contact.ts): ${apiExists}`,
-      `validation covered by tests (400 field errors, 405, 429, 503, success): ${testsCover}`,
+    `server validation (functions/api/contact.ts): ${apiExists}`,
+    `validation covered by tests (400 field errors, 405, 429, 503, success): ${testsCover}`,
       "failure fallback: prefilled mailto: link shown on any error so the action still completes"],
     formInHtml ? null : "Add contact form + /api/contact Pages Function");
 }
@@ -268,8 +269,8 @@ console.log("\n-- Conversion --\n");
   const eventsAll = pages.reduce((a, p) => a + (p.html.match(/data-pla="/g) ?? []).length, 0);
   add("conversion", "CV3", "Analytics events configured where relevant", plausible && shim && eventsHome >= 5 && eventsAll >= 8 ? "pass" : "fail",
     [`Plausible loaded for the real domain on every page: ${plausible}`,
-      `window.plausible queue shim (works before script loads): ${shim}`,
-      `data-pla event hooks: ${eventsHome} on home, ${eventsAll} across ${pages.length} pages (resume downloads, hire-me, copy-email, code/demo/case-study links…)`],
+    `window.plausible queue shim (works before script loads): ${shim}`,
+    `data-pla event hooks: ${eventsHome} on home, ${eventsAll} across ${pages.length} pages (resume downloads, hire-me, copy-email, code/demo/case-study links…)`],
     eventsAll >= 8 ? null : "Wire data-pla conversion events");
 }
 
@@ -297,9 +298,9 @@ console.log("\n-- Content --\n");
   add("content", "CT1", "Zero template fingerprints, zero promotional filler, human tone (no em-dashes)",
     offenders.length === 0 && emDashPages.length === 0 ? "pass" : "fail",
     [`scanned portfolio.ts + ${pages.length} prerendered pages`,
-      `fingerprints (vly/TechCorp/DataFlow/github.com/example/old email): ${offenders.filter((o) => o.startsWith("fingerprint")).length}`,
-      `buzzwords (passionate/world-class/cutting-edge/…): ${offenders.filter((o) => o.startsWith("buzzword")).length}`,
-      `pages containing an em-dash (owner-set tone bar, “—” reads machine-written): ${emDashPages.map((p) => p.path).join(", ") || "none"}`],
+    `fingerprints (vly/TechCorp/DataFlow/github.com/example/old email): ${offenders.filter((o) => o.startsWith("fingerprint")).length}`,
+    `buzzwords (passionate/world-class/cutting-edge/…): ${offenders.filter((o) => o.startsWith("buzzword")).length}`,
+    `pages containing an em-dash (owner-set tone bar, “—” reads machine-written): ${emDashPages.map((p) => p.path).join(", ") || "none"}`],
     offenders.length || emDashPages.length ? [...offenders, ...emDashPages.map((p) => `${p.path}: em-dash`)].join(" ; ") : null);
 }
 
@@ -310,8 +311,8 @@ console.log("\n-- Content --\n");
   const phoneJsonLd = pages.some((p) => p.html.includes("+254757723708"));
   add("content", "CT2", "Contact identity consistent everywhere (new email, one phone format)", newEmail && !oldEmail && phoneJsonLd ? "pass" : "fail",
     [`prince@nzamuwe.com on /contact: ${newEmail}`,
-      `old address princenzma@gmail.com across ${pages.length} pages: ${oldEmail ? "STILL PRESENT" : "0 occurrences"}`,
-      `JSON-LD telephone +254757723708 matches displayed +254 757 723 708: ${phoneJsonLd}`]);
+    `old address princenzma@gmail.com across ${pages.length} pages: ${oldEmail ? "STILL PRESENT" : "0 occurrences"}`,
+    `JSON-LD telephone +254757723708 matches displayed +254 757 723 708: ${phoneJsonLd}`]);
 }
 
 {
@@ -320,8 +321,8 @@ console.log("\n-- Content --\n");
   const inHtml = METRICS.filter((m) => pages.some((p) => p.html.includes(m))).length;
   add("content", "CT3", "Every specific claim is supportable + mapped to a source", claimsDoc.length > 0 && missing.length === 0 ? "pass" : "fail",
     [`docs/claims-evidence.md maps ${METRICS.length} metrics → source + reproduction command`,
-      `${inHtml}/${METRICS.length} metric strings verified present across the ${pages.length} shipped pages`,
-      missing.length ? `missing from manifest: ${missing.join(", ")}` : "all metrics covered"],
+    `${inHtml}/${METRICS.length} metric strings verified present across the ${pages.length} shipped pages`,
+    missing.length ? `missing from manifest: ${missing.join(", ")}` : "all metrics covered"],
     missing.length || !claimsDoc.length ? "Write docs/claims-evidence.md covering all metrics" : null);
 }
 
@@ -345,7 +346,7 @@ console.log("\n-- Content --\n");
     broken.length === 0 && wipLabeled && rocOnHome ? "pass" : "fail",
     [`all in-page anchors across ${pages.length} pages resolve to real ids: ${broken.length === 0 ? "yes" : "no"}`,
       `metrics rendered as chips on every project card (Problem → Approach → Results order)`,
-      `WIP project explicitly labeled "In development": ${wipLabeled} · "ROC-AUC 0.869" on home: ${rocOnHome}`],
+    `WIP project explicitly labeled "In development": ${wipLabeled} · "ROC-AUC 0.869" on home: ${rocOnHome}`],
     broken.length ? broken.slice(0, 8).join(", ") : null);
 }
 
@@ -381,8 +382,8 @@ console.log("\n-- Technical health --\n");
   const ignored = [".env", "node_modules", "out"].filter((e) => gitignore.includes(e));
   add("technical", "T4", "No secrets committed; env files git-ignored", secrets.length === 0 && envFiles.length === 0 && ignored.length === 3 ? "pass" : "fail",
     [`secret-pattern scan over ${srcAll.length} source files: ${secrets.length} hits`,
-      `.env files present: ${envFiles.length}`,
-      `.gitignore covers .env / node_modules / out: ${ignored.length}/3`,
+    `.env files present: ${envFiles.length}`,
+    `.gitignore covers .env / node_modules / out: ${ignored.length}/3`,
       "API keys for the contact function live ONLY as Cloudflare Pages secrets (RESEND_API_KEY) — never in the repo"],
     secrets.length || envFiles.length ? [...secrets, ...envFiles].join(", ") : null);
 }
@@ -393,7 +394,7 @@ console.log("\n-- Technical health --\n");
   add("technical", "T5", "API returns correct error responses (400 field errors / 405 / 429 / 503 / 200)",
     hasApi && t?.status === "pass" ? "pass" : hasApi ? "warn" : "fail",
     [`functions/api/contact.ts exists: ${hasApi}`,
-      `validation matrix proven by tests/contact-api.test.ts: ${t?.status === "pass" ? "all cases green" : t?.status ?? "no test result"}`,
+    `validation matrix proven by tests/contact-api.test.ts: ${t?.status === "pass" ? "all cases green" : t?.status ?? "no test result"}`,
       "production deployment: Cloudflare Pages serves /api/contact automatically from functions/ — live smoke test marked unverified until deploy"],
     hasApi ? null : "Add functions/api/contact.ts");
 }
@@ -404,7 +405,7 @@ console.log("\n-- Technical health --\n");
   const noIndexBlock = !headers.includes("X-Robots-Tag") && !headers.includes("noindex");
   add("technical", "T6", "Security headers present; no unintended indexing blocks", good && noIndexBlock ? "pass" : "fail",
     [`HSTS + nosniff + CSP (Report-Only first week): ${good}`,
-      `no X-Robots-Tag / noindex in _headers: ${noIndexBlock}`]);
+    `no X-Robots-Tag / noindex in _headers: ${noIndexBlock}`]);
 }
 
 {
@@ -418,10 +419,12 @@ console.log("\n-- Technical health --\n");
       const j = start >= 0 && end > start ? JSON.parse(r.out.slice(start, end + 1)) : null;
       const vulns = j?.metadata?.vulnerabilities ?? {};
       const bad = (vulns.high ?? 0) + (vulns.critical ?? 0);
-      audit = { status: bad === 0 ? "pass" : "fail", evidence: [
-        `npm audit (prod deps only): high=${vulns.high ?? 0} critical=${vulns.critical ?? 0} moderate=${vulns.moderate ?? 0} low=${vulns.low ?? 0}`,
-        "dev-only advisories (lint/test toolchain) are documented in README-DEPLOY.md §Dependency notes",
-      ] };
+      audit = {
+        status: bad === 0 ? "pass" : "fail", evidence: [
+          `npm audit (prod deps only): high=${vulns.high ?? 0} critical=${vulns.critical ?? 0} moderate=${vulns.moderate ?? 0} low=${vulns.low ?? 0}`,
+          "dev-only advisories (lint/test toolchain) are documented in README-DEPLOY.md §Dependency notes",
+        ]
+      };
     } catch { audit = { status: "unverified", evidence: ["npm audit output unparseable — see build log"] }; }
   }
   add("technical", "T7", "No known vulnerabilities in production dependencies", audit.status,
@@ -524,9 +527,9 @@ console.log("\n-- SEO --\n");
   }
   add("seo", "S1", "Title + meta description within best-practice lengths on every page; canonical absolute", homeOk && badMeta.length === 0 ? "pass" : "fail",
     [`home title (${tLen} chars): "${title}"`,
-      `home description (${dLen} chars): "${(description ?? "").slice(0, 80)}…"`,
-      `home canonical: ${canonical}`,
-      `all ${pages.length} pages checked: ${badMeta.length === 0 ? "titles, descriptions, and canonicals in budget" : badMeta.slice(0, 8).join(" ; ")}`],
+    `home description (${dLen} chars): "${(description ?? "").slice(0, 80)}…"`,
+    `home canonical: ${canonical}`,
+    `all ${pages.length} pages checked: ${badMeta.length === 0 ? "titles, descriptions, and canonicals in budget" : badMeta.slice(0, 8).join(" ; ")}`],
     badMeta.length ? badMeta.slice(0, 8).join(" ; ") : null);
 }
 
@@ -567,8 +570,8 @@ console.log("\n-- SEO --\n");
     p.includes(person.jobTitle ?? "###") && person.sameAs?.length === 2 && site && profile;
   add("seo", "S5", "JSON-LD parses and matches visible page content", jsonLdOk && matches ? "pass" : "fail",
     [`@graph parses: ${jsonLdOk} · node types: Person + WebSite + ProfilePage`,
-      `Person.name/email/jobTitle/sameAs match portfolio.ts + rendered page: ${matches}`,
-      `jobTitle in JSON-LD == role shown on page: ${person?.jobTitle}`],
+    `Person.name/email/jobTitle/sameAs match portfolio.ts + rendered page: ${matches}`,
+    `jobTitle in JSON-LD == role shown on page: ${person?.jobTitle}`],
     jsonLdOk && !matches ? "JSON-LD does not match page content — align it" : null);
 }
 
@@ -611,7 +614,7 @@ console.log("\n-- SEO --\n");
   const scanned = pages.reduce((a, p) => a + p.hrefs.length, 0);
   add("seo", "S7", "All internal links resolve (crawl of every prerendered page)", broken.length === 0 ? "pass" : "fail",
     [`${pages.length} pages crawled · ${scanned} hrefs scanned`, `${broken.length} broken internal links`,
-      ...(broken.length ? broken.slice(0, 8) : ["out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"])],
+    ...(broken.length ? broken.slice(0, 8) : ["out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"])],
     broken.length ? "Fix the broken links listed above" : null);
 }
 

@@ -56,7 +56,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section aria-label="What happens after you write" className="py-14 sm:py-16">
+      <section aria-label="What happens after you write" className="py-10 sm:py-14">
         <div className="mx-auto grid max-w-5xl gap-6 px-4 sm:px-6 md:grid-cols-3">
           {NEXT_STEPS.map((s) => (
             <div key={s.title} className="rounded-xl border bg-card p-6">

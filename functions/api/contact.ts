@@ -136,7 +136,7 @@ export async function handleContact(
     );
   }
 
-  const from = env.CONTACT_FROM ?? "Portfolio form prince@nzamuwe.com";
+  const from = env.CONTACT_FROM ?? "prince@nzamuwe.com";
   const to = env.CONTACT_TO ?? "prince@nzamuwe.com";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",

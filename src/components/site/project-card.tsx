@@ -10,17 +10,24 @@ import type { Project } from "@/lib/portfolio";
  * project's own numbers — no stock photography anywhere. "In development"
  * projects are labeled as such instead of showing invented metrics.
  */
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  style,
+}: {
+  project: Project;
+  style?: React.CSSProperties;
+}) {
   const inDev = project.status === "in-development";
 
   return (
     <SpotlightCard>
       <article
         id={`project-${project.id}`}
+        style={style}
         className="reveal-view flex h-full flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm"
       >
         {/* Header panel */}
-        <div className={`bg-gradient-to-br ${project.accent} border-b px-6 py-5`}>
+        <div className={`bg-gradient-to-br ${project.accent} border-b border-l-4 ${project.accentSolid} px-6 py-5`}>
           <div className="flex items-start justify-between gap-3">
             <p className="font-mono text-xs font-medium uppercase tracking-widest text-muted-foreground">
               {project.role}
