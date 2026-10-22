@@ -35,7 +35,7 @@ export default function Home() {
         <div aria-hidden className="bg-grid absolute inset-0" />
         <div aria-hidden className="bg-glow absolute inset-0" />
         <HeroRocBg />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-24">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="reveal">
             <p className="inline-flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
               <span className="pulse-dot relative inline-flex h-2 w-2 rounded-full bg-emerald-500 text-emerald-500" aria-hidden />
@@ -92,7 +92,7 @@ export default function Home() {
 
       {/* =========================== STAT BAND ============================ */}
       <section aria-label="Key results from the repositories" className="border-b bg-muted/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <a
               key={s.label}
@@ -117,7 +117,7 @@ export default function Home() {
       </section>
 
       {/* ============================ PROJECTS ============================ */}
-      <section id="projects" className="py-16 sm:py-24">
+      <section id="projects" className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Featured work"
@@ -145,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* ============================= CONTACT ============================ */}
-      <section id="contact" className="border-t bg-muted/40 py-16 sm:py-24">
+      <section id="contact" className="border-t bg-muted/40 py-20 sm:py-28">
         <div className="reveal-view mx-auto max-w-3xl px-4 text-center sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">Contact</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Fastest ways to reach me</h2>

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <PageShell>
-      <section className="py-16 sm:py-24">
+      <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Projects"

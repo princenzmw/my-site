@@ -56,7 +56,7 @@ export default function AboutPage() {
       </section>
 
       {/* ============================== SKILLS ============================ */}
-      <section id="skills" className="py-16 sm:py-24">
+      <section id="skills" className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Skills"
