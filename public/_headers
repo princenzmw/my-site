@@ -1,0 +1,10 @@
+# Cloudflare Pages headers — nzamuwe.com
+# CSP is Report-Only for the first week (watch dashboard reports), then
+# remove "-Report-Only" to enforce. Docs: https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://plausible.io; font-src 'self'; frame-ancestors 'none'

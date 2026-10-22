@@ -1,0 +1,483 @@
+{
+  "generatedAt": "2026-10-19T08:30:48.479Z",
+  "target": "https://nzamuwe.com",
+  "scoringContract": "8.0+ = meets written acceptance criteria WITH evidence; <8.0 = fix + re-run; unverified = evidence unavailable",
+  "flags": {
+    "online": true,
+    "buildSkipped": false
+  },
+  "scores": {
+    "design": {
+      "score": 10,
+      "pass": 7,
+      "fail": 0,
+      "unverified": 0,
+      "checks": 7
+    },
+    "conversion": {
+      "score": 9.5,
+      "pass": 3,
+      "fail": 0,
+      "unverified": 1,
+      "checks": 4
+    },
+    "content": {
+      "score": 10,
+      "pass": 5,
+      "fail": 0,
+      "unverified": 0,
+      "checks": 5
+    },
+    "technical": {
+      "score": 10,
+      "pass": 7,
+      "fail": 0,
+      "unverified": 0,
+      "checks": 7
+    },
+    "trust": {
+      "score": 10,
+      "pass": 5,
+      "fail": 0,
+      "unverified": 0,
+      "checks": 5
+    },
+    "seo": {
+      "score": 10,
+      "pass": 7,
+      "fail": 0,
+      "unverified": 0,
+      "checks": 7
+    }
+  },
+  "overall": 9.9,
+  "checks": [
+    {
+      "dim": "technical",
+      "id": "T1",
+      "name": "ESLint passes with zero errors",
+      "status": "pass",
+      "evidence": [
+        "npm run lint -> exit 0"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T2",
+      "name": "Test suite passes (vitest)",
+      "status": "pass",
+      "evidence": [
+        "npm test -> exit 0",
+        "vitest run: all suites green"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T3",
+      "name": "Production build completes without errors",
+      "status": "pass",
+      "evidence": [
+        "npm run build -> exit 0",
+        "out/index.html present after build"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D1",
+      "name": "Consistent design system (token palettes, zero raw hex in components)",
+      "status": "pass",
+      "evidence": [
+        "globals.css defines :root (light) + .dark (dark) token palettes: true",
+        "raw hex color literals in .tsx files: 0",
+        "components use semantic tokens (bg-card, text-muted-foreground, bg-primary…)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D2",
+      "name": "Visible focus states for keyboard users",
+      "status": "pass",
+      "evidence": [
+        "globals.css :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px } -> true",
+        "shadcn Button focus-visible ring classes -> true",
+        "browser evidence: docs/qa-screens/keyboard-focus.png (agent-browser Tab run)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D3",
+      "name": "Semantic landmarks + skip-to-content link",
+      "status": "pass",
+      "evidence": [
+        "<main> true · <nav aria-label=Primary> true · <header> true · <footer> true",
+        "skip-to-content link in prerendered HTML: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D4",
+      "name": "prefers-reduced-motion respected (motion is enhancement, never required)",
+      "status": "pass",
+      "evidence": [
+        "CSS @media (prefers-reduced-motion: reduce) disables reveals/marquee/pulse: true",
+        "CountUp JS skips animation under reduced motion: true",
+        "All content visible without JS (reveal-view is @supports-gated, SSR final values)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D5",
+      "name": "Heading hierarchy: exactly one h1 per page, structured h2 sections",
+      "status": "pass",
+      "evidence": [
+        "10 prerendered pages checked (every route, including 404)",
+        "pages with ≠1 h1: none",
+        "pages with no h2: none · site-wide h2 total: 29"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D6",
+      "name": "Images/graphics accessible (no untagged imgs, labeled SVG)",
+      "status": "pass",
+      "evidence": [
+        "<img> tags in page: 0 (all visuals are inline SVG/CSS — zero requests, zero alt gaps)",
+        "ROC panel SVG has role=\"img\" + descriptive aria-label: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "design",
+      "id": "D7",
+      "name": "404/error page styled, helpful, links home",
+      "status": "pass",
+      "evidence": [
+        "out/404.html exists: true · link back home: true · custom (not Next default): true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "conversion",
+      "id": "CV1",
+      "name": "Key action (contact/hire) reachable on desktop AND mobile",
+      "status": "pass",
+      "evidence": [
+        "mailto:prince@nzamuwe.com in HTML: true",
+        "\"Hire me\" header CTA: true · \"View projects\": true · résumé download: true",
+        "Mobile path: sticky header → menu → Contact / mailto (agent-browser 390px run, docs/qa-screens/mobile-390-light.png)",
+        "Desktop path: header CTA + hero tertiary CTA + contact section (single screen)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "conversion",
+      "id": "CV2",
+      "name": "Contact form validates input, shows helpful per-field errors",
+      "status": "pass",
+      "evidence": [
+        "form + 3 labeled fields (name/email/message) prerendered on /contact: true",
+        "server validation (functions/api/contact.ts): true",
+        "validation covered by tests (400 field errors, 405, 429, 503, success): true",
+        "failure fallback: prefilled mailto: link shown on any error so the action still completes"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "conversion",
+      "id": "CV3",
+      "name": "Analytics events configured where relevant",
+      "status": "pass",
+      "evidence": [
+        "Plausible loaded for the real domain on every page: true",
+        "window.plausible queue shim (works before script loads): true",
+        "data-pla event hooks: 16 on home, 51 across 10 pages (resume downloads, hire-me, copy-email, code/demo/case-study links…)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "conversion",
+      "id": "CV4",
+      "name": "Real conversion outcomes (actual recruiter contacts)",
+      "status": "unverified",
+      "evidence": [
+        "By the owner's own rubric, high-conversion claims CANNOT be established by an AI audit — they require post-launch behavior data.",
+        "Evidence channel once live: Plausible dashboard (domain nzamuwe.com) — events CV3 wires: Resume Download, Hire Me, Copy Email, Contact Submit.",
+        "This check flips to pass/unverified-with-data only after real traffic exists."
+      ],
+      "blocker": "Requires post-launch Plausible data — not scoreable today"
+    },
+    {
+      "dim": "content",
+      "id": "CT1",
+      "name": "Zero template fingerprints, zero promotional filler, human tone (no em-dashes)",
+      "status": "pass",
+      "evidence": [
+        "scanned portfolio.ts + 10 prerendered pages",
+        "fingerprints (vly/TechCorp/DataFlow/github.com/example/old email): 0",
+        "buzzwords (passionate/world-class/cutting-edge/…): 0",
+        "pages containing an em-dash (owner-set tone bar, “—” reads machine-written): none"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "content",
+      "id": "CT2",
+      "name": "Contact identity consistent everywhere (new email, one phone format)",
+      "status": "pass",
+      "evidence": [
+        "prince@nzamuwe.com on /contact: true",
+        "old address princenzma@gmail.com across 10 pages: 0 occurrences",
+        "JSON-LD telephone +254757723708 matches displayed +254 757 723 708: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "content",
+      "id": "CT3",
+      "name": "Every specific claim is supportable + mapped to a source",
+      "status": "pass",
+      "evidence": [
+        "docs/claims-evidence.md maps 15 metrics → source + reproduction command",
+        "15/15 metric strings verified present across the 10 shipped pages",
+        "all metrics covered"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "content",
+      "id": "CT4",
+      "name": "Information placed where readers need it (anchors resolve, metrics on cards, WIP labeled)",
+      "status": "pass",
+      "evidence": [
+        "all in-page anchors across 10 pages resolve to real ids: yes",
+        "metrics rendered as chips on every project card (Problem → Approach → Results order)",
+        "WIP project explicitly labeled \"In development\": true · \"ROC-AUC 0.869\" on home: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "content",
+      "id": "CT5",
+      "name": "External links point to real, expected destinations only",
+      "status": "pass",
+      "evidence": [
+        "16 unique external links across 10 pages:",
+        "  https://github.com/princenzmw",
+        "  https://nzamuwe.com",
+        "  https://nzamuwe.com/about",
+        "  https://github.com/princenzmw/credit-risk-scorecard",
+        "  https://nzamuwe.com/contact",
+        "  https://nzamuwe.com/experience",
+        "  https://github.com/princenzmw/finaccess-kenya-dashboard",
+        "  https://credio.streamlit.app/",
+        "  https://github.com/princenzmw/AirBnB_clone_v4",
+        "  https://www.linkedin.com/in/princenzmw/",
+        "  https://wa.me/254757723708",
+        "  https://nzamuwe.com/projects/airbnb",
+        "  https://nzamuwe.com/projects/credio",
+        "  https://nzamuwe.com/projects/dukapulse",
+        "  https://nzamuwe.com/projects/finaccess",
+        "  https://nzamuwe.com/projects"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T4",
+      "name": "No secrets committed; env files git-ignored",
+      "status": "pass",
+      "evidence": [
+        "secret-pattern scan over 0 source files: 0 hits",
+        ".env files present: 0",
+        ".gitignore covers .env / node_modules / out: 3/3",
+        "API keys for the contact function live ONLY as Cloudflare Pages secrets (RESEND_API_KEY) — never in the repo"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T5",
+      "name": "API returns correct error responses (400 field errors / 405 / 429 / 503 / 200)",
+      "status": "pass",
+      "evidence": [
+        "functions/api/contact.ts exists: true",
+        "validation matrix proven by tests/contact-api.test.ts: all cases green",
+        "production deployment: Cloudflare Pages serves /api/contact automatically from functions/ — live smoke test marked unverified until deploy"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T6",
+      "name": "Security headers present; no unintended indexing blocks",
+      "status": "pass",
+      "evidence": [
+        "HSTS + nosniff + CSP (Report-Only first week): true",
+        "no X-Robots-Tag / noindex in _headers: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "technical",
+      "id": "T7",
+      "name": "No known vulnerabilities in production dependencies",
+      "status": "pass",
+      "evidence": [
+        "npm audit (prod deps only): high=0 critical=0 moderate=0 low=0",
+        "dev-only advisories (lint/test toolchain) are documented in README-DEPLOY.md §Dependency notes"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "trust",
+      "id": "R1",
+      "name": "An independent person can install, run, and test from the README",
+      "status": "pass",
+      "evidence": [
+        "README.md quickstart covers: 4/4 of [npm install · npm run dev · npm run build · npm test]",
+        "README-DEPLOY.md covers the 10-minute Cloudflare Pages deploy + post-deploy curls",
+        "clean-room proof: see scorecard report §Reproducibility (fresh clone → ci → build → test → serve → curl)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "trust",
+      "id": "R2",
+      "name": "Architecture is documented and understandable in one read",
+      "status": "pass",
+      "evidence": [
+        "ARCHITECTURE.md present (6558 bytes)",
+        "covers render pipeline / data flow / contact API / content editing / deploy: 5/5"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "trust",
+      "id": "R3",
+      "name": "Model-performance & metric claims are reproducible by a third party",
+      "status": "pass",
+      "evidence": [
+        "9 ready-to-run verification commands in docs/claims-evidence.md",
+        "Credio metrics verify against the public repo (README/eval artifacts + 19 pytest tests + GitHub Actions CI)",
+        "résumé-sourced facts (USIU-Africa, ATLP, Ida Technology) trace to the uploaded résumé — verified by owner"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "trust",
+      "id": "R4",
+      "name": "Single source of truth — all content lives in src/lib/portfolio.ts",
+      "status": "pass",
+      "evidence": [
+        "spot-checked 5 content anchors, all defined in portfolio.ts: 5/5",
+        "page.tsx only renders data; no copy is hard-coded in components"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "trust",
+      "id": "R5",
+      "name": "Claimed model performance is backed by a public, testable repository",
+      "status": "pass",
+      "evidence": [
+        "Site states: 19 unit tests, GitHub Actions CI, leak-free pipeline on 150,000 records — all checkable in github.com/princenzmw/credit-risk-scorecard",
+        "Offline harness cannot guarantee third-party network state — run --online for the live check",
+        "repo HTML status: 200 · raw README carries all 4 headline metrics (0.869, 0.407, 0.584, 150,000) — API quota-independent check"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S1",
+      "name": "Title + meta description within best-practice lengths on every page; canonical absolute",
+      "status": "pass",
+      "evidence": [
+        "home title (63 chars): \"Prince Nzamuwe | Data Scientist & ML Engineer in Nairobi, Kenya\"",
+        "home description (154 chars): \"Data scientist and ML engineer in Nairobi, Kenya. BSc Data Science student at US…\"",
+        "home canonical: https://nzamuwe.com",
+        "all 10 pages checked: titles, descriptions, and canonicals in budget"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S2",
+      "name": "Open Graph + Twitter cards ship absolute URLs",
+      "status": "pass",
+      "evidence": [
+        "og:title/description/image/url present: true",
+        "twitter:card: true",
+        "og:image absolute: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S3",
+      "name": "robots.txt: real sitemap, intentional rules only",
+      "status": "pass",
+      "evidence": [
+        "Sitemap absolute → https://nzamuwe.com/sitemap.xml",
+        "User-agent: * Allow: / (no unintended blocks)",
+        "AI crawlers (GPTBot/PerplexityBot/ClaudeBot) explicitly allowed",
+        "Disallow: /auth kept intentionally (defense in depth; page no longer exists)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S4",
+      "name": "Sitemap URLs absolute and every listed URL exists in the build",
+      "status": "pass",
+      "evidence": [
+        "urls: https://nzamuwe.com/, https://nzamuwe.com/about, https://nzamuwe.com/projects, https://nzamuwe.com/projects/credio, https://nzamuwe.com/projects/finaccess, https://nzamuwe.com/projects/dukapulse, https://nzamuwe.com/projects/airbnb, https://nzamuwe.com/experience, https://nzamuwe.com/contact, https://nzamuwe.com/resume.pdf",
+        "all absolute: true · all present in out/: true"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S5",
+      "name": "JSON-LD parses and matches visible page content",
+      "status": "pass",
+      "evidence": [
+        "@graph parses: true · node types: Person + WebSite + ProfilePage",
+        "Person.name/email/jobTitle/sameAs match portfolio.ts + rendered page: [object Object]",
+        "jobTitle in JSON-LD == role shown on page: Data Scientist & Machine Learning Engineer"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S6",
+      "name": "No unintended indexing blocks in HTML; lang declared",
+      "status": "pass",
+      "evidence": [
+        "meta robots noindex in HTML: false",
+        "html lang=\"en\": true",
+        "metadata robots: index, follow (layout.tsx)"
+      ],
+      "blocker": null
+    },
+    {
+      "dim": "seo",
+      "id": "S7",
+      "name": "All internal links resolve (crawl of every prerendered page)",
+      "status": "pass",
+      "evidence": [
+        "10 pages crawled · 213 hrefs scanned",
+        "0 broken internal links",
+        "out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"
+      ],
+      "blocker": null
+    }
+  ]
+}
