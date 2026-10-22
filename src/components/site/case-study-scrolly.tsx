@@ -14,6 +14,8 @@ import {
   Cpu,
   Database,
   Sliders,
+  CheckCircle2,
+  GitBranch,
   type LucideIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -33,11 +35,13 @@ interface PipelineStage {
   title: string;
   badge: string;
   detail: string;
+  telemetry: string;
   icon: LucideIcon;
 }
 
 interface ProjectArchitecture {
   frameworkBadge: string;
+  systemTitle: string;
   stages: Record<SectionId, PipelineStage>;
   realWorldConstraint?: {
     title: string;
@@ -60,29 +64,34 @@ interface ProjectArchitecture {
 const ARCHITECTURES: Record<string, ProjectArchitecture> = {
   credio: {
     frameworkBadge: "scikit-learn",
+    systemTitle: "Credit Risk Scoring Pipeline",
     stages: {
       problem: {
         title: "1. Ingestion & Clean",
         badge: "150K rows",
         detail: "20% missing income & special status codes handled leak-free in ColumnTransformer",
+        telemetry: "Feature Matrix: 150,000 × 12 · 0 Data Leakage",
         icon: Database,
       },
       approach: {
         title: "2. Model Benchmark",
         badge: "0.823 → 0.869",
         detail: "Logistic baseline vs. Gradient Boosting champion evaluated on held-out test set",
+        telemetry: "Stratified 80/20 Test Set · Champion ROC-AUC: 0.869",
         icon: Cpu,
       },
       results: {
         title: "3. Risk Calibration",
         badge: "1.1% → 39%",
         detail: "Calibrated probability bands with dollar-threshold tuning; SMOTE rejected",
+        telemetry: "Cost Ratio: 5:1 · False Negatives Penalized",
         icon: Sliders,
       },
       stack: {
         title: "4. Production & CI",
         badge: "19 tests pass",
         detail: "Live Streamlit application, synthetic pytest test suite, GitHub Actions CI",
+        telemetry: "CI: 19 Tests Passing · Streamlit Docker Container",
         icon: Layers,
       },
     },
@@ -107,29 +116,34 @@ const ARCHITECTURES: Record<string, ProjectArchitecture> = {
   },
   finaccess: {
     frameworkBadge: "Power BI + pandas",
+    systemTitle: "Financial Inclusion Analytics",
     stages: {
       problem: {
         title: "1. Workbook Pipeline",
         badge: "290 MB → 8 MB",
         detail: "Streaming Python script compacts unwieldy government workbook into lean relational CSV",
+        telemetry: "Ingestion: 290 MB multi-sheet → 8 MB streaming CSV",
         icon: Database,
       },
       approach: {
         title: "2. Survey Calibration",
         badge: "19,750 adults",
         detail: "Complex multi-stage stratified survey weights preserved across 63 clean demographic columns",
+        telemetry: "Strata: 19,750 adults · 47 counties · expansion weights",
         icon: Cpu,
       },
       results: {
         title: "3. Topline Reconcile",
         badge: "84.8% matched",
         detail: "Weighted aggregates exactly reproduce official KNBS / CBK published financial inclusion benchmarks",
+        telemetry: "Parity: 84.8% formal inclusion · 0.0% variance",
         icon: Sliders,
       },
       stack: {
         title: "4. County Star Schema",
         badge: "47 counties",
         detail: "Five-page Power BI dashboard with optimized DAX measures exposing 45-point regional gaps",
+        telemetry: "DAX Engine: Star schema · 5-page analytical report",
         icon: Layers,
       },
     },
@@ -154,29 +168,34 @@ const ARCHITECTURES: Record<string, ProjectArchitecture> = {
   },
   dukapulse: {
     frameworkBadge: "FastAPI + Postgres",
+    systemTitle: "Retail Inventory & Forecasting",
     stages: {
       problem: {
         title: "1. Multi-Tenant Schema",
         badge: "PostgreSQL",
         detail: "Strict relational schema separating multi-tenant shop inventories, user roles, and ledger receipts",
+        telemetry: "Schema: PostgreSQL multi-tenant relational isolation",
         icon: Database,
       },
       approach: {
         title: "2. Concurrency Lock",
         badge: "ACID Safe",
         detail: "Row-level transactional locking on inventory decrements guarantees zero overselling under race conditions",
+        telemetry: "Concurrency: SELECT FOR UPDATE pessimistic row locks",
         icon: Cpu,
       },
       results: {
         title: "3. Demand Forecasting",
         badge: "4-Week Window",
         detail: "Automated replenishment recommendations benchmarked against seasonal-naive moving baseline",
+        telemetry: "Backtest: 4-week window vs seasonal-naive benchmark",
         icon: Sliders,
       },
       stack: {
         title: "4. Full-Stack CI",
         badge: "Playwright + Pytest",
         detail: "Headless browser integration workflows and backend unit tests automated on GitHub Actions",
+        telemetry: "Test Matrix: Playwright headless E2E + pytest unit",
         icon: Layers,
       },
     },
@@ -201,29 +220,34 @@ const ARCHITECTURES: Record<string, ProjectArchitecture> = {
   },
   airbnb: {
     frameworkBadge: "Python + MySQL",
+    systemTitle: "System Architecture Evolution",
     stages: {
       problem: {
         title: "1. CLI & File Storage",
         badge: "Phase 1: cmd",
         detail: "Custom REPL interpreter with polymorphic JSON serialization for managing model lifecycles",
+        telemetry: "Serialization: Polymorphic BaseModel with JSON engine",
         icon: Database,
       },
       approach: {
         title: "2. Relational ORM",
         badge: "Phase 2: SQLAlchemy",
         detail: "Stepwise migration from flat-file storage to MySQL with declarative entity relationships",
+        telemetry: "Persistence: SQLAlchemy declarative ORM + MySQL 8.0",
         icon: Cpu,
       },
       results: {
         title: "3. RESTful Services",
         badge: "Phase 3: Flask",
         detail: "Modular API blueprints with CRUD endpoints, status code contracts, and CORS headers",
+        telemetry: "Interface: Flask RESTful blueprints + CORS headers",
         icon: Sliders,
       },
       stack: {
         title: "4. Containerized Web",
         badge: "Phase 4: Docker",
         detail: "Jinja2 dynamic frontend templates and Nginx reverse proxy packaged for production deployments",
+        telemetry: "Deployment: Docker multi-container + Nginx proxy",
         icon: Layers,
       },
     },
@@ -257,7 +281,7 @@ interface CaseStudyScrollyProps {
 export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrollyProps) {
   const [activeSection, setActiveSection] = React.useState<SectionId>("problem");
 
-  // Track active section via IntersectionObserver
+  // Track active section via IntersectionObserver with strict rootMargin
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -268,7 +292,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
         }
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
+        rootMargin: "-20% 0px -55% 0px",
         threshold: 0,
       }
     );
@@ -289,109 +313,262 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
   };
 
   const arch = ARCHITECTURES[project.id];
+  const activeIndex = Math.max(0, SECTIONS.findIndex((s) => s.id === activeSection));
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
-      <div className="grid gap-12 lg:grid-cols-[340px_1fr] lg:gap-16 items-start">
-        {/* ==================== LEFT COLUMN: STICKY HUD ==================== */}
-        <aside className="hidden lg:block lg:sticky lg:top-24 space-y-6">
-          {/* Chapter Stepper */}
-          <div className="rounded-xl border bg-card p-4 shadow-sm">
-            <p className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Case Study Navigation
-            </p>
-            <nav className="mt-3 space-y-1" aria-label="Case study sections">
-              {SECTIONS.map((s) => {
-                const isActive = activeSection === s.id;
-                return (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => scrollTo(s.id)}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-[background-color,color] ${
-                      isActive
-                        ? "bg-primary/10 text-primary font-semibold"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] opacity-70">{s.number}</span>
-                      <span>{s.label}</span>
-                    </span>
-                    {isActive && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
+      {/* ==================== MOBILE STEPPER STRIP (<1024px) ==================== */}
+      <nav
+        aria-label="Case study chapters"
+        className="sticky top-16 z-30 -mx-4 sm:-mx-6 mb-8 border-b bg-background/95 backdrop-blur px-4 sm:px-6 py-2.5 lg:hidden"
+      >
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {SECTIONS.map((s, i) => {
+            const isActive = activeSection === s.id;
+            const isPassed = activeIndex > i;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => scrollTo(s.id)}
+                aria-current={isActive ? "step" : undefined}
+                className={`min-h-[44px] flex-1 flex items-center justify-center gap-1.5 rounded-lg px-2 text-xs font-semibold transition-all ${
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : isPassed
+                    ? "bg-muted/80 text-foreground"
+                    : "bg-muted/30 text-muted-foreground hover:bg-muted/60"
+                }`}
+              >
+                <span className="font-mono text-[10px] opacity-75">{s.number}</span>
+                <span className="truncate">{s.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
-          {/* Technical Architecture HUD */}
-          {arch && (
-            <div className="rounded-xl border bg-card p-4 shadow-sm space-y-4">
+      {/* ==================== DESKTOP BLUEPRINT GRID (>=1024px) ==================== */}
+      <div className="grid gap-12 lg:grid-cols-[380px_1fr] xl:grid-cols-[400px_1fr] lg:gap-14 items-start">
+        {/* ==================== LEFT COLUMN: 100DVH PINNED BLUEPRINT ==================== */}
+        <aside className="hidden lg:block lg:sticky lg:top-20 lg:h-[calc(100dvh-6rem)] scrolly-blueprint-stage">
+          <div className="flex h-full flex-col justify-between overflow-y-auto pr-2 space-y-4">
+            {/* Header: System Architecture Blueprint */}
+            <div className="rounded-xl border bg-card/90 p-4 shadow-xs backdrop-blur-sm">
               <div className="flex items-center justify-between border-b pb-2.5">
-                <span className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Pipeline Architecture
-                </span>
-                <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-                  <Activity className="h-3 w-3 text-primary" aria-hidden="true" />
-                  {arch.frameworkBadge}
-                </span>
+                <div>
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+                    Architectural Blueprint
+                  </p>
+                  <h2 className="mt-0.5 text-sm font-bold text-foreground">
+                    {arch ? arch.systemTitle : `${project.name} Architecture`}
+                  </h2>
+                </div>
+                {arch && (
+                  <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground border">
+                    <Activity className="h-3 w-3 text-primary" aria-hidden="true" />
+                    {arch.frameworkBadge}
+                  </span>
+                )}
               </div>
 
-              <div className="space-y-2.5 font-mono text-xs">
-                {SECTIONS.map((s) => {
-                  const stage = arch.stages[s.id];
-                  if (!stage) return null;
-                  const Icon = stage.icon;
-                  const isCurrent = activeSection === s.id;
-                  return (
-                    <div
-                      key={s.id}
-                      className={`rounded-lg border p-2.5 transition-all ${
-                        isCurrent
-                          ? "border-primary/50 bg-primary/5 text-foreground shadow-xs"
-                          : "border-border/60 bg-muted/20 text-muted-foreground"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[11px] font-semibold">
-                        <span className="flex items-center gap-1.5">
-                          <Icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-                          {stage.title}
-                        </span>
-                        <span className="text-[10px]">{stage.badge}</span>
-                      </div>
-                      <p className="mt-1 text-[10px] leading-tight">{stage.detail}</p>
-                    </div>
-                  );
-                })}
+              {/* The Pipeline Schematic Canvas */}
+              {arch && (
+                <div className="relative mt-3.5 pt-1">
+                  {/* SVG Bezier Connection Bus */}
+                  <svg
+                    className="pointer-events-none absolute left-3 top-3 h-[calc(100%-24px)] w-8"
+                    viewBox="0 0 32 300"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <linearGradient id="blueprint-line-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.9" />
+                        <stop offset="50%" stopColor="oklch(0.72 0.15 210)" stopOpacity="1" />
+                        <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.9" />
+                      </linearGradient>
+                      <filter id="blueprint-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2.5" floodColor="var(--primary)" floodOpacity="0.5" />
+                      </filter>
+                    </defs>
+
+                    {/* Inactive bezier background tracks */}
+                    <path
+                      d="M 12 36 C 28 62, 28 88, 12 114"
+                      fill="none"
+                      stroke="var(--border)"
+                      strokeWidth="2"
+                      strokeDasharray="3 3"
+                      opacity="0.5"
+                    />
+                    <path
+                      d="M 12 114 C -4 140, -4 166, 12 192"
+                      fill="none"
+                      stroke="var(--border)"
+                      strokeWidth="2"
+                      strokeDasharray="3 3"
+                      opacity="0.5"
+                    />
+                    <path
+                      d="M 12 192 C 28 218, 28 244, 12 270"
+                      fill="none"
+                      stroke="var(--border)"
+                      strokeWidth="2"
+                      strokeDasharray="3 3"
+                      opacity="0.5"
+                    />
+
+                    {/* Active illuminated bezier segments */}
+                    {activeIndex >= 1 && (
+                      <path
+                        d="M 12 36 C 28 62, 28 88, 12 114"
+                        fill="none"
+                        stroke="url(#blueprint-line-grad)"
+                        strokeWidth="2.5"
+                        filter="url(#blueprint-glow)"
+                        className="blueprint-pulse"
+                        strokeDasharray="16 4"
+                      />
+                    )}
+                    {activeIndex >= 2 && (
+                      <path
+                        d="M 12 114 C -4 140, -4 166, 12 192"
+                        fill="none"
+                        stroke="url(#blueprint-line-grad)"
+                        strokeWidth="2.5"
+                        filter="url(#blueprint-glow)"
+                        className="blueprint-pulse"
+                        strokeDasharray="16 4"
+                      />
+                    )}
+                    {activeIndex >= 3 && (
+                      <path
+                        d="M 12 192 C 28 218, 28 244, 12 270"
+                        fill="none"
+                        stroke="url(#blueprint-line-grad)"
+                        strokeWidth="2.5"
+                        filter="url(#blueprint-glow)"
+                        className="blueprint-pulse"
+                        strokeDasharray="16 4"
+                      />
+                    )}
+
+                    {/* Circuit Node Terminals */}
+                    {[36, 114, 192, 270].map((cy, i) => {
+                      const isNodeActive = activeIndex === i;
+                      const isPassed = activeIndex > i;
+                      return (
+                        <g key={i}>
+                          <circle
+                            cx="12"
+                            cy={cy}
+                            r={isNodeActive ? "5.5" : "4"}
+                            fill={isNodeActive || isPassed ? "var(--primary)" : "var(--muted)"}
+                            stroke={isNodeActive ? "var(--foreground)" : "var(--border)"}
+                            strokeWidth="2"
+                            filter={isNodeActive ? "url(#blueprint-glow)" : undefined}
+                          />
+                          {isNodeActive && (
+                            <circle
+                              cx="12"
+                              cy={cy}
+                              r="8"
+                              fill="none"
+                              stroke="var(--primary)"
+                              strokeWidth="1.5"
+                              className="blueprint-signal-dot"
+                            />
+                          )}
+                        </g>
+                      );
+                    })}
+                  </svg>
+
+                  {/* Pipeline Stage Cards Stacked Alongside SVG Bus */}
+                  <div className="ml-9 space-y-2.5 font-mono text-xs">
+                    {SECTIONS.map((s, i) => {
+                      const stage = arch.stages[s.id];
+                      if (!stage) return null;
+                      const Icon = stage.icon;
+                      const isCurrent = activeSection === s.id;
+                      const isPassed = activeIndex > i;
+
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => scrollTo(s.id)}
+                          aria-current={isCurrent ? "step" : undefined}
+                          className={`w-full text-left rounded-lg border p-2.5 transition-all ${
+                            isCurrent
+                              ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary/40 shadow-xs"
+                              : isPassed
+                              ? "border-border/80 bg-muted/30 text-foreground/90 hover:bg-muted/50"
+                              : "border-border/40 bg-muted/10 text-muted-foreground opacity-60 hover:opacity-90"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[11px] font-bold">
+                            <span className="flex items-center gap-1.5">
+                              {isPassed ? (
+                                <CheckCircle2 className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                              ) : (
+                                <Icon className={`h-3.5 w-3.5 ${isCurrent ? "text-primary" : "text-muted-foreground"}`} aria-hidden="true" />
+                              )}
+                              <span>{stage.title}</span>
+                            </span>
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded ${isCurrent ? "bg-primary text-primary-foreground font-bold" : "bg-muted text-muted-foreground"}`}>
+                              {stage.badge}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-[10px] leading-tight text-muted-foreground font-sans line-clamp-2">
+                            {stage.detail}
+                          </p>
+                          {isCurrent && (
+                            <div className="mt-1.5 pt-1.5 border-t border-primary/20 flex items-center justify-between text-[9px] text-primary">
+                              <span className="truncate">{stage.telemetry}</span>
+                              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Independent Verification Trust Badge */}
+            <div className="rounded-xl border bg-muted/20 p-3.5 text-xs text-muted-foreground space-y-2">
+              <div className="flex items-center gap-2 font-medium text-foreground">
+                <ShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" />
+                <span>Independent Verification</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                Every metric and architecture claim in this study is backed by public source code, automated test suites, and CI workflows.
+              </p>
+              <div className="pt-1 flex items-center gap-2">
+                <Button asChild variant="outline" size="sm" className="h-7 text-[11px] w-full">
+                  <a href={project.code} target="_blank" rel="noopener noreferrer">
+                    <Github className="mr-1 h-3 w-3" aria-hidden="true" />
+                    Inspect GitHub Repo
+                  </a>
+                </Button>
               </div>
             </div>
-          )}
-
-          {/* Independent Verification Trust Badge */}
-          <div className="rounded-xl border border-dashed bg-muted/30 p-3 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5 font-medium text-foreground">
-              <ShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" />
-              Verified Repository
-            </div>
-            <p className="mt-1 text-[11px] leading-relaxed">
-              Every metric and architecture claim is reproducible from public code and CI artifacts.
-            </p>
           </div>
         </aside>
 
         {/* ==================== RIGHT COLUMN: SCROLLYTELLING NARRATIVE ==================== */}
         <div className="space-y-16">
           {/* 01: Problem */}
-          <div id="problem" className="scroll-mt-24 space-y-4">
+          <div id="problem" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>01</span>
               <span>/</span>
               <span>THE CHALLENGE</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
               Problem: Real constraints vs. synthetic baselines
             </h2>
             <p className="text-base leading-relaxed text-foreground/90 sm:text-lg">
@@ -399,7 +576,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
             </p>
 
             {arch?.realWorldConstraint && (
-              <div className="rounded-xl border bg-card/60 p-4 sm:p-5 shadow-xs">
+              <div className="rounded-xl border bg-card/80 p-4 sm:p-5 shadow-xs">
                 <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                   <Terminal className="h-4 w-4 text-primary" aria-hidden="true" />
                   {arch.realWorldConstraint.title}
@@ -412,13 +589,13 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* 02: Approach */}
-          <div id="approach" className="scroll-mt-24 space-y-4">
+          <div id="approach" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>02</span>
               <span>/</span>
               <span>ENGINEERING METHODOLOGY</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
               Approach: Leak-free pipelines and model benchmarks
             </h2>
             <p className="text-base leading-relaxed text-foreground/90 sm:text-lg">
@@ -427,36 +604,36 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
 
             {arch?.benchmarkComparison && (
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-lg border bg-muted/20 p-4">
+                <div className="rounded-lg border bg-muted/30 p-4">
                   <p className="font-mono text-xs font-bold text-muted-foreground uppercase">
                     {arch.benchmarkComparison.labelA}
                   </p>
                   <p className="mt-1 text-2xl font-bold font-mono text-primary">
                     {arch.benchmarkComparison.valueA}
                   </p>
-                  <p className="text-xs text-muted-foreground">{arch.benchmarkComparison.subA}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{arch.benchmarkComparison.subA}</p>
                 </div>
-                <div className="rounded-lg border bg-muted/20 p-4">
+                <div className="rounded-lg border bg-muted/30 p-4">
                   <p className="font-mono text-xs font-bold text-muted-foreground uppercase">
                     {arch.benchmarkComparison.labelB}
                   </p>
                   <p className="mt-1 text-2xl font-bold font-mono text-primary">
                     {arch.benchmarkComparison.valueB}
                   </p>
-                  <p className="text-xs text-muted-foreground">{arch.benchmarkComparison.subB}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{arch.benchmarkComparison.subB}</p>
                 </div>
               </div>
             )}
           </div>
 
           {/* 03: Results */}
-          <div id="results" className="scroll-mt-24 space-y-4">
+          <div id="results" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>03</span>
               <span>/</span>
               <span>MEASURABLE OUTCOMES</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
               {inDev ? "Built so far" : "Results: Calibrated probabilities with receipts"}
             </h2>
 
@@ -464,7 +641,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
               {project.results.map((r) => (
                 <li
                   key={r.slice(0, 32)}
-                  className="flex items-start gap-3 rounded-lg border bg-card/60 p-3.5 sm:p-4 text-base leading-relaxed"
+                  className="flex items-start gap-3 rounded-lg border bg-card/80 p-3.5 sm:p-4 text-base leading-relaxed"
                 >
                   <Check className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                   <span>{r}</span>
@@ -473,7 +650,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
             </ul>
 
             {arch?.engineeringDecision && (
-              <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 sm:p-5">
+              <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-4 sm:p-5">
                 <h3 className="text-sm font-semibold text-amber-800 dark:text-amber-400 flex items-center gap-2">
                   <Sliders className="h-4 w-4" aria-hidden="true" />
                   {arch.engineeringDecision.title}
@@ -492,13 +669,13 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* 04: Stack & Verification */}
-          <div id="stack" className="scroll-mt-24 space-y-4">
+          <div id="stack" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>04</span>
               <span>/</span>
               <span>SYSTEM ARCHITECTURE & STACK</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Technology Stack</h2>
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Technology Stack</h2>
 
             <ul className="flex flex-wrap gap-2" aria-label={`Technologies used in ${project.name}`}>
               {project.stack.map((s) => (

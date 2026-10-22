@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T21:24:00.178Z",
+  "generatedAt": "2026-10-22T21:43:56.162Z",
   "target": "https://nzamuwe.com",
   "scoringContract": "8.0+ = meets written acceptance criteria WITH evidence; <8.0 = fix + re-run; unverified = evidence unavailable",
   "flags": {
@@ -139,7 +139,7 @@
       "evidence": [
         "10 prerendered pages checked (every route, including 404)",
         "pages with ≠1 h1: none",
-        "pages with no h2: none · site-wide h2 total: 29"
+        "pages with no h2: none · site-wide h2 total: 33"
       ],
       "blocker": null
     },
@@ -471,7 +471,7 @@
       "name": "All internal links resolve (crawl of every prerendered page)",
       "status": "pass",
       "evidence": [
-        "10 pages crawled · 227 hrefs scanned",
+        "10 pages crawled · 231 hrefs scanned",
         "0 broken internal links",
         "out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"
       ],

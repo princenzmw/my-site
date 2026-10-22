@@ -340,6 +340,38 @@
     transform: translateY(-4px);
   }
 
+  /* ---------- architectural blueprint schematic (Concept A) ---------- */
+  .blueprint-pulse {
+    animation: blueprint-flow 2.4s ease-in-out infinite;
+  }
+  @keyframes blueprint-flow {
+    0% {
+      stroke-dashoffset: 48;
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.6;
+    }
+  }
+
+  .blueprint-signal-dot {
+    animation: signal-orbit 2.2s ease-in-out infinite;
+  }
+  @keyframes signal-orbit {
+    0%, 100% {
+      transform: scale(0.9);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+  }
+
   /* ---------- pointer-tracking spotlight glow (SpotlightCard) ----------
      SpotlightCard writes --mx/--my on pointermove; this consumes them.
      The glow sits above the card surface (z-index 1) but never intercepts
@@ -388,6 +420,14 @@
 
   /* ---------- reduced motion: still fully usable, just calm ---------- */
   @media (prefers-reduced-motion: reduce) {
+    .scrolly-blueprint-stage {
+      position: static !important;
+      height: auto !important;
+    }
+    .blueprint-pulse,
+    .blueprint-signal-dot {
+      animation: none !important;
+    }
     .reveal,
     .reveal-word,
     .rotate-word,
