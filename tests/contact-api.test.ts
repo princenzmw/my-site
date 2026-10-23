@@ -13,10 +13,10 @@ const VALID = {
   ts: Date.now() - 10_000, // opened > 2.5s ago -> passes the time-trap
 };
 
-function req(body: unknown): Request {
+function req(body: unknown, origin = "https://nzamuwe.com"): Request {
   return new Request("https://nzamuwe.com/api/contact", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: origin === "" ? { "Content-Type": "application/json" } : { "Content-Type": "application/json", Origin: origin },
     body: typeof body === "string" ? body : JSON.stringify(body),
   });
 }
@@ -107,6 +107,30 @@ describe("POST /api/contact — rate limiting (429)", () => {
     expect(res.status).toBe(429);
     const j = (await res.json()) as { error: string };
     expect(j.error).toMatch(/prince@nzamuwe\.com/);
+  });
+});
+
+describe("POST /api/contact — same-origin guard (403)", () => {
+  it("rejects a cross-origin POST with 403 and never calls the provider", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await handleContact(
+      req(VALID, "https://evil.example"),
+      { RESEND_API_KEY: `fake_${"z".repeat(24)}` },
+      "t8",
+    );
+    expect(res.status).toBe(403);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects a request with no Origin and no Referer (curl-style probe)", async () => {
+    const res = await handleContact(req(VALID, ""), {}, "t9");
+    expect(res.status).toBe(403);
+  });
+
+  it("accepts localhost origins so `wrangler pages dev` keeps working", async () => {
+    const res = await handleContact(req(VALID, "http://localhost:8788"), {}, "t10");
+    expect(res.status).toBe(503); // valid request; delivery simply unconfigured
   });
 });
 
