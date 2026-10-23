@@ -2,10 +2,10 @@
   {
     "route": "Home (/)",
     "url": "https://nzamuwe.com/",
-    "ttfb": 540,
-    "domInteractive": 1123,
-    "fcp": 1680,
-    "lcp": 1680,
+    "ttfb": 599,
+    "domInteractive": 1270,
+    "fcp": 1008,
+    "lcp": 1008,
     "lcpElement": "P.mt-6 max-w-xl text-base leading-rel",
     "lcpText": "Third-year BSc Data Science & Analytics student at",
     "cls": 0
@@ -13,10 +13,10 @@
   {
     "route": "Credio (/projects/credio)",
     "url": "https://nzamuwe.com/projects/credio",
-    "ttfb": 615,
-    "domInteractive": 1098,
-    "fcp": 1620,
-    "lcp": 1620,
+    "ttfb": 497,
+    "domInteractive": 1183,
+    "fcp": 972,
+    "lcp": 972,
     "lcpElement": "H1.mt-3 text-3xl font-extrabold tracki",
     "lcpText": "Credio: Credit-Risk Scorecard",
     "cls": 0
@@ -24,10 +24,10 @@
   {
     "route": "FinAccess (/projects/finaccess)",
     "url": "https://nzamuwe.com/projects/finaccess",
-    "ttfb": 516,
-    "domInteractive": 1204,
-    "fcp": 1564,
-    "lcp": 1564,
+    "ttfb": 635,
+    "domInteractive": 1262,
+    "fcp": 1100,
+    "lcp": 1100,
     "lcpElement": "H1.mt-3 text-3xl font-extrabold tracki",
     "lcpText": "FinAccess Kenya: Financial Inclusion Dashboard",
     "cls": 0
@@ -35,10 +35,10 @@
   {
     "route": "DukaPulse (/projects/dukapulse)",
     "url": "https://nzamuwe.com/projects/dukapulse",
-    "ttfb": 664,
-    "domInteractive": 1374,
-    "fcp": 1764,
-    "lcp": 1764,
+    "ttfb": 407,
+    "domInteractive": 965,
+    "fcp": 936,
+    "lcp": 936,
     "lcpElement": "H1.mt-3 text-3xl font-extrabold tracki",
     "lcpText": "DukaPulse: Stock & Sales App for Small Shops",
     "cls": 0
@@ -46,10 +46,10 @@
   {
     "route": "AirBnB (/projects/airbnb)",
     "url": "https://nzamuwe.com/projects/airbnb",
-    "ttfb": 521,
-    "domInteractive": 1184,
-    "fcp": 1572,
-    "lcp": 1572,
+    "ttfb": 486,
+    "domInteractive": 1094,
+    "fcp": 920,
+    "lcp": 1080,
     "lcpElement": "H2.text-2xl font-extrabold tracking-ti",
     "lcpText": "Problem: Real constraints vs. synthetic baselines",
     "cls": 0
