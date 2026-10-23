@@ -14,9 +14,21 @@ import { PageShell } from "@/components/site/page-shell";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectCard } from "@/components/site/project-card";
 import { RoleRotator } from "@/components/site/role-rotator";
-import { CountUp } from "@/components/site/count-up";
+import dynamic from "next/dynamic";
+
+const CountUp = dynamic(() => import("@/components/site/count-up").then((m) => m.CountUp));
 import { CopyEmail } from "@/components/site/copy-email";
-import { RocPanel } from "@/components/site/roc-panel";
+const RocPanel = dynamic(
+  () => import("@/components/site/roc-panel").then((m) => m.RocPanel),
+  {
+    loading: () => (
+      <div
+        className="w-full max-w-lg min-h-[792px] lg:min-h-[868px] rounded-2xl border bg-card/60 shadow-xl shadow-primary/5"
+        aria-hidden="true"
+      />
+    ),
+  }
+);
 import { HeroRocBg } from "@/components/site/hero-roc-bg";
 import { HERO, PROJECTS, SITE, STATS } from "@/lib/portfolio";
 

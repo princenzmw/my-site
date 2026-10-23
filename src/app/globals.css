@@ -201,7 +201,13 @@
       linear-gradient(to right, var(--border) 1px, transparent 1px),
       linear-gradient(to bottom, var(--border) 1px, transparent 1px);
     background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 30%, transparent 75%);
+    opacity: 0.35;
+  }
+  @media (min-width: 640px) {
+    .bg-grid {
+      opacity: 1;
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 30%, transparent 75%);
+    }
   }
   .bg-glow {
     background:

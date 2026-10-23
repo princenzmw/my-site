@@ -10,7 +10,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/site/page-shell";
-import { CaseStudyScrolly } from "@/components/site/case-study-scrolly";
+import dynamic from "next/dynamic";
+
+const CaseStudyScrolly = dynamic(
+  () => import("@/components/site/case-study-scrolly").then((m) => m.CaseStudyScrolly),
+  {
+    loading: () => (
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 min-h-[1200px]" aria-hidden="true" />
+    ),
+  }
+);
 import { PROJECTS, SITE } from "@/lib/portfolio";
 
 /** Static export: the four case studies are generated at build time, nothing else. */

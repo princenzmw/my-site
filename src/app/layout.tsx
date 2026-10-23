@@ -142,14 +142,12 @@ export default function RootLayout({
             script.js finishes loading. Raw defer tag (not next/script) so it
             ships in the static HTML. */}
         <script
-          dangerouslySetInnerHTML={{
-            __html: "window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}",
-          }}
-        />
-        <script
-          defer
           data-domain="nzamuwe.com"
-          src="https://plausible.io/js/script.js"
+          dangerouslySetInnerHTML={{
+            __html:
+              "window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};" +
+              "window.addEventListener('load',function(){var s=document.createElement('script');s.src='https://plausible.io/js/script.js';s.defer=true;s.setAttribute('data-domain','nzamuwe.com');document.head.appendChild(s);});",
+          }}
         />
         <script
           type="application/ld+json"
