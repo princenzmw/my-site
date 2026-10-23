@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* =========================== STAT BAND ============================ */}
-      <section aria-label="Key results from the repositories" className="border-b bg-muted/40">
+      <section aria-label="Key results from the repositories" className="cv-auto border-b bg-muted/40">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <a

@@ -24,7 +24,7 @@ if (!fs.existsSync(OUT_DIR)) {
 }
 
 const htmlFiles = getHtmlFiles(OUT_DIR);
-console.log(`Found ${htmlFiles.length} HTML files to optimize script loading...`);
+console.log(`Found ${htmlFiles.length} HTML files to optimize...`);
 
 let optimizedCount = 0;
 for (const file of htmlFiles) {
@@ -33,10 +33,28 @@ for (const file of htmlFiles) {
   if (headEnd === -1) continue;
 
   const headContent = html.slice(0, headEnd);
-  const scriptsMatch = headContent.match(/<script src="\/_next\/static\/chunks\/[^"]+" async=""><\/script>/g);
+  let newHead = headContent;
 
+  // 1. Inline critical CSS to eliminate 100% of stylesheet network round-trip & contention
+  const cssMatch = headContent.match(/<link rel="stylesheet" href="(\/_next\/static\/chunks\/[^"]+\.css)" data-precedence="next"\/?>/);
+  if (cssMatch) {
+    const cssRelPath = cssMatch[1];
+    const cssFullPath = path.join(OUT_DIR, cssRelPath);
+    if (fs.existsSync(cssFullPath)) {
+      let cssContent = fs.readFileSync(cssFullPath, "utf8");
+      // Fix relative paths: when inlined into HTML at any depth (/ or /projects/credio),
+      // relative paths like ../media/ must resolve to absolute /_next/static/media/
+      cssContent = cssContent.replace(/url\(\.\.\/media\//g, "url(/_next/static/media/");
+      newHead = newHead.replace(
+        cssMatch[0],
+        `<style data-precedence="next">${cssContent}</style>`
+      );
+    }
+  }
+
+  // 2. Extract client chunks from <head> and inject via low-priority ordered loader at end of <body>
+  const scriptsMatch = headContent.match(/<script src="\/_next\/static\/chunks\/[^"]+" async=""><\/script>/g);
   if (scriptsMatch && scriptsMatch.length > 0) {
-    let newHead = headContent;
     for (const s of scriptsMatch) {
       newHead = newHead.replace(s, "");
     }
@@ -63,10 +81,12 @@ for (const file of htmlFiles) {
 
     html = newHead + html.slice(headEnd);
     html = html.replace("</body>", `${loaderScript}</body>`);
-
-    fs.writeFileSync(file, html, "utf8");
-    optimizedCount++;
+  } else {
+    html = newHead + html.slice(headEnd);
   }
+
+  fs.writeFileSync(file, html, "utf8");
+  optimizedCount++;
 }
 
-console.log(`Successfully optimized script loading across ${optimizedCount} prerendered pages!`);
+console.log(`Successfully optimized CSS inlining & script loading across ${optimizedCount} prerendered pages!`);

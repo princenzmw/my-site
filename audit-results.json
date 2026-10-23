@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T06:14:10.230Z",
+  "generatedAt": "2026-10-23T19:04:25.475Z",
   "target": "https://nzamuwe.com",
   "scoringContract": "8.0+ = meets written acceptance criteria WITH evidence; <8.0 = fix + re-run; unverified = evidence unavailable",
   "flags": {
@@ -198,7 +198,7 @@
       "evidence": [
         "Plausible loaded for the real domain on every page: true",
         "window.plausible queue shim (works before script loads): true",
-        "data-pla event hooks: 16 on home, 51 across 10 pages (resume downloads, hire-me, copy-email, code/demo/case-study links…)"
+        "data-pla event hooks: 20 on home, 55 across 10 pages (resume downloads, hire-me, copy-email, code/demo/case-study links…)"
       ],
       "blocker": null
     },
@@ -471,7 +471,7 @@
       "name": "All internal links resolve (crawl of every prerendered page)",
       "status": "pass",
       "evidence": [
-        "10 pages crawled · 222 hrefs scanned",
+        "10 pages crawled · 212 hrefs scanned",
         "0 broken internal links",
         "out/ cross-checked: /resume.pdf, /og-image.png, /favicon.png all ship in the build"
       ],
