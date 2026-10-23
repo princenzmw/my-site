@@ -4,7 +4,7 @@ export function HeroRocBg() {
       aria-hidden="true"
       viewBox="0 0 220 190"
       preserveAspectRatio="xMidYMid slice"
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.12]"
+      className="pointer-events-none absolute inset-0 hidden sm:block h-full w-full opacity-[0.12]"
     >
       <defs>
         <linearGradient id="roc-bg-stroke" x1="0" y1="0" x2="1" y2="0">

@@ -41,12 +41,28 @@ for (const file of htmlFiles) {
       newHead = newHead.replace(s, "");
     }
 
-    const modifiedScripts = scriptsMatch
-      .map((s) => s.replace('async=""', 'defer="" fetchpriority="low"'))
-      .join("");
+    const scriptUrls = scriptsMatch
+      .map((s) => {
+        const m = s.match(/src="([^"]+)"/);
+        return m ? m[1] : null;
+      })
+      .filter(Boolean);
+
+    const loaderScript = `<script id="__next_deferred_loader">
+(function(){
+  var urls = ${JSON.stringify(scriptUrls)};
+  for(var i=0; i<urls.length; i++){
+    var s = document.createElement("script");
+    s.src = urls[i];
+    s.async = false;
+    s.fetchPriority = "low";
+    document.body.appendChild(s);
+  }
+})();
+</script>`;
 
     html = newHead + html.slice(headEnd);
-    html = html.replace("</body>", `${modifiedScripts}</body>`);
+    html = html.replace("</body>", `${loaderScript}</body>`);
 
     fs.writeFileSync(file, html, "utf8");
     optimizedCount++;
