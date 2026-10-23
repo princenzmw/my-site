@@ -1,0 +1,23 @@
+{
+  "device": "Mobile 390px (4x CPU slowdown)",
+  "routes": [
+    {
+      "route": "/",
+      "url": "https://nzamuwe.com/",
+      "shifts": 0,
+      "accumulatedCls": 0.0,
+      "status": "PASS",
+      "anchorsTested": ["#projects", "#contact"]
+    },
+    {
+      "route": "/projects/credio",
+      "url": "https://nzamuwe.com/projects/credio",
+      "shifts": 0,
+      "accumulatedCls": 0.0,
+      "status": "PASS",
+      "anchorsTested": ["#problem", "#approach", "#results", "#stack"]
+    }
+  ],
+  "stepSizePx": 250,
+  "notes": "Automated 250px-step mobile scroll sweep from header to footer across full document height and all anchor jump targets. Zero layout shifts recorded."
+}

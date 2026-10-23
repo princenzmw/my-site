@@ -1,0 +1,172 @@
+[
+  {
+    "route": "Home (/)",
+    "url": "https://nzamuwe.com/",
+    "cdp": {
+      "ttfb": 364,
+      "fcp": 1860,
+      "lcp": 1860,
+      "elementTag": "P",
+      "elementClass": "mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg",
+      "elementText": "Third-year BSc Data Science & Analytics student at USIU-Africa (expected 2028), ",
+      "size": 54058,
+      "candidateCount": 1,
+      "allCandidates": [
+        {
+          "startTime": 1860,
+          "renderTime": 1860,
+          "loadTime": 0,
+          "size": 54058,
+          "id": "",
+          "url": "",
+          "elementTag": "P",
+          "elementClass": "mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg",
+          "elementText": "Third-year BSc Data Science & Analytics student at USIU-Africa (expected 2028), trained through ALX "
+        }
+      ]
+    },
+    "lighthouse": {
+      "score": 63,
+      "fcp": 3443,
+      "lcp": 3443,
+      "cls": 0,
+      "tbt": 817
+    }
+  },
+  {
+    "route": "Credio (/projects/credio)",
+    "url": "https://nzamuwe.com/projects/credio",
+    "cdp": {
+      "ttfb": 353,
+      "fcp": 1368,
+      "lcp": 1368,
+      "elementTag": "H1",
+      "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+      "elementText": "Credio: Credit-Risk Scorecard",
+      "size": 19710,
+      "candidateCount": 1,
+      "allCandidates": [
+        {
+          "startTime": 1368,
+          "renderTime": 1368,
+          "loadTime": 0,
+          "size": 19710,
+          "id": "project-heading",
+          "url": "",
+          "elementTag": "H1",
+          "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+          "elementText": "Credio: Credit-Risk Scorecard"
+        }
+      ]
+    },
+    "lighthouse": {
+      "score": 88,
+      "fcp": 2720,
+      "lcp": 2720,
+      "cls": 0,
+      "tbt": 221
+    }
+  },
+  {
+    "route": "FinAccess (/projects/finaccess)",
+    "url": "https://nzamuwe.com/projects/finaccess",
+    "cdp": {
+      "ttfb": 411,
+      "fcp": 1448,
+      "lcp": 1448,
+      "elementTag": "H1",
+      "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+      "elementText": "FinAccess Kenya: Financial Inclusion Dashboard",
+      "size": 27577,
+      "candidateCount": 1,
+      "allCandidates": [
+        {
+          "startTime": 1448,
+          "renderTime": 1448,
+          "loadTime": 0,
+          "size": 27577,
+          "id": "project-heading",
+          "url": "",
+          "elementTag": "H1",
+          "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+          "elementText": "FinAccess Kenya: Financial Inclusion Dashboard"
+        }
+      ]
+    },
+    "lighthouse": {
+      "score": 90,
+      "fcp": 2583,
+      "lcp": 2583,
+      "cls": 0,
+      "tbt": 208
+    }
+  },
+  {
+    "route": "DukaPulse (/projects/dukapulse)",
+    "url": "https://nzamuwe.com/projects/dukapulse",
+    "cdp": {
+      "ttfb": 361,
+      "fcp": 1320,
+      "lcp": 1320,
+      "elementTag": "H1",
+      "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+      "elementText": "DukaPulse: Stock & Sales App for Small Shops",
+      "size": 25826,
+      "candidateCount": 1,
+      "allCandidates": [
+        {
+          "startTime": 1320,
+          "renderTime": 1320,
+          "loadTime": 0,
+          "size": 25826,
+          "id": "project-heading",
+          "url": "",
+          "elementTag": "H1",
+          "elementClass": "mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl",
+          "elementText": "DukaPulse: Stock & Sales App for Small Shops"
+        }
+      ]
+    },
+    "lighthouse": {
+      "score": 89,
+      "fcp": 2818,
+      "lcp": 2818,
+      "cls": 0,
+      "tbt": 172
+    }
+  },
+  {
+    "route": "AirBnB (/projects/airbnb)",
+    "url": "https://nzamuwe.com/projects/airbnb",
+    "cdp": {
+      "ttfb": 388,
+      "fcp": 1440,
+      "lcp": 1440,
+      "elementTag": "H2",
+      "elementClass": "text-2xl font-extrabold tracking-tight sm:text-3xl",
+      "elementText": "Problem: Real constraints vs. synthetic baselines",
+      "size": 17670,
+      "candidateCount": 1,
+      "allCandidates": [
+        {
+          "startTime": 1440,
+          "renderTime": 1440,
+          "loadTime": 0,
+          "size": 17670,
+          "id": "",
+          "url": "",
+          "elementTag": "H2",
+          "elementClass": "text-2xl font-extrabold tracking-tight sm:text-3xl",
+          "elementText": "Problem: Real constraints vs. synthetic baselines"
+        }
+      ]
+    },
+    "lighthouse": {
+      "score": 88,
+      "fcp": 2665,
+      "lcp": 2748,
+      "cls": 0,
+      "tbt": 217
+    }
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Home",
+    "url": "https://nzamuwe.com/",
+    "score": 73,
+    "fcp": 2558,
+    "lcp": 2558,
+    "tbt": 872,
+    "cls": 0,
+    "lcpElement": ""
+  },
+  {
+    "name": "Credio",
+    "url": "https://nzamuwe.com/projects/credio",
+    "score": 85,
+    "fcp": 2318,
+    "lcp": 2318,
+    "tbt": 420,
+    "cls": 0,
+    "lcpElement": ""
+  },
+  {
+    "name": "FinAccess",
+    "url": "https://nzamuwe.com/projects/finaccess",
+    "score": 86,
+    "fcp": 2228,
+    "lcp": 2228,
+    "tbt": 402,
+    "cls": 0,
+    "lcpElement": ""
+  },
+  {
+    "name": "DukaPulse",
+    "url": "https://nzamuwe.com/projects/dukapulse",
+    "score": 85,
+    "fcp": 2294,
+    "lcp": 2294,
+    "tbt": 439,
+    "cls": 0,
+    "lcpElement": ""
+  },
+  {
+    "name": "AirBnB",
+    "url": "https://nzamuwe.com/projects/airbnb",
+    "score": 85,
+    "fcp": 2266,
+    "lcp": 2583,
+    "tbt": 377,
+    "cls": 0,
+    "lcpElement": ""
+  }
+]
