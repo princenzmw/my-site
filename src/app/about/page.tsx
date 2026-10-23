@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   description:
     "Who Prince Nzamuwe is: a Nairobi-based data science student who ships tested, documented projects. Training at Andela's ATLP, Ida Technology, and ALX.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About | Prince Nzamuwe",
+    description:
+      "Who Prince Nzamuwe is: a Nairobi-based data science student who ships tested, documented projects. Training at Andela's ATLP, Ida Technology, and ALX.",
+    url: "/about",
+  },
+  twitter: {
+    title: "About | Prince Nzamuwe",
+    description:
+      "Who Prince Nzamuwe is: a Nairobi-based data science student who ships tested, documented projects.",
+  },
 };
 
 export default function AboutPage() {

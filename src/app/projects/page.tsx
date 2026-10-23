@@ -12,6 +12,17 @@ export const metadata: Metadata = {
   description:
     "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse (in development), and an AirBnB clone across four public iterations.",
   alternates: { canonical: "/projects" },
+  openGraph: {
+    title: "Projects | Prince Nzamuwe",
+    description:
+      "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse (in development), and an AirBnB clone.",
+    url: "/projects",
+  },
+  twitter: {
+    title: "Projects | Prince Nzamuwe",
+    description:
+      "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse, and an AirBnB clone.",
+  },
 };
 
 export default function ProjectsPage() {
@@ -91,6 +102,9 @@ export default function ProjectsPage() {
               <a href="https://credio.streamlit.app/" target="_blank" rel="noopener noreferrer" data-pla="index-demo-credio">
                 <ExternalLink className="h-4 w-4" aria-hidden />
                 Try Credio live
+                <span className="ml-1.5 text-xs font-normal text-muted-foreground">
+                  (first load wakes the app, ~30s)
+                </span>
               </a>
             </Button>
           </div>

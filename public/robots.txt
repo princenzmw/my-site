@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+# Builder login must not be indexed (closes audit issue M3).
+# Must live INSIDE the * group — a Disallow after the last User-agent block
+# attaches to that group only (was ClaudeBot-only; Google/GPTBot saw no block).
+Disallow: /auth
 
 # AI answer engines (optional but recommended for a job-seeking portfolio)
 User-agent: GPTBot
@@ -10,8 +14,5 @@ Allow: /
 
 User-agent: ClaudeBot
 Allow: /
-
-# Builder login must not be indexed (closes audit issue M3)
-Disallow: /auth
 
 Sitemap: https://nzamuwe.com/sitemap.xml
