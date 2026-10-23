@@ -1,0 +1,279 @@
+{
+  "url": "https://nzamuwe.com/projects/credio",
+  "totalClickEvents": 38,
+  "p50_ms": 40,
+  "p90_ms": 72,
+  "p98_ms": 72,
+  "max_ms": 72,
+  "gateStatus": "PASS",
+  "durations": [
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    32,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    48,
+    48,
+    48,
+    48,
+    56,
+    56,
+    64,
+    64,
+    72,
+    72,
+    72,
+    72
+  ],
+  "allEvents": [
+    {
+      "name": "pointerup",
+      "duration": 72,
+      "processing": 0,
+      "delay": 6
+    },
+    {
+      "name": "click",
+      "duration": 72,
+      "processing": 0,
+      "delay": 7
+    },
+    {
+      "name": "pointerup",
+      "duration": 72,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 72,
+      "processing": 3,
+      "delay": 1
+    },
+    {
+      "name": "pointerup",
+      "duration": 64,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 64,
+      "processing": 12,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 40,
+      "processing": 1,
+      "delay": 11
+    },
+    {
+      "name": "click",
+      "duration": 40,
+      "processing": 4,
+      "delay": 12
+    },
+    {
+      "name": "pointerup",
+      "duration": 56,
+      "processing": 1,
+      "delay": 24
+    },
+    {
+      "name": "click",
+      "duration": 56,
+      "processing": 2,
+      "delay": 25
+    },
+    {
+      "name": "pointerup",
+      "duration": 48,
+      "processing": 1,
+      "delay": 24
+    },
+    {
+      "name": "click",
+      "duration": 48,
+      "processing": 3,
+      "delay": 25
+    },
+    {
+      "name": "pointerup",
+      "duration": 48,
+      "processing": 1,
+      "delay": 20
+    },
+    {
+      "name": "click",
+      "duration": 48,
+      "processing": 3,
+      "delay": 21
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 2,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 2,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 0,
+      "delay": 3
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 3,
+      "delay": 3
+    },
+    {
+      "name": "pointerup",
+      "duration": 40,
+      "processing": 0,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 40,
+      "processing": 2,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 40,
+      "processing": 0,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 40,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 0,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 3,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 40,
+      "processing": 0,
+      "delay": 2
+    },
+    {
+      "name": "click",
+      "duration": 40,
+      "processing": 3,
+      "delay": 3
+    },
+    {
+      "name": "pointerup",
+      "duration": 40,
+      "processing": 1,
+      "delay": 9
+    },
+    {
+      "name": "click",
+      "duration": 40,
+      "processing": 2,
+      "delay": 9
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 0,
+      "delay": 2
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 1,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 1,
+      "delay": 5
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 1,
+      "delay": 6
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 1,
+      "delay": 1
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 2,
+      "delay": 2
+    },
+    {
+      "name": "pointerup",
+      "duration": 32,
+      "processing": 0,
+      "delay": 3
+    },
+    {
+      "name": "click",
+      "duration": 32,
+      "processing": 2,
+      "delay": 3
+    }
+  ]
+}

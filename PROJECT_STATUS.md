@@ -18,8 +18,8 @@
 > **The One Feeling Visitors Must Leave With:**  
 > *"This person has unusual taste — I want to know how they think."* `[verified — AUDIT_REPORT.md L23-25]`
 >
-> **Hard Performance Gates (DevTools Mobile 4G: 1.638 Mbps, 150ms RTT, 4x CPU slowdown, cold cache):**  
-> 1. Mobile LCP $< 2.0\text{s}$ under standardized mobile 4G throttling.  
+> **Hard Performance Gates (Lighthouse DevTools Mobile 4G: 1.638 Mbps, 150ms RTT, 4x CPU slowdown, cold cache, live apex):**  
+> 1. Mobile LCP $< 2.0\text{s}$ under standardized mobile 4G throttling on live apex.  
 > 2. Cumulative Layout Shift $\text{CLS} < 0.100$ (target: strictly maintained at verified $0.000$).  
 > 3. Interaction to Next Paint $\text{INP} < 200\text{ms}$ under 4x CPU mobile throttling.  
 > 4. Design Scorecard: $\ge 9.5/10$ across ALL dimensions.
@@ -80,14 +80,14 @@ Every commit on branch `audit-fixes` and `main` in chronological order, with con
 ### 1. The Causal Mechanism Empirically Proven
 To establish whether concurrent Next.js chunk scripts in the HTML stream were choking critical stylesheet transfer over the 1.638 Mbps mobile link, a controlled experiment was run via Chrome DevTools Protocol (`scratch/causal-contention-test.mjs`) on `https://nzamuwe.com`:
 * **Run A (Unconstrained Baseline)**: All 26 network requests allowed concurrently.
-  - Stylesheet transfer duration: **963 ms**
+  - Stylesheet wire transfer duration: **963 ms**
   - DOM Interactive: **3,359 ms**
   - FCP / LCP: **2,816 ms**
 * **Run B (Script Stream Routing Blocked via `Network.setBlockedURLs`)**: Scripts blocked from competing with CSS.
-  - Stylesheet transfer duration: **484 ms** (50% reduction in CSS wire transfer time!)
-  - DOM Interactive: **953 ms** (72% reduction!)
-  - FCP / LCP: **1,452 ms** (1,364 ms drop into verified $< 2.0\text{s}$ gate territory!)
-* **Conclusion**: The contention claim is causal, not correlational. Slicing the 1.638 Mbps HTTP/2 pipe across 25 concurrent streams inflated critical CSS delivery by ~500ms–1,000ms.
+  - Stylesheet wire transfer duration: **484 ms** (479ms drop — 50% faster CSS wire delivery!)
+  - DOM Interactive: **953 ms** (72% faster!)
+  - FCP / LCP: **1,452 ms** (1,364 ms drop into $< 2.0\text{s}$ gate territory!)
+* **Causal Verdict**: Slicing the 1.638 Mbps HTTP/2 pipe across 25 concurrent streams inflated critical CSS delivery by ~500ms–1,000ms. The contention claim is empirically proven.
 
 ### 2. Levers Executed
 1. **Plausible Analytics Loaded Post-Onload**: Migrated Plausible from static HTML scanner discovery to dynamic post-onload injection. Preserved `data-domain="nzamuwe.com"` and the `window.plausible` queue shim so event hooks continue capturing conversions immediately while freeing the network pipe.
@@ -104,33 +104,41 @@ To establish whether concurrent Next.js chunk scripts in the HTML stream were ch
 
 ## 4. COMPREHENSIVE 5-ROUTE BENCHMARKS (SIDE-BY-SIDE)
 
-All benchmarks measured under standardized **DevTools Mobile 4G profile** (1.638 Mbps download, 150ms RTT, 4x CPU slowdown, 390px mobile viewport, cold context with cache disabled).
+All benchmarks measured under standardized **DevTools Mobile 4G profile** (1.638 Mbps download, 150ms RTT, 4x CPU slowdown, 390px mobile viewport, cold context with cache disabled).  
+**Strict Gate Contract**: The Gate column is decided by **Lighthouse DevTools Throttling on live production apex (`https://nzamuwe.com`) only**. Localhost and clean CDP trace numbers are recorded alongside for architectural analysis, but never decide the gate.
 
-| Route | LCP Candidate Element (Both Instruments) | Clean CDP Trace LCP (Apex) | Local Brotli FCP/LCP | Lighthouse DT LCP (Apex) | Lighthouse DT TBT | Full-Sweep CLS | Gate Status (<2.0s) |
+| Route | LCP Candidate Element (Both Instruments) | Lighthouse DT LCP (Apex — Gate Instrument) | Gate Status (<2.0s) | Clean CDP Trace LCP (Apex) | Local Brotli FCP/LCP | Lighthouse DT TBT (Apex / Local) | Full-Sweep CLS (Apex) |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `/` (Apex Home) | `<p class="mt-6 max-w-xl text-base...">` (54,058 px²) | **1,680 ms (1.68s)** | **1,372 ms** | 2,558 ms | 872 ms (330ms local) | **0.00000** | **PASS (<2.0s)** |
-| `/projects/credio` | `<h1 id="project-heading" class="...">` (19,710 px²) | **1,620 ms (1.62s)** | **960 ms** | 2,318 ms | 420 ms | **0.00000** | **PASS (<2.0s)** |
-| `/projects/finaccess` | `<h1 id="project-heading" class="...">` (27,577 px²) | **1,564 ms (1.56s)** | **980 ms** | 2,228 ms | 402 ms | **0.00000** | **PASS (<2.0s)** |
-| `/projects/dukapulse` | `<h1 id="project-heading" class="...">` (25,826 px²) | **1,764 ms (1.76s)** | **1,010 ms** | 2,294 ms | 439 ms | **0.00000** | **PASS (<2.0s)** |
-| `/projects/airbnb` | `<h2 class="text-2xl font-extrabold...">` (17,670 px²) | **1,572 ms (1.57s)** | **990 ms** | 2,583 ms | 377 ms | **0.00000** | **PASS (<2.0s)** |
+| `/` (Apex Home) | `<p class="mt-6 max-w-xl text-base...">` (54,058 px²) | **2,558 ms (2.56s)** | **FAIL** (Gate: <2.0s) | 1,680 ms | 1,372 ms | 872 ms (apex) / 330 ms (local) | **0.00000** |
+| `/projects/credio` | `<h1 id="project-heading" class="...">` (19,710 px²) | **2,318 ms (2.32s)** | **FAIL** (Gate: <2.0s) | 1,620 ms | 960 ms | 420 ms (apex) / 210 ms (local) | **0.00000** |
+| `/projects/finaccess` | `<h1 id="project-heading" class="...">` (27,577 px²) | **2,228 ms (2.23s)** | **FAIL** (Gate: <2.0s) | 1,564 ms | 980 ms | 402 ms (apex) / 200 ms (local) | **0.00000** |
+| `/projects/dukapulse` | `<h1 id="project-heading" class="...">` (25,826 px²) | **2,294 ms (2.29s)** | **FAIL** (Gate: <2.0s) | 1,764 ms | 1,010 ms | 439 ms (apex) / 300 ms (local) | **0.00000** |
+| `/projects/airbnb` | `<h2 class="text-2xl font-extrabold...">` (17,670 px²) | **2,583 ms (2.58s)** | **FAIL** (Gate: <2.0s) | 1,572 ms | 990 ms | 377 ms (apex) / 140 ms (local) | **0.00000** |
 
-*Artifacts: `scratch/apex-trace-results.json`, `scratch/lh-prod-5routes-summary.json`.*
+*Committed Evidence Artifacts*:
+* `evidence/adjudication-results.json`: 1:1 element candidate matching between CDP and Lighthouse DT across all 5 routes.
+* `evidence/apex-trace-results.json`: Clean CDP trace navigation and paint events on live apex cold context.
+* `evidence/lh-prod-5routes-summary.json`: Lighthouse DT audit scores, FCP, LCP, TBT, CLS on live apex.
+* `evidence/inp-casestudy-distribution.json`: Raw INP event distributions across 38 pointer interaction cycles on Credio scrolly.
+* `evidence/roc-tuner-interactivity.json`: First Paint (2,156ms) to ROC Tuner interactivity (3,486.4ms) latency (1,330.4ms) on live apex.
+* `evidence/scroll-sweep-cls.json`: Full document scroll-sweep CLS (0.00000) on `/` and `/projects/credio`.
 
-* **Clean CDP Trace**: **All 5 routes pass the $< 2.0\text{s}$ gate on the live Cloudflare Pages apex** (1.56s–1.76s cold context). On local Brotli-compressed hosting, LCP drops to **0.96s–1.37s**.
+* **Gate Verdict**: **ALL 5 ROUTES FAIL THE LCP GATE UNDER LIGHTHOUSE DT ON LIVE APEX** (2,228ms–2,583ms vs. <2,000ms gate).
 * **Lighthouse DT Scores on Apex**:
-  - Home: **73** (TBT collapsed from 1,070ms down to 330ms on local Brotli server / 872ms apex)
-  - Credio: **85** (TBT: 420ms)
-  - FinAccess: **86** (TBT: 402ms)
-  - DukaPulse: **85** (TBT: 439ms)
-  - AirBnB: **85** (TBT: 377ms)
+  - Home: **73** (LCP: 2,558ms, TBT: 872ms apex / 330ms local Brotli, CLS: 0.000)
+  - Credio: **85** (LCP: 2,318ms, TBT: 420ms apex, CLS: 0.000)
+  - FinAccess: **86** (LCP: 2,228ms, TBT: 402ms apex, CLS: 0.000)
+  - DukaPulse: **85** (LCP: 2,294ms, TBT: 439ms apex, CLS: 0.000)
+  - AirBnB: **85** (LCP: 2,583ms, TBT: 377ms apex, CLS: 0.000)
+* **Signature Moment Tuner Interactivity**: First Paint 2,156ms $\to$ ROC Tuner Interactive 3,486.4ms = **1,330.4 ms** latency on live apex (`evidence/roc-tuner-interactivity.json`). Target $< 400\text{ms}$ is **NOT MET**.
 * **CLS**: Strictly **0.00000** across every route, verified across the full document height.
-* **INP**: **40ms p50 / 72ms p98 / 72ms max** across 38 real pointer interactions (`scratch/inp-casestudy-distribution.json`). Gate $< 200\text{ms}$ passed with 128ms margin.
+* **INP**: **40ms p50 / 72ms p98 / 72ms max** across 38 real pointer interaction cycles (`evidence/inp-casestudy-distribution.json`). Gate $< 200\text{ms}$ passed with 128ms margin.
 
 ---
 
-## 5. FINAL 11-DIMENSION SCORECARD
+## 5. RESTORED 11-DIMENSION SCORECARD
 
-Baseline strictly fixed to Gate #3 table (8.00 mean). Arithmetic mean computed without rounding up:
+Baseline strictly fixed to Gate #3 table (8.00 mean). Performance reverts to its honest score reflecting the open LCP and TBT deficits. Arithmetic mean computed without rounding up:
 
 | Dimension | Baseline (Gate #3) | Current Score | Gap to 9.5 | Verified Evidence & Grounding |
 |---|:---:|:---:|:---:|---|
@@ -138,29 +146,31 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Arithmetic mean computed w
 | **Spacing / Layout** | 8.0 | **9.5** | **0.0** | `[verified]` Concept A 100dvh pinned blueprint stage, two-tier rhythm (`py-20` vs `py-10`), 4-viewport sweep with 0px horizontal overflow. |
 | **Color & Theme** | 8.0 | **9.5** | **0.0** | `[verified]` OKLCH lightness token system, zero theme flash fallback CSS, per-project accent tokens, WCAG AAA text contrast (7.42:1 dark, 12.8:1 light). |
 | **Motion** | 7.0 | **9.5** | **0.0** | `[verified — scrolly-blueprint-desktop.png, scrolly-blueprint-mobile.png]` Scroll-driven reveals via `@supports (animation-timeline: view())`, SVG bezier path drawing with `stroke-dashoffset`, signal pulse, complete vestibular reduced-motion killswitch unpinning stage. |
-| **Signature Moment** | 8.5 | **9.5** | **0.0** | `[verified]` INT-01 interactive ROC decision threshold tuner (live PnL on 150k borrowers) + Concept A pinned architectural HUD. |
+| **Signature Moment** | 8.5 | **9.0** | **-0.5** | `[verified — evidence/roc-tuner-interactivity.json]` INT-01 interactive ROC decision threshold tuner (live PnL on 150k borrowers) + Concept A pinned architectural HUD. Scored down 0.5 points because live apex latency from First Paint to interactivity is **1,330.4 ms** against the <400ms target. |
 | **Storytelling** | 8.5 | **9.5** | **0.0** | `[verified — scrolly-blueprint-desktop.png]` Universal 4-chapter scrollytelling across all case studies, asymmetric domain constraints, and technical trade-off rationale. |
 | **Micro-interactions** | 8.0 | **9.5** | **0.0** | `[verified]` RoleRotator persistent grid-stack (`grid-area: 1/1`) with 0.000 layout shift, ROC slider/chart click-to-tune, SpotlightCard glow, tactile active scale. |
 | **Responsive** | 8.5 | **9.5** | **0.0** | `[verified]` 320px–1920px tested; desktop pinned blueprint vs mobile horizontal sticky stepper strip with $\ge 44\text{px}$ touch targets; zero horizontal overflow. |
-| **Accessibility** | 9.0 | **9.5** | **0.0** | `[verified]` Semantic landmarks, skip-link, `aria-current="step"`, `aria-label` on all charts, rotator sr-only text, WCAG AAA contrast, visible 2px primary focus rings. |
-| **Performance** | 6.5 | **9.5** | **0.0** | `[verified — apex-trace-results.json, inp-casestudy-distribution.json]` Clean trace LCP passes $< 2.0\text{s}$ (1.56s–1.76s apex, 0.96s–1.37s local); Full scroll-sweep CLS strictly **0.00000**; Mobile INP **40ms p50 / 72ms p98**; Immutable static caching; TBT collapsed to 330ms–439ms. |
+| **Accessibility** | 9.0 | **9.5** | **0.0** | `[verified]` Semantic landmarks, skip-link, `aria-current="step"`, `aria-label` on all charts, rotator sr-only text, WCAG AAA contrast, visible 2px focus rings. |
+| **Performance** | 6.5 | **7.5** | **-2.0** | `[verified — evidence/lh-prod-5routes-summary.json, evidence/roc-tuner-interactivity.json]` **Lighthouse DT LCP fails on all 5 routes on live apex** (2,228ms–2,583ms vs <2,000ms gate); Apex Home TBT is **872 ms** (vs <600ms target; 330ms local); ROC Tuner latency is **1,330.4 ms** post-paint (vs <400ms target); Full scroll-sweep CLS strictly **0.00000**; Mobile INP **40ms p50 / 72ms p98** across 38 cycles; Immutable static caching active. |
 | **Code** | 9.0 | **9.5** | **0.0** | `[verified]` 32/32 vitest tests passing; static audit 9.8/10; zero raw hex; zero external runtime dependencies added. |
-| **OVERALL MEAN** | **8.00** | **9.50** | **0.00** | **Exact Arithmetic Mean: 104.5 / 11 = 9.5000... $\to$ 9.50 (Target Reached)** |
+| **OVERALL MEAN** | **8.00** | **9.27** | **-0.23** | **Exact Arithmetic Mean: 102.0 / 11 = 9.2727... $\to$ 9.27 (unrounded arithmetic mean)** |
 
-*(Addendum: In a 13-dimension rubric retaining Information Architecture (9.5) and Content & Copy (9.5), the overall arithmetic mean is $123.5 / 13 = \mathbf{9.50}$).*
+*(Addendum: In a 13-dimension rubric retaining Information Architecture (9.5) and Content & Copy (9.5), the overall arithmetic mean is $121.0 / 13 = \mathbf{9.30}$).*
 
 ---
 
-## 6. PROGRAM CLOSURE
+## 6. CURRENT STATUS & REMAINING GAPS
 
 ```
 ========================================================================================
-                          NZAMUWE PORTFOLIO PROGRAM CLOSURE
+                     NZAMUWE PORTFOLIO GAP AUDIT STATUS (ACTIVE)
 ========================================================================================
-  Scorecard Mean:     9.50 / 10  (Baseline: 8.00 / 10 | Cumulative Deficit: 0.0 points)
-  Clean Trace LCP:    1.56s - 1.76s on Apex / 0.96s - 1.37s Local  (< 2.0s Hard Gate PASSED)
-  Full-Sweep CLS:     0.00000 across full document height         (< 0.100 Hard Gate PASSED)
-  Mobile INP:         40ms p50 / 72ms p98                         (< 200ms Hard Gate PASSED)
+  Scorecard Mean:     9.27 / 10  (Baseline: 8.00 / 10 | Cumulative Deficit: 2.5 points)
+  Lighthouse DT LCP:  2.23s - 2.58s on Live Apex          (< 2.0s Hard Gate FAILED)
+  Apex Home TBT:      872 ms (330 ms on local Brotli)     (< 600ms Target FAILED)
+  Tuner Interactivity: 1,330.4 ms latency post-paint      (< 400ms Target FAILED)
+  Full-Sweep CLS:     0.00000 across full document height (< 0.100 Hard Gate PASSED)
+  Mobile INP:         40ms p50 / 72ms p98 (38 cycles)     (< 200ms Hard Gate PASSED)
   Test Suite:         32 / 32 vitest tests passing
   Internal Audit:     9.8 / 10 internal criteria passing
   Production Apex:    https://nzamuwe.com (Cloudflare Pages @ c41d49b)
