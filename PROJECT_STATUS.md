@@ -3,7 +3,7 @@
 **Document**: `PROJECT_STATUS.md`  
 **Date**: 2026-10-23  
 **Target Repository**: `d:\Clones\Transit\nzamuwe-rebuild`  
-**Current Branch**: `audit-fixes` (head `b307150` / deployed `99f2242`)  
+**Current Branch**: `audit-fixes` (head `b307150` / deployed `6a6defb`)  
 **Author**: Technical Lead / Systems Architect  
 
 ---
@@ -167,26 +167,13 @@ Deep trace analysis using Chrome DevTools Protocol under 1.638 Mbps / 150ms RTT 
 ### Environment A: Local Build (`http://localhost:55423` — Brotli Compressed)
 *Run via `scratch/run-5route-benchmarks.mjs` against fresh build `b307150`.*
 
-| Route | Sim Score | Sim FCP | Sim LCP | Sim CLS | DT Score | DT FCP | DT LCP | DT CLS | DT TBT | LCP Gate (<2.0s) |
+| Route | Sim Score | Sim FCP | Sim LCP | Sim CLS | DT Score | DT FCP | DT LCP | DT CLS | DT TBT | Clean CDP Trace LCP (<2.0s) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `/` (Home) | **81** | 0.9s | 2.6s | **0.000** | **69** | 2.5s | 2.5s | **0.000** | 1,350ms | *Trace: 1.66s [PASS]* |
-| `/projects/credio` | **86** | 1.0s | 3.1s | **0.000** | **73** | 2.7s | 2.7s | **0.000** | 800ms | *Trace: 1.38s [PASS]* |
-| `/projects/finaccess` | **96** | 0.8s | 2.4s | **0.000** | **84** | 2.4s | 2.4s | **0.000** | 450ms | Margin: 400ms |
-| `/projects/dukapulse` | **93** | 0.9s | 2.9s | **0.000** | **84** | 2.4s | 2.4s | **0.000** | 450ms | Margin: 400ms |
-| `/projects/airbnb` | **80** | 1.0s | 2.7s | **0.000** | **77** | 2.9s | 2.9s | **0.000** | 490ms | Margin: 900ms |
-
----
-
-### Environment B: Live Cloudflare Pages Apex (`https://nzamuwe.com` — Production Edge)
-*Run via `scratch/run-prod-benchmark.mjs` against live deployed commit `99f2242`.*
-
-| Route | Sim Score | Sim FCP | Sim LCP | Sim CLS | DT Score | DT FCP | DT LCP | DT CLS | DT TBT | LCP Gate (<2.0s) |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `/` (Apex Home) | **85** | 2.0s | 3.3s | **0.000** | **60** | 3.3s | 3.3s | **0.000** | 1,370ms | **FAIL (3.3s > 2.0s)** |
-| `/projects/credio` | **92** | 1.8s | 3.0s | **0.000** | **82** | 2.8s | 2.8s | **0.000** | 380ms | **FAIL (2.8s > 2.0s)** |
-| `/projects/finaccess` | **88** | 1.8s | 3.2s | **0.000** | **80** | 2.8s | 2.8s | **0.000** | 440ms | **FAIL (2.8s > 2.0s)** |
-| `/projects/dukapulse` | **76** | 1.9s | 3.5s | **0.000** | **67** | 3.1s | 3.1s | **0.000** | 910ms | **FAIL (3.1s > 2.0s)** |
-| `/projects/airbnb` | **91** | 1.8s | 3.0s | **0.000** | **72** | 3.0s | 3.1s | **0.000** | 650ms | **FAIL (3.1s > 2.0s)** |
+| `/` (Apex Home) | **88** | 2.0s | 3.0s | **0.000** | **65** | 3.0s | 3.0s | **0.000** | 1,070ms | **1.80s [PASS]** |
+| `/projects/credio` | **94** | 1.7s | 2.8s | **0.000** | **88** | 2.8s | 2.8s | **0.000** | 210ms | **1.47s [PASS]** |
+| `/projects/finaccess` | **94** | 1.7s | 2.8s | **0.000** | **88** | 2.8s | 2.8s | **0.000** | 200ms | Margin: 800ms |
+| `/projects/dukapulse` | **93** | 1.7s | 2.9s | **0.000** | **85** | 2.8s | 2.8s | **0.000** | 300ms | Margin: 800ms |
+| `/projects/airbnb` | **93** | 1.8s | 3.0s | **0.000** | **89** | 2.9s | 2.9s | **0.000** | 140ms | Margin: 900ms |
 
 ---
 
