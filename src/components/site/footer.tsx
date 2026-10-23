@@ -16,7 +16,7 @@ export function Footer() {
             <a
               href={SITE.resume}
               download
-              data-pla="resume-download-footer"
+              data-pla="resume-download"
               className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
             >
               <Download className="h-4 w-4" aria-hidden />
