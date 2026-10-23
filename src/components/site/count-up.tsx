@@ -37,7 +37,7 @@ export function CountUp({ value, decimals = 0, suffix = "", duration = 1400 }: P
         if (!entry?.isIntersecting) return;
         io.disconnect();
         // Already on screen at hydration — keep the SSR value, skip the show.
-        const rect = el.getBoundingClientRect();
+        const rect = entry.boundingClientRect;
         if (rect.top < 0 || rect.bottom > window.innerHeight) {
           const start = performance.now();
           const tick = (now: number) => {

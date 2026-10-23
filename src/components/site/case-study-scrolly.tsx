@@ -589,7 +589,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* 02: Approach */}
-          <div id="approach" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
+          <div id="approach" className="cv-auto scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>02</span>
               <span>/</span>
@@ -627,7 +627,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* 03: Results */}
-          <div id="results" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
+          <div id="results" className="cv-auto scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>03</span>
               <span>/</span>
@@ -669,7 +669,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* 04: Stack & Verification */}
-          <div id="stack" className="scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
+          <div id="stack" className="cv-auto scroll-mt-24 space-y-5 rounded-2xl border bg-card/40 p-6 sm:p-8 backdrop-blur shadow-xs">
             <div className="inline-flex items-center gap-2 rounded-md bg-muted px-2.5 py-1 font-mono text-xs font-semibold text-primary">
               <span>04</span>
               <span>/</span>
@@ -729,7 +729,7 @@ export function CaseStudyScrolly({ project, inDev, nextProject }: CaseStudyScrol
           </div>
 
           {/* Next Case Study Navigation */}
-          <div className="flex items-center justify-between border-t pt-6 text-sm">
+          <div className="cv-auto flex items-center justify-between border-t pt-6 text-sm">
             <span className="text-muted-foreground">Next case study</span>
             <Link
               href={`/projects/${nextProject.id}`}

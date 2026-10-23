@@ -117,7 +117,7 @@ export default function Home() {
       </section>
 
       {/* ============================ PROJECTS ============================ */}
-      <section id="projects" className="py-20 sm:py-28">
+      <section id="projects" className="cv-auto py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             kicker="Featured work"
@@ -145,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* ============================= CONTACT ============================ */}
-      <section id="contact" className="border-t bg-muted/40 py-20 sm:py-28">
+      <section id="contact" className="cv-auto border-t bg-muted/40 py-20 sm:py-28">
         <div className="reveal-view mx-auto max-w-3xl px-4 text-center sm:px-6">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">Contact</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Fastest ways to reach me</h2>
