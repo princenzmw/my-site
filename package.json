@@ -5,7 +5,7 @@
   "description": "nzamuwe.com — Prince Nzamuwe's data science portfolio. Static-exported Next.js site, deployed on Cloudflare Pages.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/optimize-scripts.mjs",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
