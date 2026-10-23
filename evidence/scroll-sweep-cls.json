@@ -3,7 +3,7 @@
     "url": "https://nzamuwe.com/",
     "totalDistancePx": 6620,
     "stepSizePx": 250,
-    "scrollStepsCount": 27,
+    "scrollStepsCount": 28,
     "anchorJumpsCount": 2,
     "anchorsTested": [
       "projects",
@@ -19,7 +19,7 @@
     "url": "https://nzamuwe.com/projects/credio",
     "totalDistancePx": 4132,
     "stepSizePx": 250,
-    "scrollStepsCount": 17,
+    "scrollStepsCount": 18,
     "anchorJumpsCount": 4,
     "anchorsTested": [
       "problem",
@@ -33,5 +33,59 @@
     "shifts": [],
     "status": "PASS"
   },
-  "verifiedAt": "2026-10-23T19:41:25.796Z"
+  "finaccess": {
+    "url": "https://nzamuwe.com/projects/finaccess",
+    "totalDistancePx": 4178,
+    "stepSizePx": 250,
+    "scrollStepsCount": 18,
+    "anchorJumpsCount": 4,
+    "anchorsTested": [
+      "problem",
+      "approach",
+      "results",
+      "stack"
+    ],
+    "totalInteractions": 22,
+    "totalShifts": 0,
+    "totalCls": 0,
+    "shifts": [],
+    "status": "PASS"
+  },
+  "dukapulse": {
+    "url": "https://nzamuwe.com/projects/dukapulse",
+    "totalDistancePx": 4130,
+    "stepSizePx": 250,
+    "scrollStepsCount": 18,
+    "anchorJumpsCount": 4,
+    "anchorsTested": [
+      "problem",
+      "approach",
+      "results",
+      "stack"
+    ],
+    "totalInteractions": 22,
+    "totalShifts": 0,
+    "totalCls": 0,
+    "shifts": [],
+    "status": "PASS"
+  },
+  "airbnb": {
+    "url": "https://nzamuwe.com/projects/airbnb",
+    "totalDistancePx": 3756,
+    "stepSizePx": 250,
+    "scrollStepsCount": 17,
+    "anchorJumpsCount": 4,
+    "anchorsTested": [
+      "problem",
+      "approach",
+      "results",
+      "stack"
+    ],
+    "totalInteractions": 21,
+    "totalShifts": 0,
+    "totalCls": 0,
+    "shifts": [],
+    "status": "PASS"
+  },
+  "verifiedAt": "2026-10-23T20:14:18.597Z"
 }

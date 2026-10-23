@@ -174,3 +174,27 @@ Fixed deployed URL: `https://nzamuwe-portfolio-cls1.shadowed-petalite-e6c.worker
    - Scorecard Mean: **9.36 / 10** (Arithmetic mean: 103.0 / 11; Performance 8.5, Signature Moment 9.0, all other 9 dimensions 9.5).
    - Hard Gates: LCP < 2.0s (PASSED on all 5 routes), CLS < 0.100 (PASSED at 0.000), INP < 200ms (PASSED at 56ms).
 
+
+### 9. Closure Audit Reconciliation & 5-Route CLS Settlement
+[verified — fresh 5-route CDP scroll sweep & diagnostic trace, tools/sweep-all-5routes-cls.mjs]
+
+1. **FinAccess CLS Root Cause & Settlement**:
+   - Diagnostic: Lighthouse flagged layout shift on `section.py-14` (score: 0.02551) caused by Satoshi variable webfont loading. The 46-character heading `"FinAccess Kenya: Financial Inclusion Dashboard"` rendered on 2 lines (72px) under fallback font metrics and reflowed to 3 lines (108px) upon Satoshi swap, shifting subsequent content down by 35.5px.
+   - Settlement:
+     a. Configured `font-display: optional` on `satoshi` in `src/app/layout.tsx` to eliminate post-first-paint font-swap reflow.
+     b. Added reserved container height `min-h-[6.75rem] sm:min-h-0` on `h1#project-heading` in `src/app/projects/[id]/page.tsx` for titles > 40 chars, locking the 108px bounding box prior to font evaluation.
+   - Re-verified: Local Lighthouse audit and CDP sweep confirm **CLS = 0.00000** with **0 shifts**.
+
+2. **Full Document Scroll-Sweep Across ALL 5 Routes**:
+   - Swept full document height in 250px increments plus deep-link anchor jumps on cold context:
+     - `/` (Home): Distance 6,620px · 28 scroll steps · 2 anchor jumps · **N=30 interactions** · **0 shifts** · **CLS 0.00000**
+     - `/projects/credio`: Distance 4,132px · 18 scroll steps · 4 anchor jumps · **N=22 interactions** · **0 shifts** · **CLS 0.00000**
+     - `/projects/finaccess`: Distance 4,178px · 18 scroll steps · 4 anchor jumps · **N=22 interactions** · **0 shifts** · **CLS 0.00000**
+     - `/projects/dukapulse`: Distance 4,130px · 18 scroll steps · 4 anchor jumps · **N=22 interactions** · **0 shifts** · **CLS 0.00000**
+     - `/projects/airbnb`: Distance 3,756px · 17 scroll steps · 4 anchor jumps · **N=21 interactions** · **0 shifts** · **CLS 0.00000**
+   - Verified and recorded in `evidence/scroll-sweep-cls.json`.
+
+3. **Gate Metric Reconciliation**:
+   - ROC Tuner Interactivity Latency: **2,186.2 ms** (FP 1,056ms $\to$ interactive 3,242.2ms, `evidence/roc-tuner-interactivity.json`). Historical single run 2,258.4ms moved to appendix.
+   - Apex Home TBT: **980 ms median** (N=3 runs; best floor single-run 808ms; React 19 hydration runtime 627ms). Plausible-blocked run (864ms vs 872ms baseline) moved to appendix.
+   - Documented tail limitation: *"cold-edge variance produces occasional >2.0s single runs (Home 2,327ms, FinAccess 2,066ms; raw data in evidence/); the median-of-3 gate is the committed standard."*

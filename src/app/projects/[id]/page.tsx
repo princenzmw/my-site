@@ -97,7 +97,12 @@ export default async function ProjectPage({ params }: Params) {
             )}
           </div>
 
-          <h1 id="project-heading" className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+          <h1
+            id="project-heading"
+            className={`mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl ${
+              project.name.length > 40 ? "min-h-[6.75rem]" : "min-h-[4.5rem]"
+            } sm:min-h-0`}
+          >
             {project.name}
           </h1>
           <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">{project.tagline}</p>

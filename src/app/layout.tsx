@@ -9,7 +9,7 @@ const satoshi = localFont({
   src: "../fonts/Satoshi-Variable.woff2",
   variable: "--font-heading",
   weight: "300 900",
-  display: "swap",
+  display: "optional",
   preload: true,
 });
 
@@ -32,7 +32,17 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
   authors: [{ name: SITE.name, url: SITE.github }],
-  icons: { icon: "/favicon.png", apple: "/favicon.png" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-48x48.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     type: "website",
     url: "/",

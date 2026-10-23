@@ -22,8 +22,8 @@
 ### Amended Gate Policy (Verbatim):
 - **Gate instrument**: Lighthouse DT, live apex, cold context, median of 3 runs.
 - **LCP gate**: <2.0s on all 5 routes, as measured.
-- **TBT home**: target <600ms; measured floor 808ms (React 19 hydration runtime 627ms under 4x CPU, trace-evidenced). Documented as a program limitation, not a pass.
-- **Tuner latency**: target <400ms post-paint; measured 2,258.4ms (FP 948ms, interactive 3,206ms; absolute readiness ~3.2s under throttled mobile in both sprints). Documented as a program limitation. Closing levers (zero-framework inline micro-slider; islands/partial hydration) are recorded as post-closure backlog, explicitly out of scope today.
+- **TBT home**: target <600ms; measured median of 3 cold runs is **980 ms** on live apex (best floor single-run 808ms; React 19 hydration runtime 627ms under 4x CPU slowdown, trace-evidenced in `evidence/dump-lh-tasks.mjs`). Documented as a program limitation, not a pass.
+- **Tuner latency**: target <400ms post-paint; measured **2,186.2 ms** (FP 1,056ms $\to$ interactive 3,242.2ms, N=1 clean apex run in `evidence/roc-tuner-interactivity.json`; absolute readiness ~3.2s under throttled mobile). Documented as a program limitation. Closing levers (zero-framework inline micro-slider; islands/partial hydration) are recorded as post-closure backlog, explicitly out of scope today.
 
 ---
 
@@ -114,9 +114,9 @@ All benchmarks measured under standardized **DevTools Mobile 4G profile** (1.638
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
 | `/` (Apex Home) | `<p class="mt-6 max-w-xl text-base...">` (54,058 px²) | **1,809 ms (1.81s)** | **PASS** (Gate: <2.0s) | 1,008 ms | 1,040 ms | 980 ms (apex) / 330 ms (local) | **0.00000** (N=30) |
 | `/projects/credio` | `<h1 id="project-heading" class="...">` (19,710 px²) | **1,696 ms (1.70s)** | **PASS** (Gate: <2.0s) | 972 ms | 960 ms | 342 ms (apex) / 210 ms (local) | **0.00000** (N=22) |
-| `/projects/finaccess` | `<h1 id="project-heading" class="...">` (27,577 px²) | **1,733 ms (1.73s)** | **PASS** (Gate: <2.0s) | 1,100 ms | 980 ms | 421 ms (apex) / 200 ms (local) | **0.00000** |
-| `/projects/dukapulse` | `<h1 id="project-heading" class="...">` (25,826 px²) | **1,686 ms (1.69s)** | **PASS** (Gate: <2.0s) | 936 ms | 1,010 ms | 319 ms (apex) / 300 ms (local) | **0.00000** |
-| `/projects/airbnb` | `<h2 class="text-2xl font-extrabold...">` (17,670 px²) | **1,798 ms (1.80s)** | **PASS** (Gate: <2.0s) | 1,080 ms | 990 ms | 336 ms (apex) / 140 ms (local) | **0.00000** |
+| `/projects/finaccess` | `<h1 id="project-heading" class="...">` (27,577 px²) | **1,733 ms (1.73s)** | **PASS** (Gate: <2.0s) | 1,100 ms | 980 ms | 421 ms (apex) / 200 ms (local) | **0.00000** (N=22) |
+| `/projects/dukapulse` | `<h1 id="project-heading" class="...">` (25,826 px²) | **1,686 ms (1.69s)** | **PASS** (Gate: <2.0s) | 936 ms | 1,010 ms | 319 ms (apex) / 300 ms (local) | **0.00000** (N=22) |
+| `/projects/airbnb` | `<h2 class="text-2xl font-extrabold...">` (17,670 px²) | **1,798 ms (1.80s)** | **PASS** (Gate: <2.0s) | 1,080 ms | 990 ms | 336 ms (apex) / 140 ms (local) | **0.00000** (N=21) |
 
 ### Committed Evidence Suite
 * `evidence/lh-prod-5routes-summary.json`: Full 3x cold Lighthouse DT benchmark battery runs and medians for all 5 routes.
@@ -124,7 +124,7 @@ All benchmarks measured under standardized **DevTools Mobile 4G profile** (1.638
 * `evidence/apex-trace-results.json`: Clean CDP trace navigation and paint events on live apex cold context (all 5 routes ~0.9s–1.1s).
 * `evidence/inp-casestudy-distribution.json`: Raw INP event distributions across 38 pointer interaction cycles on Credio scrolly (48ms p50, 56ms p98, 56ms max).
 * `evidence/roc-tuner-interactivity.json`: First Paint (1,056ms) to ROC Tuner interactivity (3,242.2ms) latency (2,186.2ms) on live apex generated directly by script.
-* `evidence/scroll-sweep-cls.json`: Full document scroll-sweep CLS on `/` (N=30 interactions, 0 shifts, 0.00000 CLS) and `/projects/credio` (N=22 interactions, 0 shifts, 0.00000 CLS) generated directly by script.
+* `evidence/scroll-sweep-cls.json`: Full document scroll-sweep CLS on all 5 routes: `/` (N=30 interactions, 0 shifts, 0.00000 CLS), `/projects/credio` (N=22, 0 shifts, 0.00000 CLS), `/projects/finaccess` (N=22, 0 shifts, 0.00000 CLS), `/projects/dukapulse` (N=22, 0 shifts, 0.00000 CLS), and `/projects/airbnb` (N=21, 0 shifts, 0.00000 CLS) generated directly by `tools/sweep-all-5routes-cls.mjs`.
 * `evidence/causal-contention-test.mjs`: CDP script-blocking causal contention verification.
 * `evidence/dump-lh-tasks.mjs`: Main-thread long task attribution script.
 
@@ -132,11 +132,11 @@ All benchmarks measured under standardized **DevTools Mobile 4G profile** (1.638
 * **Lighthouse DT Performance Scores (Medians on Apex)**:
   - Home: **77** (LCP: 1,809ms, TBT: 980ms apex / 330ms local Brotli, CLS: 0.000)
   - Credio: **91** (LCP: 1,696ms, TBT: 342ms apex, CLS: 0.000)
-  - FinAccess: **89** (LCP: 1,733ms, TBT: 421ms apex, CLS: 0.025)
+  - FinAccess: **89** (LCP: 1,733ms, TBT: 421ms apex, Full-Sweep CLS: 0.00000 N=22; font swap shift resolved via reserved h1 box min-h-[6.75rem] and font-display: optional)
   - DukaPulse: **92** (LCP: 1,686ms, TBT: 319ms apex, CLS: 0.000)
   - AirBnB: **92** (LCP: 1,798ms, TBT: 336ms apex, CLS: 0.000)
 * **Signature Moment Tuner Interactivity**: First Paint 1,056ms $\to$ ROC Tuner Interactive 3,242.2ms = **2,186.2 ms** latency on live apex (`evidence/roc-tuner-interactivity.json`). Target $< 400\text{ms}$ is **NOT MET**.
-* **CLS**: Strictly **0.00000** across `/` (N=30 interactions) and `/projects/credio` (N=22 interactions), verified across the full document height.
+* **CLS**: Strictly **0.00000** across all 5 routes: `/` (N=30 interactions), `/projects/credio` (N=22), `/projects/finaccess` (N=22), `/projects/dukapulse` (N=22), and `/projects/airbnb` (N=21), verified across the full document height (`evidence/scroll-sweep-cls.json`).
 * **INP**: **48ms p50 / 56ms p98 / 56ms max** across 38 real pointer interaction cycles (`evidence/inp-casestudy-distribution.json`). Gate $< 200\text{ms}$ passed with 144ms margin.
 
 ---
@@ -156,7 +156,7 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
 | **Micro-interactions** | 8.0 | **9.5** | **0.0** | `[verified]` RoleRotator persistent grid-stack (`grid-area: 1/1`) with 0.000 layout shift, ROC slider/chart click-to-tune, SpotlightCard glow, tactile active scale. |
 | **Responsive** | 8.5 | **9.5** | **0.0** | `[verified]` 320px–1920px tested; desktop pinned blueprint vs mobile horizontal sticky stepper strip with $\ge 44\text{px}$ touch targets; zero horizontal overflow. |
 | **Accessibility** | 9.0 | **9.5** | **0.0** | `[verified]` Semantic landmarks, skip-link, `aria-current="step"`, `aria-label` on all charts, rotator sr-only text, WCAG AAA contrast, visible 2px focus rings. |
-| **Performance** | 6.5 | **8.5** | **-1.0** | `[verified — evidence/lh-prod-5routes-summary.json, evidence/roc-tuner-interactivity.json]` **Lighthouse DT LCP PASSED on all 5 routes on live apex** (Cold 3-run medians: 1,686ms–1,809ms vs <2,000ms gate); Full scroll-sweep CLS strictly **0.00000** (N=30, N=22); Mobile INP **48ms p50 / 56ms p98** across 38 cycles; Immutable static caching active. Performance scored 8.5 (not 9.5) because live apex Home TBT is **808 ms** floor / 980 ms median and ROC Tuner latency is **2,186.2 ms** post-paint. |
+| **Performance** | 6.5 | **8.5** | **-1.0** | `[verified — evidence/lh-prod-5routes-summary.json, evidence/scroll-sweep-cls.json, evidence/roc-tuner-interactivity.json]` **Lighthouse DT LCP PASSED on all 5 routes on live apex** (Cold 3-run medians: 1,686ms–1,809ms vs <2,000ms gate); **Full scroll-sweep CLS strictly 0.00000 on ALL 5 routes** (Home N=30, Credio N=22, FinAccess N=22, DukaPulse N=22, AirBnB N=21); Mobile INP **48ms p50 / 56ms p98** across 38 cycles; Immutable static caching active. Performance scored 8.5 (not 9.5) because live apex Home TBT is **980 ms median** (808ms floor) and ROC Tuner latency is **2,186.2 ms** post-paint. |
 | **Code** | 9.0 | **9.5** | **0.0** | `[verified]` 35/35 vitest tests passing; static audit 9.8/10; zero raw hex; zero external runtime dependencies added. |
 | **OVERALL MEAN** | **8.00** | **9.36** | **-0.14** | **Exact Arithmetic Mean: 103.0 / 11 = 9.3636... $\to$ 9.36 (unrounded arithmetic mean)** |
 
@@ -171,9 +171,9 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
   Scorecard Mean:       9.36 / 10  (Baseline: 8.00 / 10 | Cumulative Deficit: 1.5 points)
   Lighthouse DT LCP:    1.69s - 1.81s (Medians of 3 runs)  (< 2.0s Hard Gate PASSED!)
   Case Study DT TBT:    319 ms - 421 ms (Medians)         (< 450ms Gate PASSED)
-  Full-Sweep CLS:       0.00000 across full height (N=30,22) (< 0.100 Hard Gate PASSED)
+  Full-Sweep CLS:       0.00000 across all 5 routes (N=30,22,22,22,21) (< 0.100 Hard Gate PASSED)
   Mobile INP:           48ms p50 / 56ms p98 (38 cycles)   (< 200ms Hard Gate PASSED)
-  Apex Home TBT:        808 ms floor / 980 ms median      (< 600ms Target FAILED)
+  Apex Home TBT:        980 ms median (808 ms floor)      (< 600ms Target FAILED)
   Tuner Interactivity:  2,186.2 ms latency post-paint     (< 400ms Target FAILED)
   Test Suite:           35 / 35 vitest tests passing
   Internal Audit:       9.8 / 10 internal criteria passing
@@ -183,10 +183,12 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
 
 ### Documented Program Limitations (Verbatim Gates):
 1. **TBT Home Floor**:
-   Target <600ms; measured floor **808ms** (median 980ms). React 19 hydration runtime evaluation (`2khxl0v1q4i6n.js` + `turbopack-*.js` execution = 627ms under 4x CPU slowdown) and initial layout computation of the monolithic home page dominate the main thread (`evidence/dump-lh-tasks.mjs`). Documented as a program limitation, not a pass.
+   Target <600ms; measured median **980 ms** (N=3 cold apex runs; best floor single-run 808ms). React 19 hydration runtime evaluation (`2khxl0v1q4i6n.js` + `turbopack-*.js` execution = 627ms under 4x CPU slowdown) and initial layout computation of the monolithic home page dominate the main thread (`evidence/dump-lh-tasks.mjs`). Documented as a program limitation, not a pass.
 2. **ROC Tuner Latency Floor**:
-   Target <400ms post-paint; measured **2,186.2ms** (FP 1,056ms, interactive 3,242ms; absolute readiness ~3.2s under throttled mobile in both sprints). Documented as a program limitation.
-3. **Post-Closure Backlog Levers**:
+   Target <400ms post-paint; measured **2,186.2 ms** (FP 1,056ms $\to$ interactive 3,242.2ms, N=1 clean apex run in `evidence/roc-tuner-interactivity.json`; absolute readiness ~3.2s under throttled mobile). Documented as a program limitation.
+3. **Cold-Edge Single-Run Variance (Tails)**:
+   cold-edge variance produces occasional >2.0s single runs (Home 2,327ms, FinAccess 2,066ms; raw data in evidence/); the median-of-3 gate is the committed standard.
+4. **Post-Closure Backlog Levers**:
    Closing levers (zero-framework inline SVG micro-slider; islands / partial hydration of below-fold home sections) are recorded as post-closure backlog, explicitly out of scope today.
 
 ---
@@ -196,3 +198,12 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
 *(Informational only — non-authoritative)*:
 In a 13-dimension rubric retaining Information Architecture (9.5) and Content & Copy (9.5):
 $$\text{Mean} = \frac{103.0 + 9.5 + 9.5}{13} = \frac{122.0}{13} = \mathbf{9.38 / 10}$$
+
+
+## APPENDIX B: HISTORICAL RUNS & PRIOR ADJUDICATIONS
+
+*(Historical context — gate adjudication decided by committed standards above)*:
+1. **Tuner Latency Prior Measurement**:
+   During Sprint 1.8 before final script integration, an apex run measured 2,258.4ms (FP 948ms, interactive 3,206ms), superseded by the committed clean-script artifact `evidence/roc-tuner-interactivity.json` measuring **2,186.2 ms** (FP 1,056ms, interactive 3,242.2ms).
+2. **Plausible Blocked Run**:
+   Controlled test on live apex (`evidence/lh-prod-blocked-plausible.json`) blocking Plausible via `--blocked-url-patterns="*plausible*"` yielded TBT 864ms vs 872ms baseline (8ms delta, <1% of TBT), proving Plausible contributes negligible blocking time while React 19 hydration runtime is 627ms.
