@@ -3,7 +3,7 @@
 **Document**: `PROJECT_STATUS.md`  
 **Date**: 2026-10-23  
 **Target Repository**: `d:\Clones\Transit\nzamuwe-rebuild`  
-**Current Branch**: `audit-fixes` (merged & deployed on `main` at `9aaf6ed`)  
+**Current Branch**: `main` (PROGRAM CLOSED — shipped code at `b5e2eb9`, documentation current through `4b0ab2d`)  
 **Production Apex**: `https://nzamuwe.com`  
 **Author**: Technical Lead / Systems Architect  
 **Status**: **PROGRAM CLOSED (AMENDED GATES)**
@@ -74,6 +74,9 @@ Every commit on branch `audit-fixes` and `main` in chronological order, with con
 | `bc3d242` | **FINAL-SPRINT** | Eliminate preload stream contention via deferred loader, route dynamic imports with reserved boxes, diet mobile SVG layout. | Plausible post-onload, `RocPanel`, `CountUp`, and `CaseStudyScrolly` dynamic imports, CSS transfer unblocked, mobile FCP collapses to 1.37s. | `[verified — scripts/optimize-scripts.mjs, src/app/page.tsx, src/app/layout.tsx]` |
 | `ce48dd3` | **PERF-CSS-INLINE** | Inline critical CSS into HTML `<head>`, rewrite media URLs to absolute `/_next/static/media/`, apply `cv-auto` to stat band. | Eliminates 484ms CSS download floor & contention, brings live apex LCP on all 5 routes under 2.0s. | `[verified — scripts/optimize-scripts.mjs, evidence/lh-prod-5routes-summary.json]` |
 | `9aaf6ed` | **RECORD-CLOSE** | Update Project Status, Implementation Log, and commit verification evidence suite. | Records empirical proof of all 5 routes passing LCP < 2.0s under 3-run cold Lighthouse DT medians. | `[verified — git log 9aaf6ed]` |
+| `6a9db6d` | **GATE-AMEND** | Amended gate policy (Lighthouse DT median-of-3 as gate instrument); 3x cold battery across all 5 routes; Plausible exonerated (864ms vs 872ms baseline, 8ms delta); empirical floors declared. | Closed the program on the strict instrument using medians instead of single runs; honest limits recorded. | `[verified — evidence/lh-prod-5routes-summary.json, evidence/lh-prod-blocked-plausible.json]` |
+| `b5e2eb9` | **CLS-FINACCESS** | Root-caused FinAccess font-swap shift (0.02551 → 0.00000): 46-char h1 wrapped 2→3 lines on Satoshi swap; fixed via reserved `min-h-[6.75rem]` heading box + `font-display: optional`; sweep canonized at `tools/sweep-all-5routes-cls.mjs`. | Extended sweep coverage caught the last real defect; strict 0.00000 on all 5 routes. | `[verified — evidence/scroll-sweep-cls.json]` |
+| `4b0ab2d` | **DOC-CLOSE** | `display: optional` behavior disclosed in Typography row and Limitations; hashed hydration chunk `2khxl0v1q4i6n.js` verified live on apex. | Typography evidence made honest; deployment continuity proven. | `[verified — evidence/roc-tuner-interactivity.json]` |
 
 ---
 
@@ -150,9 +153,9 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
 | **Typography** | 7.0 | **9.5** | **0.0** | `[verified]` Subsetted Satoshi variable font (10.8 KB, 48% reduction), zero-wire system monospace stack, `swap` on Geist Sans, fluid clamp scale, strict 65ch prose bounds. Satoshi uses display:optional to guarantee 0.000 CLS; first-visit throttled users may see the fallback face; repeat visits render Satoshi. |
 | **Spacing / Layout** | 8.0 | **9.5** | **0.0** | `[verified]` Concept A 100dvh pinned blueprint stage, two-tier rhythm (`py-20` vs `py-10`), 4-viewport sweep with 0px horizontal overflow. |
 | **Color & Theme** | 8.0 | **9.5** | **0.0** | `[verified]` OKLCH lightness token system, zero theme flash fallback CSS, per-project accent tokens, WCAG AAA text contrast (7.42:1 dark, 12.8:1 light). |
-| **Motion** | 7.0 | **9.5** | **0.0** | `[verified — scrolly-blueprint-desktop.png, scrolly-blueprint-mobile.png]` Scroll-driven reveals via `@supports (animation-timeline: view())`, SVG bezier path drawing with `stroke-dashoffset`, signal pulse, complete vestibular reduced-motion killswitch unpinning stage. |
+| **Motion** | 7.0 | **9.5** | **0.0** | `[verified — evidence/artifacts/scrolly-blueprint-desktop.png, evidence/artifacts/scrolly-blueprint-mobile.png]` Scroll-driven reveals via `@supports (animation-timeline: view())`, SVG bezier path drawing with `stroke-dashoffset`, signal pulse, complete vestibular reduced-motion killswitch unpinning stage. |
 | **Signature Moment** | 8.5 | **9.0** | **-0.5** | `[verified — evidence/roc-tuner-interactivity.json]` INT-01 interactive ROC decision threshold tuner (live PnL on 150k borrowers) + Concept A pinned architectural HUD. Scored 9.0 because live apex latency from First Paint (1,056ms) to interactivity (3,242ms) is **2,186.2 ms** against the <400ms target. |
-| **Storytelling** | 8.5 | **9.5** | **0.0** | `[verified — scrolly-blueprint-desktop.png]` Universal 4-chapter scrollytelling across all case studies, asymmetric domain constraints, and technical trade-off rationale. |
+| **Storytelling** | 8.5 | **9.5** | **0.0** | `[verified — evidence/artifacts/scrolly-blueprint-desktop.png]` Universal 4-chapter scrollytelling across all case studies, asymmetric domain constraints, and technical trade-off rationale. |
 | **Micro-interactions** | 8.0 | **9.5** | **0.0** | `[verified]` RoleRotator persistent grid-stack (`grid-area: 1/1`) with 0.000 layout shift, ROC slider/chart click-to-tune, SpotlightCard glow, tactile active scale. |
 | **Responsive** | 8.5 | **9.5** | **0.0** | `[verified]` 320px–1920px tested; desktop pinned blueprint vs mobile horizontal sticky stepper strip with $\ge 44\text{px}$ touch targets; zero horizontal overflow. |
 | **Accessibility** | 9.0 | **9.5** | **0.0** | `[verified]` Semantic landmarks, skip-link, `aria-current="step"`, `aria-label` on all charts, rotator sr-only text, WCAG AAA contrast, visible 2px focus rings. |
