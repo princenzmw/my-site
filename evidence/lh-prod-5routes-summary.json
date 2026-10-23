@@ -2,52 +2,201 @@
   {
     "name": "Home",
     "url": "https://nzamuwe.com/",
-    "score": 79,
-    "fcp": 1895,
-    "lcp": 1895,
-    "tbt": 808,
+    "score": 77,
+    "fcp": 1809,
+    "lcp": 1809,
+    "tbt": 980,
     "cls": 0,
-    "lcpElement": ""
+    "ttfb": 358,
+    "lcpElement": "",
+    "runs": [
+      {
+        "run": 1,
+        "score": 72,
+        "ttfb": 617,
+        "fcp": 2327,
+        "lcp": 2327,
+        "tbt": 1106,
+        "cls": 0.00167
+      },
+      {
+        "run": 2,
+        "score": 77,
+        "ttfb": 287,
+        "fcp": 1809,
+        "lcp": 1809,
+        "tbt": 980,
+        "cls": 0
+      },
+      {
+        "run": 3,
+        "score": 78,
+        "ttfb": 358,
+        "fcp": 1734,
+        "lcp": 1734,
+        "tbt": 920,
+        "cls": 0
+      }
+    ]
   },
   {
     "name": "Credio",
     "url": "https://nzamuwe.com/projects/credio",
-    "score": 97,
-    "fcp": 1728,
-    "lcp": 1728,
-    "tbt": 159,
+    "score": 91,
+    "fcp": 1696,
+    "lcp": 1696,
+    "tbt": 342,
     "cls": 0,
-    "lcpElement": ""
+    "ttfb": 302,
+    "lcpElement": "",
+    "runs": [
+      {
+        "run": 1,
+        "score": 92,
+        "ttfb": 273,
+        "fcp": 1661,
+        "lcp": 1661,
+        "tbt": 307,
+        "cls": 0
+      },
+      {
+        "run": 2,
+        "score": 91,
+        "ttfb": 408,
+        "fcp": 1696,
+        "lcp": 1696,
+        "tbt": 342,
+        "cls": 0
+      },
+      {
+        "run": 3,
+        "score": 90,
+        "ttfb": 302,
+        "fcp": 1709,
+        "lcp": 1709,
+        "tbt": 376,
+        "cls": 0
+      }
+    ]
   },
   {
     "name": "FinAccess",
     "url": "https://nzamuwe.com/projects/finaccess",
-    "score": 94,
-    "fcp": 1690,
-    "lcp": 1690,
-    "tbt": 268,
+    "score": 89,
+    "fcp": 1733,
+    "lcp": 1733,
+    "tbt": 421,
     "cls": 0.02551,
-    "lcpElement": ""
+    "ttfb": 302,
+    "lcpElement": "",
+    "runs": [
+      {
+        "run": 1,
+        "score": 89,
+        "ttfb": 340,
+        "fcp": 1733,
+        "lcp": 1733,
+        "tbt": 400,
+        "cls": 0.02551
+      },
+      {
+        "run": 2,
+        "score": 85,
+        "ttfb": 252,
+        "fcp": 1749,
+        "lcp": 2066,
+        "tbt": 514,
+        "cls": 0.02607
+      },
+      {
+        "run": 3,
+        "score": 89,
+        "ttfb": 302,
+        "fcp": 1574,
+        "lcp": 1574,
+        "tbt": 421,
+        "cls": 0.02551
+      }
+    ]
   },
   {
     "name": "DukaPulse",
     "url": "https://nzamuwe.com/projects/dukapulse",
-    "score": 93,
-    "fcp": 1700,
-    "lcp": 1700,
-    "tbt": 277,
+    "score": 92,
+    "fcp": 1686,
+    "lcp": 1686,
+    "tbt": 319,
     "cls": 0,
-    "lcpElement": ""
+    "ttfb": 283,
+    "lcpElement": "",
+    "runs": [
+      {
+        "run": 1,
+        "score": 92,
+        "ttfb": 240,
+        "fcp": 1686,
+        "lcp": 1686,
+        "tbt": 319,
+        "cls": 0
+      },
+      {
+        "run": 2,
+        "score": 90,
+        "ttfb": 283,
+        "fcp": 1787,
+        "lcp": 1787,
+        "tbt": 376,
+        "cls": 0
+      },
+      {
+        "run": 3,
+        "score": 92,
+        "ttfb": 353,
+        "fcp": 1665,
+        "lcp": 1665,
+        "tbt": 311,
+        "cls": 0
+      }
+    ]
   },
   {
     "name": "AirBnB",
     "url": "https://nzamuwe.com/projects/airbnb",
-    "score": 94,
-    "fcp": 1553,
-    "lcp": 1787,
-    "tbt": 282,
+    "score": 92,
+    "fcp": 1548,
+    "lcp": 1798,
+    "tbt": 336,
     "cls": 0,
-    "lcpElement": "div.grid > div.space-y-16 > div#problem > h2.text-2xl",
-    "note": "Initial cold CDN TTFB spike: 2697ms (TTFB 1598ms); warm edge: 1787ms"
+    "ttfb": 256,
+    "lcpElement": "",
+    "runs": [
+      {
+        "run": 1,
+        "score": 92,
+        "ttfb": 253,
+        "fcp": 1548,
+        "lcp": 1798,
+        "tbt": 322,
+        "cls": 0
+      },
+      {
+        "run": 2,
+        "score": 90,
+        "ttfb": 265,
+        "fcp": 1577,
+        "lcp": 1844,
+        "tbt": 373,
+        "cls": 0
+      },
+      {
+        "run": 3,
+        "score": 92,
+        "ttfb": 256,
+        "fcp": 1534,
+        "lcp": 1784,
+        "tbt": 336,
+        "cls": 0
+      }
+    ]
   }
 ]

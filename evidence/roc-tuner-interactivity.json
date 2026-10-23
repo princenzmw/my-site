@@ -1,13 +1,12 @@
 {
   "target": "https://nzamuwe.com/",
   "device": "Mobile 390px (4x CPU slowdown, 1.638 Mbps, 150ms RTT)",
-  "ttfb_ms": 411.6,
-  "domInteractive_ms": 1214.6,
-  "domContentLoaded_ms": 1214.9,
-  "firstPaint_ms": 948.0,
-  "fcp_ms": 948.0,
-  "interactiveTime_ms": 3206.4,
-  "latencyToInteractive_ms": 2258.4,
-  "status": "FAIL (<400ms target)",
-  "notes": "Measured on live Cloudflare Pages apex cold context post commit ce48dd3. First paint collapsed to 948ms with CSS inlining; ROC Tuner becomes interactive at 3,206ms via deferred client loader + dynamic chunk fetch. Latency is 2,258ms."
+  "ttfb_ms": 571.4,
+  "domInteractive_ms": 1311.3,
+  "domContentLoaded_ms": 1311.5,
+  "firstPaint_ms": 1056,
+  "fcp_ms": 1056,
+  "interactiveTime_ms": 3242.2,
+  "latencyToInteractive_ms": 2186.2,
+  "status": "FAIL (<400ms target)"
 }

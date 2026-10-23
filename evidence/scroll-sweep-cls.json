@@ -1,32 +1,37 @@
 {
-  "device": "Mobile 390px (4x CPU slowdown)",
-  "routes": [
-    {
-      "route": "/",
-      "url": "https://nzamuwe.com/",
-      "shifts": 0,
-      "accumulatedCls": 0.0,
-      "status": "PASS",
-      "anchorsTested": [
-        "#projects",
-        "#contact"
-      ]
-    },
-    {
-      "route": "/projects/credio",
-      "url": "https://nzamuwe.com/projects/credio",
-      "shifts": 0,
-      "accumulatedCls": 0.0,
-      "status": "PASS",
-      "anchorsTested": [
-        "#problem",
-        "#approach",
-        "#results",
-        "#stack"
-      ]
-    }
-  ],
-  "stepSizePx": 250,
-  "verifiedAt": "2026-10-23T19:13:22.635Z",
-  "notes": "Automated 250px-step mobile scroll sweep from header to footer across full document height and all anchor jump targets on live apex. Zero layout shifts recorded."
+  "home": {
+    "url": "https://nzamuwe.com/",
+    "totalDistancePx": 6620,
+    "stepSizePx": 250,
+    "scrollStepsCount": 27,
+    "anchorJumpsCount": 2,
+    "anchorsTested": [
+      "projects",
+      "contact"
+    ],
+    "totalInteractions": 30,
+    "totalShifts": 0,
+    "totalCls": 0,
+    "shifts": [],
+    "status": "PASS"
+  },
+  "credio": {
+    "url": "https://nzamuwe.com/projects/credio",
+    "totalDistancePx": 4132,
+    "stepSizePx": 250,
+    "scrollStepsCount": 17,
+    "anchorJumpsCount": 4,
+    "anchorsTested": [
+      "problem",
+      "approach",
+      "results",
+      "stack"
+    ],
+    "totalInteractions": 22,
+    "totalShifts": 0,
+    "totalCls": 0,
+    "shifts": [],
+    "status": "PASS"
+  },
+  "verifiedAt": "2026-10-23T19:41:25.796Z"
 }
