@@ -53,7 +53,7 @@
   },
   "dukapulse": {
     "url": "https://nzamuwe.com/projects/dukapulse",
-    "totalDistancePx": 4130,
+    "totalDistancePx": 4166,
     "stepSizePx": 250,
     "scrollStepsCount": 18,
     "anchorJumpsCount": 4,
@@ -71,7 +71,7 @@
   },
   "airbnb": {
     "url": "https://nzamuwe.com/projects/airbnb",
-    "totalDistancePx": 3756,
+    "totalDistancePx": 3792,
     "stepSizePx": 250,
     "scrollStepsCount": 17,
     "anchorJumpsCount": 4,
@@ -87,5 +87,5 @@
     "shifts": [],
     "status": "PASS"
   },
-  "verifiedAt": "2026-10-23T20:14:18.597Z"
+  "verifiedAt": "2026-10-23T20:21:54.630Z"
 }
