@@ -147,7 +147,7 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
 
 | Dimension | Baseline (Gate #3) | Current Score | Gap to 9.5 | Verified Evidence & Grounding |
 |---|:---:|:---:|:---:|---|
-| **Typography** | 7.0 | **9.5** | **0.0** | `[verified]` Subsetted Satoshi variable font (10.8 KB, 48% reduction), zero-wire system monospace stack, `swap` on Geist Sans, fluid clamp scale, strict 65ch prose bounds. |
+| **Typography** | 7.0 | **9.5** | **0.0** | `[verified]` Subsetted Satoshi variable font (10.8 KB, 48% reduction), zero-wire system monospace stack, `swap` on Geist Sans, fluid clamp scale, strict 65ch prose bounds. Satoshi uses display:optional to guarantee 0.000 CLS; first-visit throttled users may see the fallback face; repeat visits render Satoshi. |
 | **Spacing / Layout** | 8.0 | **9.5** | **0.0** | `[verified]` Concept A 100dvh pinned blueprint stage, two-tier rhythm (`py-20` vs `py-10`), 4-viewport sweep with 0px horizontal overflow. |
 | **Color & Theme** | 8.0 | **9.5** | **0.0** | `[verified]` OKLCH lightness token system, zero theme flash fallback CSS, per-project accent tokens, WCAG AAA text contrast (7.42:1 dark, 12.8:1 light). |
 | **Motion** | 7.0 | **9.5** | **0.0** | `[verified — scrolly-blueprint-desktop.png, scrolly-blueprint-mobile.png]` Scroll-driven reveals via `@supports (animation-timeline: view())`, SVG bezier path drawing with `stroke-dashoffset`, signal pulse, complete vestibular reduced-motion killswitch unpinning stage. |
@@ -177,7 +177,7 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
   Tuner Interactivity:  2,186.2 ms latency post-paint     (< 400ms Target FAILED)
   Test Suite:           35 / 35 vitest tests passing
   Internal Audit:       9.8 / 10 internal criteria passing
-  Production Apex:      https://nzamuwe.com (Cloudflare Pages @ 9aaf6ed)
+  Production Apex:      https://nzamuwe.com (Cloudflare Pages @ b5e2eb9)
 ========================================================================================
 ```
 
@@ -188,7 +188,9 @@ Baseline strictly fixed to Gate #3 table (8.00 mean). Performance is rescored ho
    Target <400ms post-paint; measured **2,186.2 ms** (FP 1,056ms $\to$ interactive 3,242.2ms, N=1 clean apex run in `evidence/roc-tuner-interactivity.json`; absolute readiness ~3.2s under throttled mobile). Documented as a program limitation.
 3. **Cold-Edge Single-Run Variance (Tails)**:
    cold-edge variance produces occasional >2.0s single runs (Home 2,327ms, FinAccess 2,066ms; raw data in evidence/); the median-of-3 gate is the committed standard.
-4. **Post-Closure Backlog Levers**:
+4. **Font-Display Optional Behavior**:
+   Satoshi uses display:optional to guarantee 0.000 CLS; first-visit throttled users may see the fallback face; repeat visits render Satoshi.
+5. **Post-Closure Backlog Levers**:
    Closing levers (zero-framework inline SVG micro-slider; islands / partial hydration of below-fold home sections) are recorded as post-closure backlog, explicitly out of scope today.
 
 ---
