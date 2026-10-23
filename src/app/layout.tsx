@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Geist } from "next/font/google";
 import "./globals.css";
@@ -57,6 +57,14 @@ export const metadata: Metadata = {
       "Credit-risk models, analytics dashboards, and full-stack data apps, with receipts.",
     images: [SITE.ogImage],
   },
+};
+
+/* theme-color lives in viewport (NOT metadata) since Next 14 — metadata placement silently does nothing */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafbfd" },
+    { media: "(prefers-color-scheme: dark)", color: "#090e19" },
+  ],
 };
 
 /**

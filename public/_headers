@@ -1,6 +1,10 @@
 # Cloudflare Pages headers — nzamuwe.com
-# CSP is Report-Only for the first week (watch dashboard reports), then
-# remove "-Report-Only" to enforce. Docs: https://developers.cloudflare.com/pages/configuration/headers/
+# CSP is ENFORCED since 2026-10-24. Pre-flight build sweep verified every
+# resource origin: all scripts/images/fonts/styles self-hosted, only
+# external host is plausible.io (script-src + connect-src). If a future
+# dependency violates CSP, flip this line back to
+# "Content-Security-Policy-Report-Only" and diagnose in devtools first.
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
 
 # Next.js immutable static chunks & fonts
 /_next/static/*
@@ -13,4 +17,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://plausible.io; font-src 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://plausible.io; font-src 'self'; frame-ancestors 'none'

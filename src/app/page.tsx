@@ -33,10 +33,10 @@ import { HeroRocBg } from "@/components/site/hero-roc-bg";
 import { HERO, PROJECTS, SITE, STATS } from "@/lib/portfolio";
 
 const CHANNELS = [
-  { icon: Linkedin, label: "LinkedIn", value: "in/princenzmw", href: SITE.linkedin },
-  { icon: Github, label: "GitHub", value: "github.com/princenzmw", href: SITE.github },
-  { icon: MessageCircle, label: "WhatsApp", value: SITE.phoneDisplay, href: SITE.whatsapp },
-  { icon: Phone, label: "Phone", value: SITE.phoneDisplay, href: SITE.phoneHref },
+  { icon: Linkedin, label: "LinkedIn", value: "in/princenzmw", href: SITE.linkedin, pla: "linkedin" },
+  { icon: Github, label: "GitHub", value: "github.com/princenzmw", href: SITE.github, pla: "github" },
+  { icon: MessageCircle, label: "WhatsApp", value: SITE.phoneDisplay, href: SITE.whatsapp, pla: "whatsapp" },
+  { icon: Phone, label: "Phone", value: SITE.phoneDisplay, href: SITE.phoneHref, pla: "phone" },
 ];
 
 export default function Home() {
@@ -176,6 +176,7 @@ export default function Home() {
                 href={l.href}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
+                data-pla={l.pla}
                 className="lift flex min-h-11 flex-col items-center gap-0.5 rounded-xl border bg-card px-4 py-3.5 transition-shadow hover:shadow-md hover:shadow-primary/5"
               >
                 <span className="flex items-center gap-1.5 text-sm font-semibold">
@@ -195,7 +196,7 @@ export default function Home() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="min-h-11">
-              <a href={SITE.resume} download data-pla="resume-download-band">
+              <a href={SITE.resume} download data-pla="resume-download">
                 <Download className="h-4 w-4" aria-hidden />
                 Résumé (PDF)
               </a>

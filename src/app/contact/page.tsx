@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   description:
     "Hiring for a data, ML, or software internship in Nairobi or remote? Need a dashboard built? Email prince@nzamuwe.com or use the form. I reply within a day.",
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | Prince Nzamuwe",
+    description:
+      "Hiring for a data, ML, or software internship in Nairobi or remote? Need a dashboard built? Email prince@nzamuwe.com or use the form. I reply within a day.",
+    url: "/contact",
+  },
+  twitter: {
+    title: "Contact | Prince Nzamuwe",
+    description:
+      "Hiring for a data, ML, or software internship? Email prince@nzamuwe.com or use the form. I reply within a day.",
+  },
 };
 
 const NEXT_STEPS = [

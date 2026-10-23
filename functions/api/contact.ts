@@ -9,6 +9,7 @@
  *   POST /api/contact
  *     200 { ok: true }                       message accepted (or honeypot/bot — silently dropped)
  *     400 { ok:false, error, errors:{field}  validation failed, per-field helpful copy
+ *     403 { ok:false, error }                cross-origin POST rejected (CSRF/quota guard)
  *     405 { ok:false, error }                wrong method (Allow: POST)
  *     429 { ok:false, error }                rate-limited (5 / 10 min / IP)
  *     502 { ok:false, error }                email provider failure
@@ -31,6 +32,22 @@ type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const LIMITS = { perWindow: 5, windowMs: 10 * 60 * 1000, maxBodyChars: 5000 };
+
+/* ---- same-origin guard: browsers always attach Origin to POSTs, so a
+ * mismatched Origin (or no Origin AND no Referer) means the request did
+ * not start on this site — reject before it can burn Resend quota. */
+const ALLOWED_ORIGINS = ["https://nzamuwe.com", "https://www.nzamuwe.com"];
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+function sameOrigin(request: Request): boolean {
+  const origin = request.headers.get("Origin");
+  if (origin === null) {
+    // Some privacy tools strip Origin; a same-site Referer is acceptable.
+    const referer = request.headers.get("Referer");
+    return referer !== null && ALLOWED_ORIGINS.some((a) => referer.startsWith(a));
+  }
+  return LOCAL_ORIGIN_RE.test(origin) || ALLOWED_ORIGINS.includes(origin);
+}
 /** Mirrors the client copy in src/components/site/contact-form.tsx — keep in sync. */
 const MESSAGES = {
   name: "Please add your name (2+ characters) so I know who's reaching out.",
@@ -69,6 +86,14 @@ export async function handleContact(
   env: Env = {},
   ip = "local",
 ): Promise<Response> {
+  /* ---- same-origin guard (CSRF + spam-quota defense) ---- */
+  if (!sameOrigin(request)) {
+    return json(
+      { ok: false, error: "Cross-origin requests are not allowed." },
+      403,
+    );
+  }
+
   /* ---- method & body ---- */
   let payload: Record<string, unknown>;
   try {
@@ -110,6 +135,13 @@ export async function handleContact(
 
   /* ---- rate limit ---- */
   const now = Date.now();
+  /* prune stale IPs so the per-isolate map cannot grow without bound */
+  if (hits.size > 512) {
+    for (const [key, stamps] of hits) {
+      const newest = stamps[stamps.length - 1] ?? 0;
+      if (now - newest > LIMITS.windowMs) hits.delete(key);
+    }
+  }
   const window_ = (hits.get(ip) ?? []).filter((t) => now - t < LIMITS.windowMs);
   if (window_.length >= LIMITS.perWindow) {
     return json(
@@ -136,7 +168,7 @@ export async function handleContact(
     );
   }
 
-  const from = env.CONTACT_FROM ?? "prince@nzamuwe.com";
+  const from = env.CONTACT_FROM ?? "Portfolio form <prince@nzamuwe.com>";
   const to = env.CONTACT_TO ?? "prince@nzamuwe.com";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -149,7 +181,13 @@ export async function handleContact(
       to: [to],
       reply_to: email,
       subject: `Portfolio inquiry: ${name}`,
-      text: `${message}\n\n${name} (${email})\nSent from the nzamuwe.com contact form`,
+      text: [
+        `From: ${name} <${email}>`, // redundancy — survives Reply-To mangling
+        "",
+        message,
+        "",
+        `-- sent via nzamuwe.com contact form at ${new Date().toISOString()}`,
+      ].join("\n"),
     }),
   });
 

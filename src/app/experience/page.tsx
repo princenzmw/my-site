@@ -9,6 +9,17 @@ export const metadata: Metadata = {
   description:
     "The honest timeline: Andela's ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi, plus education and certifications.",
   alternates: { canonical: "/experience" },
+  openGraph: {
+    title: "Experience | Prince Nzamuwe",
+    description:
+      "The honest timeline: Andela's ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi, plus education and certifications.",
+    url: "/experience",
+  },
+  twitter: {
+    title: "Experience | Prince Nzamuwe",
+    description:
+      "The honest timeline: ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi.",
+  },
 };
 
 export default function ExperiencePage() {
