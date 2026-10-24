@@ -133,7 +133,7 @@ const jsonLd = {
       url: `${SITE.url}/`,
       image: `${SITE.url}${SITE.ogImage}`,
       mainEntity: { "@id": `${SITE.url}/#person` },
-      dateModified: "2026-10-19",
+      dateModified: process.env.BUILD_DATE,
     },
   ],
 };

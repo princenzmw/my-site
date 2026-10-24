@@ -8,6 +8,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
+  env: {
+    BUILD_DATE: new Date().toISOString(),
+  },
 };
 
 export default nextConfig;
