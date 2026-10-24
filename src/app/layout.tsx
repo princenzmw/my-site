@@ -131,6 +131,7 @@ const jsonLd = {
       "@type": "ProfilePage",
       "@id": `${SITE.url}/`,
       url: `${SITE.url}/`,
+      image: `${SITE.url}${SITE.ogImage}`,
       mainEntity: { "@id": `${SITE.url}/#person` },
       dateModified: "2026-10-19",
     },
