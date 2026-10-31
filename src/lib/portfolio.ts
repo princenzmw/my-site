@@ -223,7 +223,10 @@ export const EDUCATION = [
     title: "BSc Data Science & Analytics",
     org: "United States International University-Africa (USIU-Africa), Nairobi",
     period: "2024–2028 (expected) · 3rd year",
-    points: ["Coursework across modeling, ML, data engineering, and optimization, applied directly in the projects above."],
+    points: [
+      "Mastercard Foundation Scholar: full academic scholarship awarded for leadership and academic excellence.",
+      "Coursework across modeling, ML, data engineering, and optimization, applied directly in the projects above.",
+    ],
   },
   {
     title: "ALX Software Engineering Programme",
