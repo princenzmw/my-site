@@ -104,7 +104,7 @@ describe("PROJECTS — every card makes only supportable claims", () => {
   it("keeps the two live flagship demos honest and linked", () => {
     const credio = PROJECTS.find((p) => p.id === "credio");
     expect(credio?.status).toBe("live");
-    expect(credio?.demo).toBe("https://credio.streamlit.app/");
+    expect(credio?.demo).toBe("https://credio.nzamuwe.com/");
     expect(credio?.results.join(" ")).toContain("0.869");
     expect(credio?.results.join(" ")).toContain("0.407");
     expect(credio?.results.join(" ")).toContain("19 unit tests");

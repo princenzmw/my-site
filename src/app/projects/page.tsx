@@ -99,7 +99,7 @@ export default function ProjectsPage() {
           </p>
           <div className="mt-6 text-center">
             <Button asChild variant="outline" className="min-h-11">
-              <a href="https://credio.streamlit.app/" target="_blank" rel="noopener noreferrer" data-pla="index-demo-credio">
+              <a href="https://credio.nzamuwe.com/" target="_blank" rel="noopener noreferrer" data-pla="index-demo-credio">
                 <ExternalLink className="h-4 w-4" aria-hidden />
                 Try Credio live
                 <span className="ml-1.5 text-xs font-normal text-muted-foreground">
