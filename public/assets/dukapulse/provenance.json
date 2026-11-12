@@ -1,0 +1,66 @@
+{
+  "project": "DukaPulse",
+  "environment": "Production Live Verification",
+  "kiosk_url": "https://dukapulse-kiosk.onrender.com/kiosk",
+  "dashboard_url": "https://dukapulse.streamlit.app",
+  "database": "Tiger Data Cloud (TimescaleDB pg18)",
+  "generated_at": "2026-11-12T15:42:00+03:00",
+  "captures": [
+    {
+      "filename": "fastembed-search.webp",
+      "source_capture": "01_kiosk_search.png",
+      "dimensions": "1440x900",
+      "size_bytes": 49808,
+      "size_kb": 48.6,
+      "description": "Semantic search on informal Kenyan catalog with FastEmbed ONNX"
+    },
+    {
+      "filename": "mpesa-receipt.webp",
+      "source_capture": "02_kiosk_checkout_receipt.png",
+      "dimensions": "1440x900",
+      "size_bytes": 68106,
+      "size_kb": 66.5,
+      "description": "Atomic Lipa na M-PESA checkout confirmation and inline receipt"
+    },
+    {
+      "filename": "concurrency-race.webp",
+      "source_capture": "03_concurrency_race_panel.png",
+      "dimensions": "1440x900",
+      "size_bytes": 67092,
+      "size_kb": 65.5,
+      "description": "Side-by-side 200 vs 409 proof of pessimistic row locks under race condition"
+    },
+    {
+      "filename": "rbac-staff-view.webp",
+      "source_capture": "04_staff_role_403_toast.png",
+      "dimensions": "1440x900",
+      "size_bytes": 51606,
+      "size_kb": 50.4,
+      "description": "Auth0 RBAC staff mode with redacted profit margins and HTTP 403 restock toast"
+    },
+    {
+      "filename": "owner-stock-ledger.webp",
+      "source_capture": "05_stock_ledger_owner.png",
+      "dimensions": "1440x900",
+      "size_bytes": 53846,
+      "size_kb": 52.6,
+      "description": "Owner mode inventory ledger with unredacted unit margins and tabular metrics"
+    },
+    {
+      "filename": "timeseries-analytics.webp",
+      "source_capture": "06_streamlit_timeseries.png",
+      "dimensions": "1440x900",
+      "size_bytes": 73496,
+      "size_kb": 71.8,
+      "description": "Tiger Data hypertables continuous aggregates and forecast tournament"
+    },
+    {
+      "filename": "contact-sheet.webp",
+      "source_capture": "00_contact_sheet.png",
+      "dimensions": "1520x780",
+      "size_bytes": 80424,
+      "size_kb": 78.5,
+      "description": "Full 6-capture recruiter verification contact sheet"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ server.log
 .env*
 
 # Internal program & audit artifacts (kept on disk, untracked)
+assets-src/
 AUDIT_REPORT.md
 Audit_Report.pdf
 REAUDIT_LOG.md
