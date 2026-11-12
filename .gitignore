@@ -23,3 +23,21 @@ server.log
 
 # env files
 .env*
+
+# Internal program & audit artifacts (kept on disk, untracked)
+AUDIT_REPORT.md
+Audit_Report.pdf
+REAUDIT_LOG.md
+IMPLEMENTATION_LOG.md
+PROJECT_STATUS.md
+audit-results.json
+semgrep.sarif
+DEPLOYMENT_STATE.md
+FONT_INVENTORY.md
+README-DEPLOY.md
+docs/
+evidence/
+scripts/audit.mjs
+scripts/run-audit.sh
+tools/sweep-all-5routes-cls.mjs
+WhatNeedsTobeFixed.txt

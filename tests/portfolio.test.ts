@@ -118,6 +118,7 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     expect(duka?.status).toBe("live");
     expect(duka?.demo).toBe("https://dukapulse-kiosk.onrender.com/kiosk");
     expect(duka?.code).toBe("https://github.com/princenzmw/DukaPulse");
+    expect(duka?.role).toContain("Builders Week");
     expect(duka?.results.join(" ")).toContain("24 tests");
     expect(duka?.results.join(" ")).toContain("10,000");
   });
@@ -150,6 +151,8 @@ describe("Background sections", () => {
     const orgs = EXPERIENCE.map((e) => `${e.title} ${e.org}`).join(" ");
     expect(orgs).toContain("Andela Technical Leadership Program");
     expect(orgs).toContain("Ida Technology");
+    expect(orgs).toContain("MLH Global Hack Week: Builders Week");
+    expect(orgs).not.toContain("API Week");
     expect(FINGERPRINT.test(orgs)).toBe(false);
     // The old inflated "Senior Data Scientist 2022–present" claim stays gone.
     expect(orgs).not.toMatch(/senior/i);

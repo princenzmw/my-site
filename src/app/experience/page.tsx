@@ -7,18 +7,18 @@ import { CERTIFICATIONS, EDUCATION, EXPERIENCE } from "@/lib/portfolio";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "The honest timeline: Andela's ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi, plus education and certifications.",
+    "The honest timeline: Andela's ATLP, Ida Technology, MLH Builders Week, and independent projects in Nairobi, plus education and certifications.",
   alternates: { canonical: "/experience" },
   openGraph: {
     title: "Experience | Prince Nzamuwe",
     description:
-      "The honest timeline: Andela's ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi, plus education and certifications.",
+      "The honest timeline: Andela's ATLP, Ida Technology, MLH Builders Week, and independent projects in Nairobi, plus education and certifications.",
     url: "/experience",
   },
   twitter: {
     title: "Experience | Prince Nzamuwe",
     description:
-      "The honest timeline: ATLP, Ida Technology, MLH API Week, and independent projects in Nairobi.",
+      "The honest timeline: ATLP, Ida Technology, MLH Builders Week, and independent projects in Nairobi.",
   },
 };
 

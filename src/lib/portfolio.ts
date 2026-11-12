@@ -136,7 +136,7 @@ export const PROJECTS: Project[] = [
     id: "dukapulse",
     name: "DukaPulse: Stock & Sales App for Small Shops",
     tagline: "Inventory that can't oversell, forecasts that earn their keep",
-    role: "Solo: full-stack, API to frontend",
+    role: "Solo: full-stack · MLH Builders Week (Nov 2026)",
     status: "live",
     problem:
       "Small-shop owners track stock on paper and reorder on guesswork. DukaPulse is a full-stack retail POS and telemetry system with role-based access control, race-proof inventory checkouts, and demand forecasts that earn their compute by beating moving baselines.",
@@ -159,7 +159,7 @@ export const PROJECTS: Project[] = [
     code: "https://github.com/princenzmw/DukaPulse",
     codeLabel: "View the code",
     demo: "https://dukapulse-kiosk.onrender.com/kiosk",
-    demoNote: "Live Kiosk POS running on Render (https://dukapulse-kiosk.onrender.com/kiosk) · Analytics Dashboard running on Streamlit (https://dukapulse.streamlit.app).",
+    demoNote: "Built for MLH Global Hack Week: Builders Week (November 2026). Live Kiosk POS: https://dukapulse-kiosk.onrender.com/kiosk · Analytics Dashboard: https://dukapulse.streamlit.app.",
     accent: "from-amber-500/20 via-primary/10 to-orange-400/15",
     accentSolid: "border-l-amber-500",
   },
@@ -271,11 +271,11 @@ export const EXPERIENCE = [
     ],
   },
   {
-    title: "Participant · MLH Global Hack Week, API Week",
+    title: "Participant · MLH Global Hack Week: Builders Week",
     org: "Major League Hacking, online",
-    period: "Nov 2025",
+    period: "Nov 2026",
     points: [
-      "A week of building with APIs: daily mini-projects, workshops, and rapid prototyping alongside other hackers.",
+      "Built and shipped DukaPulse: full-stack retail POS with race-proof inventory checkouts, TimescaleDB hypertables, and backtested demand forecasting.",
     ],
   },
   {
