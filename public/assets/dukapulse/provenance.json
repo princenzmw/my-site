@@ -61,6 +61,32 @@
       "size_bytes": 80424,
       "size_kb": 78.5,
       "description": "Full 6-capture recruiter verification contact sheet"
+    },
+    {
+      "filename": "storefront-chaka-rd.webp",
+      "source_file": "kiosk_nairobi_chaka_rd.jpg",
+      "type": "Authentic Photography (CC BY 4.0)",
+      "dimensions": "1093x1457",
+      "size_kb": 206.5,
+      "author": "Punkkatz",
+      "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kiosk_in_Nairobi,_Chaka_Rd.jpg",
+      "location": "Chaka Rd, Kilimani, Nairobi, Kenya",
+      "description": "Authentic street duka kiosk with M-PESA signage, retail grille, and daily grocery items."
+    },
+    {
+      "filename": "og-duka-composite.webp",
+      "source_file": "og-image-duka-composite.png",
+      "type": "Production OpenGraph Preview Composite",
+      "dimensions": "1200x630",
+      "size_kb": 82.1,
+      "description": "DukaPulse production OG card integrating authentic Nairobi duka photography and live CI concurrency race result."
     }
-  ]
+  ],
+  "photography_attribution": {
+    "author": "Punkkatz",
+    "license": "CC BY 4.0",
+    "source": "Wikimedia Commons",
+    "url": "https://commons.wikimedia.org/wiki/File:Kiosk_in_Nairobi,_Chaka_Rd.jpg"
+  }
 }
