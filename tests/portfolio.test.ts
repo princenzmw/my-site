@@ -86,6 +86,9 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     expect(PROJECTS.find((p) => p.id === "finaccess")?.code).toBe(
       "https://github.com/princenzmw/finaccess-kenya-dashboard",
     );
+    expect(PROJECTS.find((p) => p.id === "dukapulse")?.code).toBe(
+      "https://github.com/princenzmw/DukaPulse",
+    );
     expect(PROJECTS.find((p) => p.id === "airbnb")?.code).toBe(
       "https://github.com/princenzmw/AirBnB_clone_v4",
     );
@@ -93,15 +96,15 @@ describe("PROJECTS — every card makes only supportable claims", () => {
 
   it("never shows a demo or fake numbers for in-development work", () => {
     const wip = PROJECTS.filter((p) => p.status === "in-development");
-    expect(wip).toHaveLength(1);
-    expect(wip[0].id).toBe("dukapulse");
-    expect(wip[0].demo).toBeUndefined();
-    // No invented performance figures: WIP metrics must be qualitative only.
-    expect(wip[0].metrics.every((m) => !/[0-9]+\.[0-9]+/.test(m))).toBe(true);
-    expect(wip[0].results.join(" ")).toMatch(/no invented figures|completion/i);
+    for (const p of wip) {
+      expect(p.demo).toBeUndefined();
+      // No invented performance figures: WIP metrics must be qualitative only.
+      expect(p.metrics.every((m) => !/[0-9]+\.[0-9]+/.test(m))).toBe(true);
+      expect(p.results.join(" ")).toMatch(/no invented figures|completion/i);
+    }
   });
 
-  it("keeps the two live flagship demos honest and linked", () => {
+  it("keeps the live flagship demos honest and linked", () => {
     const credio = PROJECTS.find((p) => p.id === "credio");
     expect(credio?.status).toBe("live");
     expect(credio?.demo).toBe("https://credio.nzamuwe.com/");
@@ -111,6 +114,12 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     const fin = PROJECTS.find((p) => p.id === "finaccess");
     expect(fin?.status).toBe("live");
     expect(fin?.results.join(" ")).toContain("84.8%");
+    const duka = PROJECTS.find((p) => p.id === "dukapulse");
+    expect(duka?.status).toBe("live");
+    expect(duka?.demo).toBe("https://dukapulse-kiosk.onrender.com/kiosk");
+    expect(duka?.code).toBe("https://github.com/princenzmw/DukaPulse");
+    expect(duka?.results.join(" ")).toContain("24 tests");
+    expect(duka?.results.join(" ")).toContain("10,000");
   });
 
   it("contains no unresolved brackets in shipped claim fields", () => {

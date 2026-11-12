@@ -37,7 +37,7 @@ const DESCRIPTIONS: Record<string, string> = {
   finaccess:
     "FinAccess Kenya: a 290 MB government survey made explorable at county level in Power BI, survey weights handled, published topline matched.",
   dukapulse:
-    "DukaPulse: stock and sales app for small shops. FastAPI, PostgreSQL, React, JWT roles, oversell-proof sales, backtested forecasts. In development.",
+    "DukaPulse: stock and sales app for small shops. FastAPI, TimescaleDB, Auth0 roles, oversell-proof sales, backtested forecasts.",
   airbnb:
     "AirBnB Clone v4: four public iterations from CLI console to SQLAlchemy ORM to Flask REST API to web frontend. Python, MySQL, Docker.",
 };
