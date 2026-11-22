@@ -1,142 +1,310 @@
-"""resume.pdf for nzamuwe.com — mirrors Prince's Oct 2026 résumé draft.
+"""Generate ATS-safe one-page resume.pdf for nzamuwe.com via headless Chrome/Edge."""
 
-Email updated to prince@nzamuwe.com (his own domain mailbox). DukaPulse is
-included as "In development" with no invented metrics. Prince should replace
-this with his final formatted résumé whenever he likes; every fact here
-traces to that document or the public repositories.
+from __future__ import annotations
+
+import argparse
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_OUT = ROOT / "public" / "resume.pdf"
+
+BROWSER_CANDIDATES = [
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+]
+
+CHROME_NAMES = ("chrome", "google-chrome", "chromium", "msedge")
+
+
+def find_browser() -> str:
+    """Locate Chrome or Edge executable for headless PDF generation."""
+    for candidate in BROWSER_CANDIDATES:
+        if Path(candidate).exists():
+            return candidate
+    for name in CHROME_NAMES:
+        found = shutil.which(name)
+        if found:
+            return found
+    raise FileNotFoundError("Could not find Google Chrome or Microsoft Edge for headless PDF generation.")
+
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prince Nzamuwe - Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.35in 0.45in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      hyphens: none;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.85pt;
+      line-height: 1.26;
+      color: #111827;
+      background: #ffffff;
+    }
+    a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 7pt;
+    }
+    .header h1 {
+      font-size: 18pt;
+      font-weight: 700;
+      letter-spacing: 0.6pt;
+      color: #0f172a;
+      line-height: 1.1;
+    }
+    .subtitle {
+      font-size: 9.4pt;
+      font-weight: 600;
+      color: #1d4ed8;
+      margin-top: 2pt;
+    }
+    .contact {
+      font-size: 8.3pt;
+      color: #334155;
+      margin-top: 3pt;
+    }
+    .contact a {
+      color: #1f2937;
+    }
+    h2 {
+      font-size: 9.6pt;
+      font-weight: 700;
+      color: #1d4ed8;
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      border-bottom: 1pt solid #1d4ed8;
+      padding-bottom: 1.5pt;
+      margin-top: 7.5pt;
+      margin-bottom: 4pt;
+    }
+    .entry {
+      margin-bottom: 4.5pt;
+    }
+    .entry:last-child {
+      margin-bottom: 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8pt;
+    }
+    .title {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 9.1pt;
+    }
+    .meta-right {
+      font-size: 8.4pt;
+      color: #475569;
+      white-space: nowrap;
+    }
+    .subrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8pt;
+      margin-top: 0.5pt;
+    }
+    .role {
+      font-style: italic;
+      color: #334155;
+      font-size: 8.6pt;
+    }
+    .stack {
+      font-style: italic;
+      color: #475569;
+      font-size: 8.2pt;
+      margin-top: 0.5pt;
+    }
+    ul {
+      margin-top: 1.8pt;
+      padding-left: 12pt;
+    }
+    li {
+      margin-bottom: 1.5pt;
+      text-align: left;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 8.1pt;
+      color: #0f172a;
+    }
+    .skills-line {
+      margin-bottom: 2.2pt;
+    }
+    .skills-line strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>PRINCE NZAMUWE</h1>
+    <div class="subtitle">Data Science, Machine Learning &amp; Python Backend | Open to Internships &amp; Part-Time Engineering Roles</div>
+    <div class="contact">
+      Nairobi, Kenya | +254 757 723 708 |
+      <a href="mailto:prince@nzamuwe.com">prince@nzamuwe.com</a> |
+      <a href="https://nzamuwe.com/">nzamuwe.com</a> |
+      <a href="https://github.com/princenzmw">github.com/princenzmw</a> |
+      <a href="https://www.linkedin.com/in/princenzmw/">linkedin.com/in/princenzmw</a>
+    </div>
+  </div>
+
+  <h2>Education</h2>
+  <div class="entry">
+    <div class="row">
+      <span class="title">United States International University - Africa (USIU-Africa)</span>
+      <span class="meta-right">Nairobi, Kenya | 2024 - Expected 2028 (3rd Year)</span>
+    </div>
+    <div class="role">BSc in Data Science &amp; Analytics | Mastercard Foundation Scholar (Full Academic Scholarship)</div>
+    <ul>
+      <li><strong>Relevant Coursework:</strong> Machine Learning, Statistical Modeling &amp; Inference, Data Warehousing &amp; Mining, Database Systems, Optimization, Data Structures &amp; Algorithms.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="title">ALX Software Engineering Programme</span>
+      <span class="meta-right">Remote | 2023 - 2024</span>
+    </div>
+    <ul>
+      <li>Completed 9-month systems and backend Foundations Phase: C, Python, memory management, data structures, relational databases, Linux, and Git team workflows.</li>
+    </ul>
+  </div>
+
+  <h2>Technical Skills</h2>
+  <div class="skills-line"><strong>Languages:</strong> Python, SQL (PostgreSQL, MySQL), TypeScript, JavaScript, R, MATLAB, HTML/CSS</div>
+  <div class="skills-line"><strong>Data &amp; ML:</strong> scikit-learn, pandas, NumPy, Feature Engineering, Probability Calibration, Model Evaluation (ROC-AUC, PR-AUC, KS, Brier), Time-Series Forecasting, Power BI (DAX, PBIP/TMDL, Power Query M), Star Schema Modeling</div>
+  <div class="skills-line"><strong>Backend &amp; Tools:</strong> FastAPI, Django REST Framework, Flask, React, Streamlit, TimescaleDB, pgvector, FastEmbed (ONNX), REST APIs, Auth0 / JWT, Docker, Git, pytest, Ruff, Playwright, GitHub Actions CI/CD</div>
+
+  <h2>Projects</h2>
+  <div class="entry">
+    <div class="row">
+      <span class="title">Credio: Credit-Risk Scorecard</span>
+      <span class="meta-right"><a href="https://credio.nzamuwe.com/">Live Demo</a> | <a href="https://github.com/princenzmw/credit-risk-scorecard">Code</a></span>
+    </div>
+    <div class="stack">Python, scikit-learn, pandas, Streamlit, pytest, Docker, GitHub Actions CI</div>
+    <ul>
+      <li>Built a leak-free default pipeline on 150,000 borrower records (20% missing income and special bureau codes handled inside estimators); gradient boosting reached 0.869 ROC-AUC, 0.407 PR-AUC, 0.584 KS, and 0.0486 Brier vs 0.823 logistic baseline.</li>
+      <li>Evaluated and rejected SMOTE and class weighting to preserve probability calibration; shipped monotonic risk tiers (1.1% to 39.0% observed default), cost-based cutoffs, live Streamlit explanations, and 19 CI tests.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="title">DukaPulse: Retail POS &amp; Demand Telemetry</span>
+      <span class="meta-right"><a href="https://dukapulse-kiosk.onrender.com/kiosk">Live Kiosk</a> | <a href="https://github.com/princenzmw/DukaPulse">Code</a></span>
+    </div>
+    <div class="stack">FastAPI, TimescaleDB, PostgreSQL, pgvector, Auth0 RS256, FastEmbed ONNX, Streamlit, Docker</div>
+    <ul>
+      <li>Built race-proof checkouts with atomic conditional SQL decrements and <code>CHECK (current_stock &gt;= 0)</code>; CI verified 16 threads racing 10,000 checkouts against 1 unit yielded 1 success, 9,999 HTTP 409 responses, and 0 oversells (24 tests).</li>
+      <li>Implemented TimescaleDB 7-day chunk hypertables with 30m/1h continuous aggregates, Auth0 RBAC, Swahili ONNX vector search, and backtested demand forecasts (Seasonal-Naive won 14/14 products, 1.01% to 5.43% MAPE).</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="title">FinAccess Kenya 2024: Financial Inclusion Analytics</span>
+      <span class="meta-right"><a href="https://app.powerbi.com/view?r=eyJrIjoiYTJjMDVkMmUtZGYxMC00ZTExLTlhZGEtYjcyZTZiNjk1YzhkIiwidCI6IjE2ZDgzZWU2LTI1NGEtNDY5ZC1hNmNjLTU0ZTJjYTIzMTNlNyIsImMiOjh9&embedImagePlaceholder=true&pageName=a09621f88fac873c711f">Live Report</a> | <a href="https://nzamuwe.com/projects/finaccess">Case Study</a> | <a href="https://github.com/princenzmw/finaccess-kenya-dashboard">Code</a></span>
+    </div>
+    <div class="stack">Python, pandas, XML Streaming, Power BI (DAX), pytest, GitHub Actions CI</div>
+    <ul>
+      <li>Engineered a 16 MB chunked XML parser compressing a 290 MB survey workbook (~3 GB XML) into an 8 MB CSV (19,750 adults weighted to 28.1M Kenyan adults) with automated topline reconciliation (84.8% formal, 9.9% excluded) and pytest CI.</li>
+      <li>Built a 5-page Power BI model uncovering a 45-point county gap in formal access (48.5% to 94.0%) and 63% exclusion among adults without a national ID vs 5% with one.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="title">Mzigo Chakula: Kenya Food Price Inflation BI</span>
+      <span class="meta-right"><a href="https://nzamuwe.com/projects/mzigo-chakula">Case Study</a> | <a href="https://github.com/princenzmw/mzigo-chakula">Code</a></span>
+    </div>
+    <div class="stack">Power BI (PBIP/TMDL), DAX, Power Query M, Python, pytest</div>
+    <ul>
+      <li>Modeled 55,692 World Bank RTFP market observations across 233 markets, 27 counties, and 238 months (2007 to 2026) in a 4-table TMDL star schema with 4 Power Query M scripts, 15 validated DAX measures, 46 PBIR visuals, and pytest checks.</li>
+    </ul>
+  </div>
+
+  <h2>Experience</h2>
+  <div class="entry">
+    <div class="row">
+      <span class="title">Andela Technical Leadership Program (ATLP) - Apprentice</span>
+      <span class="meta-right">Kigali, Rwanda | Jan 2024 - Sep 2024</span>
+    </div>
+    <ul>
+      <li>Shipped full-stack e-commerce features (TypeScript, React, PostgreSQL) in a 9-person Agile squad with PR code reviews and designed the normalized PostgreSQL schema for users, products, and orders.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="row">
+      <span class="title">Ida Technology (NEET Program) - Software Engineering Trainee</span>
+      <span class="meta-right">Kigali, Rwanda | Dec 2023 - Jun 2024</span>
+    </div>
+    <ul>
+      <li>Implemented Django REST Framework backend endpoints with JWT authentication and converted Figma mockups into responsive React components.</li>
+    </ul>
+  </div>
+
+  <h2>Open Source &amp; Certifications</h2>
+  <div class="entry">
+    <ul>
+      <li><strong>Open Source:</strong> <a href="https://github.com/vega/altair/pull/4202">vega/altair PR #4202</a> (sequence validation in <code>selection_interval</code> and docs fix for #3896; CI passing on Python 3.11 to 3.14); <a href="https://github.com/arnaudmiribel/streamlit-extras/pull/421">arnaudmiribel/streamlit-extras PR #421</a> &amp; <a href="https://github.com/arnaudmiribel/streamlit-extras/pull/422">#422</a> (directory ordering option and Windows build script fix).</li>
+      <li><strong>Certifications &amp; Hackathons:</strong> Meta Back-End Developer Certificate | freeCodeCamp JavaScript Algorithms &amp; Data Structures | IBM SkillsBuild AI Fundamentals | MLH Global Hack Week: Builders Week (Nov 2026).</li>
+    </ul>
+  </div>
+</body>
+</html>
 """
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
-from reportlab.lib.colors import HexColor
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, HRFlowable, Table, TableStyle,
-)
 
-BLUE = HexColor("#1d4ed8")
-DARK = HexColor("#111827")
-GRAY = HexColor("#4b5563")
-LINE = HexColor("#d1d5db")
 
-s_name = ParagraphStyle("name", fontName="Helvetica-Bold", fontSize=19,
-                        leading=23, textColor=DARK, alignment=TA_CENTER)
-s_role = ParagraphStyle("role", fontName="Helvetica", fontSize=10.5, leading=14,
-                        textColor=BLUE, alignment=TA_CENTER, spaceBefore=2)
-s_contact = ParagraphStyle("contact", fontName="Helvetica", fontSize=9,
-                           leading=12.5, textColor=GRAY, alignment=TA_CENTER,
-                           spaceBefore=4)
-s_h2 = ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=10.5, leading=13,
-                      textColor=BLUE, spaceBefore=8, spaceAfter=3)
-s_body = ParagraphStyle("body", fontName="Helvetica", fontSize=9.3, leading=13,
-                        textColor=DARK, alignment=4)  # justified body only
-s_left = ParagraphStyle("left", parent=s_body, alignment=0)
-s_bullet = ParagraphStyle("bullet", parent=s_body, leftIndent=11,
-                          bulletIndent=2, spaceBefore=1.2,
-                          bulletFontName="Helvetica")
-s_job = ParagraphStyle("job", fontName="Helvetica-Bold", fontSize=10,
-                       leading=13, textColor=DARK)
-s_meta = ParagraphStyle("meta", fontName="Helvetica", fontSize=8.7, leading=11.5,
-                        textColor=GRAY)
+def build_pdf(out_path: Path, copy_to: Path | None = None) -> None:
+    """Render HTML_CONTENT to a single-page PDF using headless Chrome or Edge."""
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    browser = find_browser()
 
-doc = SimpleDocTemplate(
-    "/home/z/my-project/public/resume.pdf", pagesize=A4,
-    topMargin=14 * mm, bottomMargin=12 * mm,
-    leftMargin=17 * mm, rightMargin=17 * mm,
-    title="Prince Nzamuwe — Résumé",
-    author="Prince Nzamuwe",
-)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        html_path = Path(tmpdir) / "resume.html"
+        html_path.write_text(HTML_CONTENT, encoding="utf-8")
+        cmd = [
+            browser,
+            "--headless=new",
+            "--disable-gpu",
+            "--no-pdf-header-footer",
+            f"--print-to-pdf={out_path.resolve()}",
+            html_path.resolve().as_uri(),
+        ]
+        subprocess.run(cmd, check=True)
 
-story = [
-    Paragraph("PRINCE NZAMUWE", s_name),
-    Paragraph("Data Science &amp; Analytics — Machine Learning · Data-Driven Apps · Backend Development",
-              s_role),
-    Paragraph(
-        "Nairobi, Kenya &nbsp;·&nbsp; +254 757 723 708 &nbsp;·&nbsp; prince@nzamuwe.com",
-        s_contact),
-    Paragraph(
-        "github.com/princenzmw &nbsp;·&nbsp; linkedin.com/in/princenzmw &nbsp;·&nbsp; "
-        "credio.streamlit.app", s_contact),
-    HRFlowable(width="100%", thickness=1.1, color=BLUE, spaceBefore=6, spaceAfter=2),
+    if copy_to is not None:
+        copy_to.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(out_path, copy_to)
 
-    Paragraph("PROFILE", s_h2),
-    Paragraph(
-        "Data science and backend-focused 3rd-year BSc Data Science &amp; Analytics student at "
-        "USIU-Africa (expected 2028). Builds data-driven applications end to end: PostgreSQL data "
-        "models, Python machine learning, FastAPI services and React front ends — tested and "
-        "deployed. Trained through the ALX Software Engineering Programme (Foundations Phase) and "
-        "Andela's ATLP. Open to data, ML and software internships; available for freelance data "
-        "analysis, dashboard and web development projects.", s_body),
 
-    Paragraph("PROJECTS", s_h2),
-    Paragraph("Credio — Credit-Risk Scorecard "
-              '<font color="#4b5563" size="8.5">(github.com/princenzmw/credit-risk-scorecard · credio.streamlit.app)</font>',
-              s_job),
-    Paragraph("Python, scikit-learn, pandas, Streamlit, pytest, GitHub Actions.", s_meta),
-    Paragraph("Built a leak-free credit-default pipeline on 150,000 borrowers: handled special codes and 20% missing income inside the scikit-learn pipeline; gradient boosting reached 0.869 ROC-AUC and 0.407 PR-AUC on a held-out test set (logistic baseline: 0.823 on validation).", s_bullet, bulletText="•"),
-    Paragraph("Produced calibrated risk bands (observed default 1.1% to 39.0%) and a cost-based approval threshold; tested class weights and SMOTE and rejected both because they distorted predicted probabilities.", s_bullet, bulletText="•"),
-    Paragraph("Deployed a Streamlit app with per-applicant explanations, 19 unit tests and GitHub Actions CI.", s_bullet, bulletText="•"),
-    Spacer(1, 4),
-    Paragraph("FinAccess Kenya — Financial Inclusion Dashboard "
-              '<font color="#4b5563" size="8.5">(github.com/princenzmw/finaccess-kenya-dashboard)</font>',
-              s_job),
-    Paragraph("Power BI (DAX), Python, pandas.", s_meta),
-    Paragraph("Built a five-page Power BI dashboard on the 2024 FinAccess survey (19,750 adults, survey-weighted to 28.1 million) covering access, county gaps, digital credit and exclusion drivers.", s_bullet, bulletText="•"),
-    Paragraph("Wrote a streaming prep script that turned a 290 MB workbook into an 8 MB CSV and reconciled weighted results to the published topline (84.8% formal access, 9.9% excluded).", s_bullet, bulletText="•"),
-    Paragraph("Found county formal access ranging from 48.5% to 94.0%, and 63% exclusion among adults without an ID vs 5% with one.", s_bullet, bulletText="•"),
-    Spacer(1, 4),
-    Paragraph("DukaPulse — Stock &amp; Sales App for Small Shops "
-              '<font color="#4b5563" size="8.5">(in development — links publish with v1.0)</font>',
-              s_job),
-    Paragraph("FastAPI, PostgreSQL, React, TypeScript, Docker.", s_meta),
-    Paragraph("Building a full-stack stock and sales app with JWT authentication, owner and staff roles, and sales that cannot oversell stock; 4-week demand forecasts per product, backtested against a seasonal-naive baseline.", s_bullet, bulletText="•"),
-    Paragraph("pytest backend suite + Playwright end-to-end tests; CI on GitHub Actions; deploy targets Vercel, Render and Neon.", s_bullet, bulletText="•"),
-    Spacer(1, 4),
-    Paragraph("AirBnB Clone v4 "
-              '<font color="#4b5563" size="8.5">(github.com/princenzmw/AirBnB_clone_v4)</font>',
-              s_job),
-    Paragraph("Four-iteration full-stack build: CLI console → SQLAlchemy ORM → Flask REST API → dynamic web frontend, with unit tests throughout. Python, MySQL, Docker.", s_bullet, bulletText="•"),
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    ap.add_argument("--copy-to", type=Path, default=None)
+    args = ap.parse_args()
+    build_pdf(args.out.resolve(), args.copy_to.resolve() if args.copy_to else None)
+    print(f"Wrote {args.out.resolve()} ({args.out.stat().st_size:,} bytes)")
+    if args.copy_to:
+        print(f"Copied to {args.copy_to.resolve()}")
 
-    Paragraph("EXPERIENCE", s_h2),
-    Paragraph("Apprentice — Andela Technical Leadership Program (ATLP) "
-              '<font color="#4b5563" size="8.5">Rwanda · Jan 2024 – Sep 2024</font>', s_job),
-    Paragraph("Shipped features of a full-stack e-commerce app (TypeScript, React, PostgreSQL) in a 9-person Agile team and performed code reviews; designed the normalized PostgreSQL schema for products, users and orders.", s_bullet, bulletText="•"),
-    Spacer(1, 3),
-    Paragraph("Trainee — Ida Technology (NEET program) "
-              '<font color="#4b5563" size="8.5">Rwanda · Dec 2023 – Jun 2024</font>', s_job),
-    Paragraph("Built Django/React web apps with JWT authentication; converted Figma designs into responsive React components.", s_bullet, bulletText="•"),
 
-    Paragraph("SKILLS", s_h2),
-]
-skills = [
-    ["Data &amp; ML", "Python (pandas, scikit-learn), SQL (PostgreSQL, MySQL), Power BI (DAX), R, MATLAB, Excel"],
-    ["Web &amp; Software", "FastAPI, Django, Flask, TypeScript, JavaScript, React, REST APIs, JWT authentication, Streamlit"],
-    ["Tools &amp; Practice", "Git/GitHub, GitHub Actions (CI), Docker, pytest, Playwright, Agile teamwork, code review, Figma-to-code"],
-]
-tbl = Table([[Paragraph(f"<b>{a}</b>", s_left), Paragraph(b, s_left)] for a, b in skills],
-            colWidths=[36 * mm, None])
-tbl.setStyle(TableStyle([
-    ("VALIGN", (0, 0), (-1, -1), "TOP"),
-    ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-    ("TOPPADDING", (0, 0), (-1, -1), 3),
-    ("LINEBELOW", (0, 0), (-1, -2), 0.4, LINE),
-]))
-story += [tbl,
-
-    Paragraph("EDUCATION", s_h2),
-    Paragraph("BSc Data Science &amp; Analytics — United States International University – Africa (USIU-Africa), Nairobi "
-              '<font color="#4b5563" size="8.5">2024 – expected 2028 (3rd year)</font>', s_job),
-    Paragraph("Relevant coursework: Statistical Modeling, Machine Learning, Statistical Inference, Data Warehousing &amp; Mining, Optimization, Statistical Computing, Data Structures &amp; Algorithms, Database Systems.", s_meta),
-    Paragraph("ALX Software Engineering Programme (online) — completed the 9-month Foundations Phase; project repositories on GitHub.", s_left),
-
-    Paragraph("CERTIFICATIONS", s_h2),
-    Paragraph("Back-End Developer Certificate, Meta &nbsp;·&nbsp; JavaScript Algorithms and Data Structures, freeCodeCamp "
-              "&nbsp;·&nbsp; Artificial Intelligence Fundamentals, IBM SkillsBuild", s_left),
-
-    Paragraph("REFERENCES", s_h2),
-    Paragraph("References &amp; background checks welcome. Full commit history and "
-              "project write-ups at github.com/princenzmw.", s_left),
-]
-
-doc.build(story)
-print("resume.pdf written")
+if __name__ == "__main__":
+    main()
