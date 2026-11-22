@@ -248,9 +248,21 @@ export const EDUCATION = [
 ] as const;
 
 export const CERTIFICATIONS = [
-  { name: "Back-End Developer Certificate", issuer: "Meta" },
-  { name: "JavaScript Algorithms and Data Structures", issuer: "freeCodeCamp" },
-  { name: "Artificial Intelligence Fundamentals", issuer: "IBM SkillsBuild" },
+  {
+    name: "Introduction to Back-End Development",
+    issuer: "Meta (Coursera)",
+    href: "https://www.coursera.org/account/accomplishments/verify/Q8VBEPM7UWZV",
+  },
+  {
+    name: "JavaScript Algorithms and Data Structures",
+    issuer: "freeCodeCamp",
+    href: "https://freecodecamp.org/certification/princenzmw/javascript-algorithms-and-data-structures-v8",
+  },
+  {
+    name: "Artificial Intelligence Fundamentals",
+    issuer: "IBM SkillsBuild",
+    href: "https://www.credly.com/badges/0dab507a-1b76-4d5f-9244-26d6da1ca4e3",
+  },
 ] as const;
 
 /** The honest timeline, fully sourced from the résumé. */

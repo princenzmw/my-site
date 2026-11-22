@@ -264,7 +264,7 @@ HTML_CONTENT = """<!DOCTYPE html>
   <div class="entry">
     <ul>
       <li><strong>Open Source:</strong> <a href="https://github.com/vega/altair/pull/4202">vega/altair PR #4202</a> (sequence validation in <code>selection_interval</code> and docs fix for #3896; CI passing on Python 3.11 to 3.14); <a href="https://github.com/arnaudmiribel/streamlit-extras/pull/421">arnaudmiribel/streamlit-extras PR #421</a> &amp; <a href="https://github.com/arnaudmiribel/streamlit-extras/pull/422">#422</a> (directory ordering option and Windows build script fix).</li>
-      <li><strong>Certifications &amp; Hackathons:</strong> Meta Back-End Developer Certificate | freeCodeCamp JavaScript Algorithms &amp; Data Structures | IBM SkillsBuild AI Fundamentals | MLH Global Hack Week: Builders Week (Nov 2026).</li>
+      <li><strong>Certifications &amp; Hackathons:</strong> <a href="https://www.coursera.org/account/accomplishments/verify/Q8VBEPM7UWZV">Meta: Introduction to Back-End Development</a> | <a href="https://freecodecamp.org/certification/princenzmw/javascript-algorithms-and-data-structures-v8">freeCodeCamp JavaScript Algorithms &amp; Data Structures</a> | <a href="https://www.credly.com/badges/0dab507a-1b76-4d5f-9244-26d6da1ca4e3">IBM SkillsBuild AI Fundamentals</a> | MLH Global Hack Week: Builders Week (Nov 2026).</li>
     </ul>
   </div>
 </body>

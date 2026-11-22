@@ -170,6 +170,7 @@ describe("Background sections", () => {
     for (const c of CERTIFICATIONS) {
       expect(c.name.length).toBeGreaterThan(5);
       expect(c.issuer.length).toBeGreaterThan(2);
+      expect(c.href.startsWith("https://")).toBe(true);
     }
   });
 

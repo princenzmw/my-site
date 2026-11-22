@@ -86,7 +86,14 @@ export default function ExperiencePage() {
               <ul className="mt-4 space-y-3">
                 {CERTIFICATIONS.map((c) => (
                   <li key={c.name} className="flex items-start justify-between gap-3 text-sm">
-                    <span className="font-medium leading-snug">{c.name}</span>
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium leading-snug underline-offset-4 hover:text-primary hover:underline"
+                    >
+                      {c.name}
+                    </a>
                     <span className="shrink-0 font-mono text-xs text-muted-foreground">{c.issuer}</span>
                   </li>
                 ))}
