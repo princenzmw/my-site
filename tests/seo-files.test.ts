@@ -35,7 +35,7 @@ describe("sitemap.xml", () => {
   it("lists every prerendered route and every case study", () => {
     const routes = [
       "", "about", "projects", "projects/credio", "projects/finaccess",
-      "projects/dukapulse", "projects/airbnb", "experience", "contact", "resume.pdf",
+      "projects/dukapulse", "projects/mzigo-chakula", "experience", "contact", "resume.pdf",
     ];
     for (const r of routes) expect(locs).toContain(`https://nzamuwe.com/${r}`);
   });

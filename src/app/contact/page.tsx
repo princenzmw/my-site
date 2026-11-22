@@ -8,18 +8,18 @@ import { CONSULTING, CONTACT, SITE } from "@/lib/portfolio";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Hiring for a data, ML, or software internship in Nairobi or remote? Need a dashboard built? Email prince@nzamuwe.com or use the form. I reply within a day.",
+    "Hiring for a data, ML, or backend internship or part-time engineering role in Nairobi or remote? Email prince@nzamuwe.com or use the form.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact | Prince Nzamuwe",
     description:
-      "Hiring for a data, ML, or software internship in Nairobi or remote? Need a dashboard built? Email prince@nzamuwe.com or use the form. I reply within a day.",
+      "Hiring for a data, ML, or backend internship or part-time engineering role in Nairobi or remote? Email prince@nzamuwe.com or use the form.",
     url: "/contact",
   },
   twitter: {
     title: "Contact | Prince Nzamuwe",
     description:
-      "Hiring for a data, ML, or software internship? Email prince@nzamuwe.com or use the form. I reply within a day.",
+      "Hiring for a data, ML, or backend internship or part-time role? Email prince@nzamuwe.com or use the form. I reply within a day.",
   },
 };
 

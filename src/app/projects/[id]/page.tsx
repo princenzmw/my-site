@@ -38,8 +38,8 @@ const DESCRIPTIONS: Record<string, string> = {
     "FinAccess Kenya: a 290 MB government survey made explorable at county level in Power BI, survey weights handled, published topline matched.",
   dukapulse:
     "DukaPulse: stock and sales app built for MLH Builders Week (Nov 2026). FastAPI, TimescaleDB, Auth0 roles, oversell-proof sales, backtested forecasts.",
-  airbnb:
-    "AirBnB Clone v4: four public iterations from CLI console to SQLAlchemy ORM to Flask REST API to web frontend. Python, MySQL, Docker.",
+  "mzigo-chakula":
+    "Mzigo Chakula: 55,692 Kenya food price records across 233 markets and 27 counties (2007 to 2026) in a 4-table Power BI star schema with 15 DAX measures.",
 };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {

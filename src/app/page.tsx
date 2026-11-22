@@ -162,7 +162,7 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">Contact</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Fastest ways to reach me</h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Hiring for a data, ML, or software internship? Need a dashboard or data app built? I reply within a day.
+            Hiring for a data, ML, or backend internship or part-time engineering role? Email is fastest, and I reply within a day.
           </p>
 
           <div className="mt-8 flex justify-center">

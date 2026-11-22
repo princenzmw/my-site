@@ -10,18 +10,18 @@ import { PROJECTS } from "@/lib/portfolio";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse (in development), and an AirBnB clone across four public iterations.",
+    "Four builds with receipts: Credio (ROC-AUC 0.869), FinAccess Kenya, DukaPulse retail POS, and Mzigo Chakula food-price BI on World Bank data.",
   alternates: { canonical: "/projects" },
   openGraph: {
     title: "Projects | Prince Nzamuwe",
     description:
-      "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse (in development), and an AirBnB clone.",
+      "Four builds with receipts: Credio (ROC-AUC 0.869), FinAccess Kenya, DukaPulse retail POS, and Mzigo Chakula food-price BI.",
     url: "/projects",
   },
   twitter: {
     title: "Projects | Prince Nzamuwe",
     description:
-      "Four builds with receipts: Credio (ROC-AUC 0.869), the FinAccess Kenya dashboard, DukaPulse, and an AirBnB clone.",
+      "Four builds with receipts: Credio (ROC-AUC 0.869), FinAccess Kenya, DukaPulse retail POS, and Mzigo Chakula food-price BI.",
   },
 };
 

@@ -1,12 +1,10 @@
 /**
- * nzamuwe.com — single source of truth for all site content.
+ * nzamuwe.com: single source of truth for all site content.
  *
- * Every claim below traces to Prince's résumé (Oct 2026 draft), a public
- * repository, or a live demo. The only open item is FinAccess's Power BI
- * live-view URL, tracked in README-DEPLOY.md.
+ * Every claim below traces to Prince's resume, a public repository,
+ * or a live demo.
  *
- * Audit issue IDs in comments map to nzamuwe.com_Score_Elevation_Blueprint.pdf.
- * Shipped copy is written in a plain human voice: no em-dashes, no hype words.
+ * Shipped copy is written in a direct human voice: no em dashes, en dashes, or filler words.
  */
 
 export const SITE = {
@@ -37,7 +35,7 @@ export const NAV = [
 ] as const;
 
 export const HERO = {
-  kicker: "Nairobi, Kenya · Open to internships & freelance",
+  kicker: "Nairobi, Kenya · Open to internships & part-time roles",
   // Role + proof in one screen, no generic tagline.
   // The accent word rotates (client enhancement); words[0] ships statically.
   headline: {
@@ -145,7 +143,7 @@ export const PROJECTS: Project[] = [
     results: [
       "24 tests (20 unit + 4 real-engine integration) · 10,000 concurrent checkout attempts · 0 oversells · 60 days of history",
       "Concurrency verified in CI: 16 threads racing 10,000 checkouts against 1 unit yield exactly 1 success, 9,999 × 409 InsufficientStockError, and zero oversells (tests/test_integration_engine.py#L160-L226)",
-      "Forecasting tournament: Seasonal-Naive won 14/14 products (1.012%–5.433% baseline MAPE vs 2.533%–16.58% Holt Linear); ships the baseline by design (docs/receipts/forecast_mape.json)",
+      "Forecasting tournament: Seasonal-Naive won 14/14 products (1.012% to 5.433% baseline MAPE vs 2.533% to 16.58% Holt Linear); ships the baseline by design (docs/receipts/forecast_mape.json)",
       "Semantic retrieval: ONNX all-MiniLM-L6-v2 matches vernacular queries (unga ya ugali 0.8611, sabuni ya kuoga 0.6119, mafuta ya kupika 0.7743) and out-of-map English terms (soap 0.5005, rice 0.5541, tea 0.4965)",
       "Auth0 RS256 token verification with RBAC staff margin redaction and restock 403; dev mode uses an isolated mock-token signer gated by DEV_MODE_MOCK_AUTH (secure by default, demo only)",
     ],
@@ -164,19 +162,24 @@ export const PROJECTS: Project[] = [
     accentSolid: "border-l-amber-500",
   },
   {
-    id: "airbnb",
-    name: "AirBnB Clone v4",
-    tagline: "Full-stack engineering across four public iterations",
-    role: "Solo: software engineering",
+    id: "mzigo-chakula",
+    name: "Mzigo Chakula: Kenya Food Price Inflation BI",
+    tagline: "20 years of county-level staple prices modeled in a 4-table star schema",
+    role: "Lead Analyst & BI Architect: ETL, star schema, DAX, PBIR",
     status: "live",
     problem:
-      "Carry a data product beyond the notebook: a four-iteration build covering a CLI console, an ORM persistence layer, a RESTful API, and a dynamic web frontend.",
+      "National food inflation headlines hide wide county-level gaps. A household in Turkana faces a different price path than one in Nairobi or Mombasa. Planners need market-level visibility into which counties, staples, and seasons carry the heaviest food-price burden.",
     approach:
-      "Iterative architecture: file storage, then a SQLAlchemy ORM, then a Flask REST API with a Jinja2 frontend. One consistent codebase, unit tests at every step, and every iteration publicly committed.",
-    results: ["Four iterations, each publicly committed. Evidence of sustained engineering practice."],
-    stack: ["Python", "SQLAlchemy", "Flask", "MySQL", "Docker"],
-    metrics: ["4 iterations", "REST API", "ORM", "Tested"],
-    code: "https://github.com/princenzmw/AirBnB_clone_v4",
+      "Built a Git-trackable Power BI project (PBIP/TMDL) and Python validation pipeline on the World Bank Real Time Food Prices (RTFP) dataset for Kenya: 55,692 market records across 233 physical markets, 27 counties, and 238 consecutive months (January 2007 to October 2026). Modeled a 4-table star schema (dim_markets, dim_date, dim_commodity, fact_prices) with single-direction 1:* relationships, 4 Power Query M scripts, 15 DAX measures, and a 4-page PBIR report with 46 visuals.",
+    results: [
+      "55,692 market price observations cleaned and modeled across 233 markets in 27 Kenyan counties (2007 to 2026)",
+      "4-table star schema in TMDL with 15 validated DAX measures, including a market-month deduplicated food price index and EDATE(-12) year-over-year inflation",
+      "4-page PBIR report (46 visuals) covering Executive Pulse, County & Commodity, Trends & Diagnostics, and Decisions & Action",
+      "Automated Python pytest suite validating ETL transforms, DAX calculations, and report deliverables",
+    ],
+    stack: ["Power BI (PBIP/TMDL)", "DAX", "Power Query (M)", "Python", "pandas", "pytest"],
+    metrics: ["55,692 rows", "233 markets · 27 counties", "15 DAX measures", "46 PBIR visuals"],
+    code: "https://github.com/princenzmw/mzigo-chakula",
     accent: "from-violet-600/20 via-primary/10 to-fuchsia-400/15",
     accentSolid: "border-l-violet-600",
   },
@@ -192,7 +195,7 @@ export const ABOUT = {
     "The parts of data work I care about are the unglamorous ones: correct survey weights, calibrated probabilities, honest baselines, and code other people can rerun without having to ask you questions. My GitHub (github.com/princenzmw) is the receipts column for everything on this site.",
   ],
   currently:
-    "Now: third year of the BSc in Data Science & Analytics at United States International University-Africa (USIU-Africa), Nairobi, expected 2028. Open to data, ML, and software internships, remote or in Nairobi, and to freelance dashboards and data apps.",
+    "Now: third year of the BSc in Data Science & Analytics at United States International University-Africa (USIU-Africa), Nairobi, expected 2028. Open to data, ML, and backend engineering internships and part-time roles, remote or in Nairobi.",
 } as const;
 
 /** Evidence-linked groups, no percentage bars. */
@@ -205,7 +208,7 @@ export const SKILLS = [
   {
     area: "Web & Software",
     tools: ["FastAPI", "Django", "Flask", "TypeScript", "JavaScript", "React", "REST APIs", "JWT auth", "Streamlit"],
-    proof: { label: "DukaPulse build · AirBnB Clone v4", href: "https://github.com/princenzmw/DukaPulse" },
+    proof: { label: "DukaPulse POS · VoltStream & grid-ops-search", href: "https://github.com/princenzmw/DukaPulse" },
   },
   {
     area: "Tools & Practice",
@@ -230,7 +233,7 @@ export const EDUCATION = [
   {
     title: "BSc Data Science & Analytics",
     org: "United States International University-Africa (USIU-Africa), Nairobi",
-    period: "2024–2028 (expected) · 3rd year",
+    period: "2024 to 2028 (expected) · 3rd year",
     points: [
       "Mastercard Foundation Scholar: full academic scholarship awarded for leadership and academic excellence.",
       "Coursework across modeling, ML, data engineering, and optimization, applied directly in the projects above.",
@@ -290,12 +293,12 @@ export const EXPERIENCE = [
 
 /** Recruiters first, consulting secondary. */
 export const CONSULTING = {
-  text: "I also take a small number of freelance engagements: data analysis, dashboards, and web apps. Businesses (not recruiters): email me and let's talk.",
+  text: "Open to data, ML, and backend internships or part-time engineering roles (remote or Nairobi), plus select analytics dashboard engagements.",
 } as const;
 
 export const CONTACT = {
   heading: "Let's build something real",
-  text: "Hiring for a data, ML, or software internship? Need a dashboard or data app built? Email is fastest, and I reply within a day.",
+  text: "Hiring for a data, ML, or backend internship or part-time engineering role? Email is fastest, and I reply within a day.",
 } as const;
 
 export const FOOTER = {

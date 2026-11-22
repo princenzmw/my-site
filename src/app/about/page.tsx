@@ -56,7 +56,7 @@ export default function AboutPage() {
                 Open to internships
               </Badge>
               <Badge variant="outline" className="border-blue-600/40 bg-blue-500/10 text-blue-700 dark:text-blue-400">
-                Freelance welcome
+                Part-time engineering
               </Badge>
               <Badge variant="outline" className="text-muted-foreground">
                 {SITE.location}

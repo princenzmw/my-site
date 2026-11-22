@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     locale: "en_KE",
     title: "Prince Nzamuwe: Data Science · Machine Learning · Backend",
     description:
-      "Projects with measurable results and live demos: Credio (ROC-AUC 0.869), FinAccess Kenya (19,750 adults, weighted), DukaPulse (in development). Code first, claims second.",
+      "Projects with measurable results and live demos: Credio (ROC-AUC 0.869), FinAccess Kenya (19,750 adults, weighted), DukaPulse, and Mzigo Chakula. Code first, claims second.",
     images: [
       {
         url: SITE.ogImage,
@@ -77,11 +77,7 @@ export const viewport: Viewport = {
   ],
 };
 
-/**
- * JSON-LD structured data (closes audit issue H1).
- * alumniOf is now CONFIRMED (USIU-Africa, BSc Data Science & Analytics,
- * 2024–2028) — added per the README-DEPLOY.md bracket list.
- */
+/** JSON-LD structured data for Prince Nzamuwe (USIU-Africa, BSc Data Science & Analytics, 2024 to 2028). */
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [

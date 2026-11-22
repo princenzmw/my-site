@@ -192,7 +192,7 @@ export function ContactForm() {
           </p>
         ) : (
           <p id="cf-message-hint" className="mt-1.5 text-xs text-muted-foreground">
-            Internship, freelance dashboard, or a question about the projects: all welcome.
+            Internship, part-time engineering role, or a question about the projects: all welcome.
           </p>
         )}
       </div>

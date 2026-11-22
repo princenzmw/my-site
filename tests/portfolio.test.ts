@@ -43,19 +43,20 @@ describe("SITE identity", () => {
     for (const n of NAV) expect(n.href.startsWith("/#")).toBe(false);
     // Every nav route plus the home page has a matching case study or page file.
     expect(PROJECTS.map((p) => `/projects/${p.id}`).sort()).toEqual([
-      "/projects/airbnb",
       "/projects/credio",
       "/projects/dukapulse",
       "/projects/finaccess",
+      "/projects/mzigo-chakula",
     ]);
   });
 
-  it("keeps a human voice: no em-dashes anywhere in shipped copy", () => {
+  it("keeps a human voice: no em-dashes or en-dashes anywhere in shipped copy", () => {
     const copy = JSON.stringify({
       SITE, NAV, HERO, STATS, PROJECTS, ABOUT, SKILLS, COURSEWORK,
       EDUCATION, CERTIFICATIONS, EXPERIENCE, CONSULTING, CONTACT, FOOTER,
     });
     expect(copy).not.toContain("\u2014");
+    expect(copy).not.toContain("\u2013");
     // And none of the filler the owner flagged as machine-sounding.
     expect(copy).not.toMatch(/seamless|cutting-edge|world-class|passionate/i);
   });
@@ -89,8 +90,8 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     expect(PROJECTS.find((p) => p.id === "dukapulse")?.code).toBe(
       "https://github.com/princenzmw/DukaPulse",
     );
-    expect(PROJECTS.find((p) => p.id === "airbnb")?.code).toBe(
-      "https://github.com/princenzmw/AirBnB_clone_v4",
+    expect(PROJECTS.find((p) => p.id === "mzigo-chakula")?.code).toBe(
+      "https://github.com/princenzmw/mzigo-chakula",
     );
   });
 
@@ -119,8 +120,12 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     expect(duka?.demo).toBe("https://dukapulse-kiosk.onrender.com/kiosk");
     expect(duka?.code).toBe("https://github.com/princenzmw/DukaPulse");
     expect(duka?.role).toContain("Builders Week");
-    expect(duka?.results.join(" ")).toContain("24 tests");
-    expect(duka?.results.join(" ")).toContain("10,000");
+      expect(duka?.results.join(" ")).toContain("24 tests");
+      expect(duka?.results.join(" ")).toContain("10,000");
+      const mzigo = PROJECTS.find((p) => p.id === "mzigo-chakula");
+      expect(mzigo?.status).toBe("live");
+      expect(mzigo?.results.join(" ")).toContain("55,692");
+      expect(mzigo?.results.join(" ")).toContain("15 validated DAX measures");
   });
 
   it("contains no unresolved brackets in shipped claim fields", () => {
