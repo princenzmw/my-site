@@ -233,7 +233,7 @@ export const EDUCATION = [
   {
     title: "BSc Data Science & Analytics",
     org: "United States International University-Africa (USIU-Africa), Nairobi",
-    period: "2024 to 2028 (expected) · 3rd year",
+    period: "Sep 2024 to Sep 2028 (expected) · 3rd year",
     points: [
       "Mastercard Foundation Scholar: full academic scholarship awarded for leadership and academic excellence.",
       "Coursework across modeling, ML, data engineering, and optimization, applied directly in the projects above.",
@@ -241,8 +241,8 @@ export const EDUCATION = [
   },
   {
     title: "ALX Software Engineering Programme",
-    org: "Online, full-stack training",
-    period: "Foundations Phase (9 months), completed",
+    org: "Online (concurrent)",
+    period: "Jun 2023 to May 2024 · Foundations Phase (9 months)",
     points: ["Project repositories public on GitHub."],
   },
 ] as const;
@@ -269,7 +269,7 @@ export const CERTIFICATIONS = [
 export const EXPERIENCE = [
   {
     title: "Apprentice · Andela Technical Leadership Program (ATLP)",
-    org: "Rwanda",
+    org: "Online (concurrent)",
     period: "Jan 2024 to Sep 2024",
     points: [
       "Shipped features of a full-stack e-commerce app (TypeScript, React, PostgreSQL) in a 9-person Agile team, with code reviews.",
@@ -278,7 +278,7 @@ export const EXPERIENCE = [
   },
   {
     title: "Trainee · Ida Technology (NEET program)",
-    org: "Rwanda",
+    org: "Kigali, Rwanda (on-site, concurrent)",
     period: "Dec 2023 to Jun 2024",
     points: [
       "Built Django and React web apps with JWT authentication.",
