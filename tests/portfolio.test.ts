@@ -120,7 +120,7 @@ describe("PROJECTS — every card makes only supportable claims", () => {
     expect(duka?.demo).toBe("https://dukapulse-kiosk.onrender.com/kiosk");
     expect(duka?.code).toBe("https://github.com/princenzmw/DukaPulse");
     expect(duka?.role).toContain("Builders Week");
-      expect(duka?.results.join(" ")).toContain("24 tests");
+      expect(duka?.results.join(" ")).toContain("30 tests");
       expect(duka?.results.join(" ")).toContain("10,000");
       const mzigo = PROJECTS.find((p) => p.id === "mzigo-chakula");
       expect(mzigo?.status).toBe("live");

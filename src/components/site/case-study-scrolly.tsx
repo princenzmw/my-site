@@ -193,9 +193,9 @@ const ARCHITECTURES: Record<string, ProjectArchitecture> = {
       },
       stack: {
         title: "4. Real-Engine CI & RBAC",
-        badge: "24 Tests Pass",
-        detail: "24 tests (20 unit + 4 real-engine integration), Auth0 RS256 token verification, staff margin redaction, and mock-token signer.",
-        telemetry: "CI: 24 tests passing · GitHub Actions · Docker · Timescale Cloud",
+        badge: "30 Tests Pass",
+        detail: "30 tests (25 unit + 5 real-engine integration), Auth0 RS256 token verification, staff margin redaction, and mock-token signer.",
+        telemetry: "CI: 30 tests passing · GitHub Actions · Docker · Timescale Cloud",
         icon: Layers,
       },
     },

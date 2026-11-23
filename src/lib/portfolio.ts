@@ -141,7 +141,7 @@ export const PROJECTS: Project[] = [
     approach:
       "FastAPI, TimescaleDB, and PostgreSQL on the backend with a kiosk POS and Streamlit analytics dashboard. Sales decrement atomically at the engine level with CHECK (current_stock >= 0) to eliminate oversell races, while restock uses SELECT FOR UPDATE row locks. Time-series events write to a 7-day chunk hypertable with continuous aggregates refreshing at 30-minute and 1-hour cadences on Timescale Cloud. Catalog search runs 384-dimensional FastEmbed ONNX embeddings with Swahili vernacular expansion.",
     results: [
-      "24 tests (20 unit + 4 real-engine integration) · 10,000 concurrent checkout attempts · 0 oversells · 60 days of history",
+      "30 tests (25 unit + 5 real-engine integration) · 10,000 concurrent checkout attempts · 0 oversells · 60 days of history",
       "Concurrency verified in CI: 16 threads racing 10,000 checkouts against 1 unit yield exactly 1 success, 9,999 × 409 InsufficientStockError, and zero oversells (tests/test_integration_engine.py#L160-L226)",
       "Forecasting tournament: Seasonal-Naive won 14/14 products (1.012% to 5.433% baseline MAPE vs 2.533% to 16.58% Holt Linear); ships the baseline by design (docs/receipts/forecast_mape.json)",
       "Semantic retrieval: ONNX all-MiniLM-L6-v2 matches vernacular queries (unga ya ugali 0.8611, sabuni ya kuoga 0.6119, mafuta ya kupika 0.7743) and out-of-map English terms (soap 0.5005, rice 0.5541, tea 0.4965)",
@@ -149,7 +149,7 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["FastAPI", "TimescaleDB", "PostgreSQL", "pgvector", "Docker", "Streamlit", "Auth0", "pytest"],
     metrics: [
-      "24 tests (20 unit + 4 real-engine integration)",
+      "30 tests (25 unit + 5 real-engine integration)",
       "10,000 concurrent checkout attempts",
       "0 oversells",
       "60 days of history",
@@ -241,13 +241,18 @@ export const EDUCATION = [
   },
   {
     title: "ALX Software Engineering Programme",
-    org: "Online (concurrent)",
+    org: "Remote (concurrent)",
     period: "Jun 2023 to May 2024 · Foundations Phase (9 months)",
     points: ["Project repositories public on GitHub."],
   },
 ] as const;
 
 export const CERTIFICATIONS = [
+  {
+    name: "Certificate of Competence in Software Development (Industrial-Based Training)",
+    issuer: "Rwanda TVET Board & Ida Technology",
+    href: "https://www.linkedin.com/in/princenzmw/details/certifications/",
+  },
   {
     name: "Introduction to Back-End Development",
     issuer: "Meta (Coursera)",
@@ -269,20 +274,20 @@ export const CERTIFICATIONS = [
 export const EXPERIENCE = [
   {
     title: "Apprentice · Andela Technical Leadership Program (ATLP)",
-    org: "Online (concurrent)",
+    org: "Kigali, Rwanda (remote, concurrent)",
     period: "Jan 2024 to Sep 2024",
     points: [
-      "Shipped features of a full-stack e-commerce app (TypeScript, React, PostgreSQL) in a 9-person Agile team, with code reviews.",
-      "Designed the normalized PostgreSQL schema for products, users, and orders.",
+      "Shipped 5 merged PRs and completed 18 peer code reviews (9 backend, 9 frontend) in a 9-person Agile squad, delivering 5 Swagger-documented REST endpoints (password reset, admin role management) and 2 React admin pages.",
+      "Authored 22 Jest unit tests for profile and permission controllers and designed normalized PostgreSQL tables for products, users, and orders.",
     ],
   },
   {
-    title: "Trainee · Ida Technology (NEET program)",
+    title: "Software Development Trainee · Ida Technology (Industrial-Based Training)",
     org: "Kigali, Rwanda (on-site, concurrent)",
     period: "Dec 2023 to Jun 2024",
     points: [
-      "Built Django and React web apps with JWT authentication.",
-      "Converted Figma designs into responsive React components.",
+      "Completed a 6-month Rwanda Ministry of Education and RTB certified program spanning 6 competence modules across Python frameworks, HTML/CSS/JavaScript, React, Next.js, Node.js, and DevOps.",
+      "Built Django user auth and online flight booking modules (7 templates), 4 responsive Figma-to-HTML/CSS/Django interfaces, and Django REST Framework endpoints with JWT authentication.",
     ],
   },
   {
