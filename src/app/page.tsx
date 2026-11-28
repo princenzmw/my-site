@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/site/page-shell";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectCard } from "@/components/site/project-card";
+import { PublicationCard } from "@/components/site/publication-card";
 import { RoleRotator } from "@/components/site/role-rotator";
 import dynamic from "next/dynamic";
 
@@ -30,7 +31,7 @@ const RocPanel = dynamic(
   }
 );
 import { HeroRocBg } from "@/components/site/hero-roc-bg";
-import { HERO, PROJECTS, SITE, STATS } from "@/lib/portfolio";
+import { HERO, PROJECTS, PUBLICATIONS, SITE, STATS } from "@/lib/portfolio";
 
 const CHANNELS = [
   { icon: Linkedin, label: "LinkedIn", value: "in/princenzmw", href: SITE.linkedin, pla: "linkedin" },
@@ -152,6 +153,27 @@ export default function Home() {
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================== PUBLICATIONS ========================= */}
+      <section id="publications" className="cv-auto border-t py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            kicker="Research"
+            title="Publications & working papers"
+            description="Peer-reviewed submissions, open preprints, and reproducible replication packages archived with DOIs."
+            size="large"
+          />
+          <div className="mx-auto mt-12 max-w-4xl space-y-6">
+            {PUBLICATIONS.map((pub, i) => (
+              <PublicationCard
+                key={pub.id}
+                publication={pub}
+                style={{ animationDelay: `${i * 80}ms` }}
+              />
+            ))}
           </div>
         </div>
       </section>

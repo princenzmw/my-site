@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PageShell } from "@/components/site/page-shell";
+import { PublicationCard } from "@/components/site/publication-card";
 import { SectionHeading } from "@/components/site/section-heading";
-import { ABOUT, COURSEWORK, SITE, SKILLS } from "@/lib/portfolio";
+import { ABOUT, COURSEWORK, PUBLICATIONS, SITE, SKILLS } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
   title: "About",
@@ -122,6 +123,26 @@ export default function AboutPage() {
                 </span>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================== PUBLICATIONS ========================= */}
+      <section id="publications" className="border-t bg-muted/40 py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            kicker="Research"
+            title="Publications & working papers"
+            description="Open preprints, methodological audits, and replication datasets archived with DOIs."
+          />
+          <div className="mx-auto mt-12 max-w-4xl space-y-6">
+            {PUBLICATIONS.map((pub, i) => (
+              <PublicationCard
+                key={pub.id}
+                publication={pub}
+                style={{ animationDelay: `${i * 80}ms` }}
+              />
+            ))}
           </div>
         </div>
       </section>

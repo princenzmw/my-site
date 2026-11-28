@@ -9,6 +9,7 @@ import {
   HERO,
   STATS,
   PROJECTS,
+  PUBLICATIONS,
   ABOUT,
   SKILLS,
   COURSEWORK,
@@ -52,7 +53,7 @@ describe("SITE identity", () => {
 
   it("keeps a human voice: no em-dashes or en-dashes anywhere in shipped copy", () => {
     const copy = JSON.stringify({
-      SITE, NAV, HERO, STATS, PROJECTS, ABOUT, SKILLS, COURSEWORK,
+      SITE, NAV, HERO, STATS, PROJECTS, PUBLICATIONS, ABOUT, SKILLS, COURSEWORK,
       EDUCATION, CERTIFICATIONS, EXPERIENCE, CONSULTING, CONTACT, FOOTER,
     });
     expect(copy).not.toContain("\u2014");
@@ -181,5 +182,24 @@ describe("Background sections", () => {
       expect(g.proof.href.startsWith("https://")).toBe(true);
       expect(g.proof.label.length).toBeGreaterThan(5);
     }
+  });
+});
+
+describe("PUBLICATIONS — verified DOIs and metadata", () => {
+  it("lists the SocArXiv working paper and Zenodo replication links verbatim", () => {
+    expect(PUBLICATIONS.length).toBeGreaterThanOrEqual(1);
+    const paper = PUBLICATIONS.find((p) => p.id === "nairobi-single-motherhood-sampling-bias");
+    expect(paper?.title).toBe(
+      "Beyond Korogocho and Viwandani: Sampling Bias and External Validity in Research on Single Motherhood in Nairobi, Kenya",
+    );
+    expect(paper?.venue).toBe(
+      "Working Paper (SocArXiv) | Under Review at Demographic Research | November 2026",
+    );
+    const hrefs = paper?.links.map((l) => l.href) ?? [];
+    expect(hrefs).toEqual([
+      "https://doi.org/10.31235/osf.io/y96u8",
+      "https://doi.org/10.5281/zenodo.24564828",
+      "https://doi.org/10.5281/zenodo.24393200",
+    ]);
   });
 });

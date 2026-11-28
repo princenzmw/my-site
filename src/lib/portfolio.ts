@@ -185,6 +185,44 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+export type PublicationLink = {
+  label: string;
+  href: string;
+};
+
+export type Publication = {
+  id: string;
+  title: string;
+  venue: string;
+  summary: string;
+  links: PublicationLink[];
+};
+
+export const PUBLICATIONS: Publication[] = [
+  {
+    id: "nairobi-single-motherhood-sampling-bias",
+    title:
+      "Beyond Korogocho and Viwandani: Sampling Bias and External Validity in Research on Single Motherhood in Nairobi, Kenya",
+    venue: "Working Paper (SocArXiv) | Under Review at Demographic Research | November 2026",
+    summary:
+      "Audited 10 empirical studies, 2008-2022 KDHS analyses, and 2019 KNBS census counts to test how far findings from Nairobi's two NUHDSS informal settlements (<2% of the city's 4.40M residents) generalize to single mothers across Nairobi's formal and mixed-income estates (~40% of the city). Documents structural drivers of informal-settlement sampling bias, including Kenya's unmapped 11-sub-county vs. 17-constituency boundary split, and proposes a cross-stratum analytical framework and multi-channel non-HDSS recruitment standards.",
+    links: [
+      {
+        label: "Preprint (SocArXiv)",
+        href: "https://doi.org/10.31235/osf.io/y96u8",
+      },
+      {
+        label: "Replication Data & Python Code (Zenodo)",
+        href: "https://doi.org/10.5281/zenodo.24564828",
+      },
+      {
+        label: "Companion Study Protocol (Zenodo)",
+        href: "https://doi.org/10.5281/zenodo.24393200",
+      },
+    ],
+  },
+];
+
 export const ABOUT = {
   kicker: "About",
   // Lede under the h1 on /about — sets the evidence contract in one line.
